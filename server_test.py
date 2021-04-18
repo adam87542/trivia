@@ -18,7 +18,8 @@ def main():
 
     if server_msg == 'hello':
         sock.sendall('hello'.encode())
-    
+
+    wait = input("Wait for key")
     sock.close()
 
 if __name__ == "__main__":

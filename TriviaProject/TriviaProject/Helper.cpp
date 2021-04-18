@@ -38,3 +38,12 @@ char* Helper::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
 	data[bytesNum] = 0;
 	return data;
 }
+
+// return string after padding zeros if necessary
+std::string Helper::getPaddedNumber(int num, int digits)
+{
+	std::ostringstream ostr;
+	ostr << std::setw(digits) << std::setfill('0') << num;
+	return ostr.str();
+
+}

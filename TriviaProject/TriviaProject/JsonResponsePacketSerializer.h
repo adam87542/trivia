@@ -1,12 +1,17 @@
 #pragma once
 #include "json.hpp"
-#include "Structs.h"
+#include "Response.h"
+#include <iostream>
+#include <vector>
+#include "Helper.h"
 using json = nlohmann::json;
 
-static class JsonResponsePacketSerializer
+class JsonResponsePacketSerializer
 {
 public:
-	const char* serializeLoginResponse(LoginResponse Response);
-	const char* serializeSignUpResponse(SignUpResponse Response);
-	const char* serializeErrorResponse(ErrorResponse Response);
+	static unsigned char* serializeLoginResponse(LoginResponse response);
+	static unsigned char* serializeSignUpResponse(SignUpResponse response);
+	static unsigned char* serializeErrorResponse(ErrorResponse response);
+private:
+	static unsigned char* seralizingMsg(int responseNum, std::string msg);
 };

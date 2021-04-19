@@ -4,15 +4,13 @@
 
 void Server::run()
 {
-	/*std::thread t_connector(&Communicator::startHandleRequests,&m_communicator);
-	t_connector.detach();
+	std::thread t_connector(&Communicator::bindAndListen,this->m_communicator);
 	std::string input = "";
-	
+	t_connector.detach();
 	while (input != "exit")
 		std::cin >> input;	
+	t_connector.~thread();
+	std::cout << "Exited Server Succesfully" << std::endl;
 
-	throw std::exception("Exited Server Succesfully");
-*/
-	WSAInitializer wsaInit;
-	m_communicator.startHandleRequests();
+
 }

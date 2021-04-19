@@ -7,7 +7,6 @@
 
 void Communicator::bindAndListen()
 {
-
 	struct sockaddr_in sa = { 0 };
 	sa.sin_port = htons(PORT);
 	sa.sin_family = AF_INET;
@@ -27,6 +26,7 @@ void Communicator::bindAndListen()
 		std::cout << "Waiting for client connection request" << std::endl;
 		startHandleRequests();
 	}
+
 }
 
 void Communicator::handleNewClient(SOCKET clientSocket)
@@ -66,7 +66,7 @@ void Communicator::startHandleRequests()
 
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
-	m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket,LoginRequestHandler()));
+	m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket, LoginRequestHandler()));
 	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 	// Creating the thread that will communicate with the user

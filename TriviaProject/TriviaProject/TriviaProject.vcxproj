@@ -141,14 +141,14 @@
   <ItemGroup>
     <ClInclude Include="Helper.h" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="JsonResponsePacketSerializer.h" />
-    <ClInclude Include="Server.h" />
+    <ClInclude Include="JsonResponsePacket.h" />
     <ClInclude Include="Response.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="JsonResponsePacketSerializer.cpp" />
+    <ClCompile Include="JsonResponsePacket.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />

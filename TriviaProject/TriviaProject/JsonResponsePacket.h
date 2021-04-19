@@ -1,9 +1,8 @@
 #pragma once
 #include "json.hpp"
 #include "Response.h"
-#include <iostream>
-#include <vector>
 #include "Helper.h"
+
 using json = nlohmann::json;
 
 class JsonResponsePacketSerializer
@@ -13,5 +12,17 @@ public:
 	static unsigned char* serializeSignUpResponse(SignUpResponse response);
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
 private:
-	static unsigned char* seralizingMsg(int responseNum, std::string msg);
+	static unsigned char* seralizingMsg(int responseNum, string msg);
+};
+
+
+class JsonRequestPacketDeserializer
+{
+public:
+	static LoginRequest DeserializeLoginRequest(unsigned char* buffer);
+
+	static SignupRequest DeserializeSignupRequest(unsigned char* buffer);
+
+private:
+	static json DeseralizingMsg(unsigned char* buffer);
 };

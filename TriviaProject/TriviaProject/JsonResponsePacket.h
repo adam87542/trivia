@@ -4,8 +4,9 @@
 #include "Helper.h"
 
 using json = nlohmann::json;
+using std::string;
 
-class JsonResponsePacketSerializer
+static class JsonResponsePacketSerializer
 {
 public:
 	static unsigned char* serializeLoginResponse(LoginResponse response);
@@ -13,10 +14,11 @@ public:
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
 private:
 	static unsigned char* seralizingMsg(int responseNum, string msg);
+	static string DeseralizingRespone(int respone_code);
 };
 
 
-class JsonRequestPacketDeserializer
+static class JsonRequestPacketDeserializer
 {
 public:
 	static LoginRequest DeserializeLoginRequest(unsigned char* buffer);
@@ -25,4 +27,5 @@ public:
 
 private:
 	static json DeseralizingMsg(unsigned char* buffer);
+
 };

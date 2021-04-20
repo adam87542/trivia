@@ -5,35 +5,30 @@
 #define ERR_RESPONSE 0
 #define LOGIN_RESPONSE 1
 #define SIGNUP_RESPONSE 2
-
+#define PASSWORD "password"
+#define EMAIL "email"
+#define USERNAME "username"
+#define STATUS "status"
 
 //**************************** Serialize *********************************//
 
 unsigned char* JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)
 {
-	json data;
-	data["status"] = response.status;
-	string msg = data.dump();
+	string msg = DeseralizingRespone(response.status);
 
 	return seralizingMsg(LOGIN_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeSignUpResponse(SignUpResponse response)
 {
-	json data;
-	data["status"] = response.status;
-	string msg = data.dump();
+	string msg = DeseralizingRespone(response.status);
 
 	return seralizingMsg(SIGNUP_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
 {
-	json data;
-	data["status"] = response.message;
-	string msg = data.dump();
-
-	return seralizingMsg(ERR_RESPONSE, msg);
+	return seralizingMsg(ERR_RESPONSE, response.message);
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
@@ -42,10 +37,10 @@ unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, stri
 
 	string length = Helper::getPaddedNumber(msg.length(), LENGTH_BYTES);
 
-	buffer[0] = responseNum;
+	buffer[0] = (unsigned char)responseNum;
 
-	for (int i = 0; i < LENGTH_BYTES;)
-		buffer[i++] = length[i++];
+	for (int i = 0; i < LENGTH_BYTES; i++)
+		buffer[i + 1] = length[i];
 
 	for (int i = 0; i < msg.length(); i++)
 		buffer[i + LENGTH_BYTES] = msg[i];
@@ -59,12 +54,10 @@ LoginRequest JsonRequestPacketDeserializer::DeserializeLoginRequest(unsigned cha
 {
 	LoginRequest* login = new LoginRequest;
 
-	string str_buffer((char*)buffer);
-	string msg = str_buffer.substr(LENGTH_BYTES, str_buffer.length() - 1);
-	json data = msg;
+	json data = DeseralizingMsg(buffer);
 
-	login->password = data["password"];
-	login->username = data["username"];
+	login->password = data[PASSWORD];
+	login->username = data[USERNAME];
 	return *login;
 
 }
@@ -73,13 +66,11 @@ SignupRequest JsonRequestPacketDeserializer::DeserializeSignupRequest(unsigned c
 {
 	SignupRequest* sign_up = new SignupRequest;
 
-	string str_buffer((char*)buffer);
-	string msg = str_buffer.substr(LENGTH_BYTES, str_buffer.length() - 1);
-	json data = msg;
+	json data = DeseralizingMsg(buffer);
 
-	sign_up->password = data["password"];
-	sign_up->username = data["username"];
-	sign_up->email = data["email"];
+	sign_up->password = data[PASSWORD];
+	sign_up->username = data[USERNAME];
+	sign_up->email = data[EMAIL];
 
 	return *sign_up;
 }
@@ -88,5 +79,17 @@ SignupRequest JsonRequestPacketDeserializer::DeserializeSignupRequest(unsigned c
 
 json JsonRequestPacketDeserializer::DeseralizingMsg(unsigned char* buffer)
 {
+	json* data = new json;
+	string str_buffer((char*)buffer);
+	string msg = str_buffer.substr(LENGTH_BYTES, str_buffer.length() - 1);
+	*data = msg;
+	return *data;
+}
 
+string JsonResponsePacketSerializer::DeseralizingRespone(int respone_code)
+{
+	json data;
+	data[STATUS] = respone_code;
+	string msg = data.dump();
+	return msg;
 }

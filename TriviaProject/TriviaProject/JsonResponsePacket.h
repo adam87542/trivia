@@ -14,7 +14,6 @@ public:
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
 private:
 	static unsigned char* seralizingMsg(int responseNum, string msg);
-	static string DeseralizingRespone(int respone_code);
 };
 
 
@@ -26,6 +25,10 @@ public:
 	static SignupRequest DeserializeSignupRequest(unsigned char* buffer);
 
 private:
-	static json DeseralizingMsg(unsigned char* buffer);
+	 static json DeseralizingMsg(unsigned char* buffer);
+
+     static string DeseralizingRespone(int respone_code);
+
+	 friend  JsonResponsePacketSerializer; // Now JsonResponsePacketSerializer can access DeseralizingRespone
 
 };

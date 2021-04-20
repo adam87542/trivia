@@ -14,14 +14,14 @@
 
 unsigned char* JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)
 {
-	string msg = DeseralizingRespone(response.status);
+	string msg = JsonRequestPacketDeserializer::DeseralizingRespone(response.status);
 
 	return seralizingMsg(LOGIN_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeSignUpResponse(SignUpResponse response)
 {
-	string msg = DeseralizingRespone(response.status);
+	string msg = JsonRequestPacketDeserializer::DeseralizingRespone(response.status);
 
 	return seralizingMsg(SIGNUP_RESPONSE, msg);
 }
@@ -86,7 +86,7 @@ json JsonRequestPacketDeserializer::DeseralizingMsg(unsigned char* buffer)
 	return *data;
 }
 
-string JsonResponsePacketSerializer::DeseralizingRespone(int respone_code)
+string JsonRequestPacketDeserializer::DeseralizingRespone(int respone_code)
 {
 	json data;
 	data[STATUS] = respone_code;

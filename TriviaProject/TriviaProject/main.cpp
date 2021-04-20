@@ -4,7 +4,7 @@
 #include "Server.h"
 #include <iostream>
 #include <exception>
-#undef main
+#define PORT 25667
 int main()
 {
 	try
@@ -12,13 +12,12 @@ int main()
 		WSAInitializer wsaInit;
 		Server myServer;
 
-		myServer.serve(25667);
+		myServer.serve(PORT);
 	}
 	catch (std::exception& e)
 	{
 		std::cout << "Error occured: " << e.what() << std::endl;
 	}
 	system("PAUSE");
-	return 0;
 	return 0;
 }

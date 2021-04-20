@@ -5,7 +5,7 @@
 #include "Server.h"
 #include <iostream>
 #include <exception>
-#undef main
+#define PORT 25667
 int main()
 {
 	try

@@ -11,6 +11,7 @@ public:
 	static void sendData(SOCKET sc, std::string message);
 	static char* getPartFromSocket(SOCKET sc, int bytesNum);
 	static char* getPartFromSocket(SOCKET sc, int bytesNum, int flags);
+	static std::string getPaddedNumber(int num, int digits);
 };
 
 

@@ -15,18 +15,15 @@ void Helper::sendData(SOCKET sc, std::string message)
 	}
 }
 
-char* Helper::getPartFromSocket(SOCKET sc, int bytesNum)
-{
-	return getPartFromSocket(sc, bytesNum, 0);
-}
 
-char* Helper::getPartFromSocket(SOCKET sc, int bytesNum, int flags)
+
+char* Helper::getPartFromSocket(SOCKET sc, int bytesNum)
 {
 	if (bytesNum == 0)
 		return (char*)"";
 
 	char* data = new char[bytesNum + 1];
-	int res = recv(sc, data, bytesNum, flags);
+	int res = recv(sc, data, bytesNum, 0);
 
 	if (res == INVALID_SOCKET)
 	{

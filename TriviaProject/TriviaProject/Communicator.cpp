@@ -19,13 +19,8 @@ void Communicator::bindAndListen()
 	// Start listening for incoming requests of clients
 	if (listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - listen");
-	std::cout << "Listening on port " << PORT << std::endl;
+	std::cout << "Listening on port: " << PORT << std::endl;
 
-	while (true)
-	{
-		std::cout << "Waiting for client connection request" << std::endl;
-		startHandleRequests();
-	}
 
 }
 
@@ -61,16 +56,23 @@ Communicator::~Communicator()
 
 void Communicator::startHandleRequests()
 {
-	// this accepts the client and create a specific socket from server to this client
-	SOCKET client_socket = ::accept(m_serverSocket, NULL, NULL);
+	
+	bindAndListen();
 
-	if (client_socket == INVALID_SOCKET)
-		throw std::exception(__FUNCTION__);
-	m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket, LoginRequestHandler()));
-	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
-	// Creating the thread that will communicate with the user
-	std::thread td(&Communicator::handleNewClient, this, client_socket);
-	td.detach();
+	while (true)
+	{
+		std::cout << "Waiting for client connection request" << std::endl;
+		// this accepts the client and create a specific socket from server to this client
+		SOCKET client_socket = ::accept(m_serverSocket, NULL, NULL);
 
+		if (client_socket == INVALID_SOCKET)
+			throw std::exception(__FUNCTION__);
+		m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket, LoginRequestHandler()));
+		std::cout << "Client accepted. Server and client can speak" << std::endl;
+
+		// Creating the thread that will communicate with the user
+		std::thread td(&Communicator::handleNewClient, this, client_socket);
+		td.detach();
+	}
 }

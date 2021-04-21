@@ -10,11 +10,11 @@ class Communicator
 private:
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler> m_clients;
-	void startHandleRequests();
+	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
 public:
+	void startHandleRequests();
 	Communicator();
 	~Communicator();
-	void bindAndListen();
 };
 

@@ -1,5 +1,6 @@
 #pragma comment (lib, "ws2_32.lib")
 
+
 #include "WSAInitializer.h"
 #include "Server.h"
 #include <iostream>
@@ -11,13 +12,11 @@ int main()
 	{
 		WSAInitializer wsaInit;
 		Server myServer;
-
-		myServer.serve(PORT);
+		myServer.run();
 	}
 	catch (std::exception& e)
 	{
-		std::cout << "Error occured: " << e.what() << std::endl;
+		std::cout << e.what() << std::endl;
 	}
-	system("PAUSE");
 	return 0;
 }

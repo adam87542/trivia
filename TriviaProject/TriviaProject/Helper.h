@@ -8,9 +8,22 @@
 class Helper
 {
 public:
+	/*
+	* This function takes the client socket and 
+	* a message and send it to him
+	*/
 	static void sendData(SOCKET sc, std::string message);
+	
+	/*
+	* This function takes a client socket bytes num
+	* and returns the respons of the client
+	*/
 	static char* getPartFromSocket(SOCKET sc, int bytesNum);
-	static char* getPartFromSocket(SOCKET sc, int bytesNum, int flags);
+	
+	/*
+	* This function takes a number and padds zeros 
+	* into it
+	*/
 	static std::string getPaddedNumber(int num, int digits);
 };
 

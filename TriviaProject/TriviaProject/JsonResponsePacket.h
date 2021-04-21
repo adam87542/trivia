@@ -2,6 +2,9 @@
 #include "json.hpp"
 #include "Response.h"
 #include "Helper.h"
+#include <iostream>
+
+using std::string;
 
 using json = nlohmann::json;
 #define LENGTH_BYTES 4
@@ -13,6 +16,8 @@ using json = nlohmann::json;
 #define EMAIL "email"
 #define USERNAME "username"
 #define STATUS "status"
+#define SUCCESS 1
+#define FAILED 0
 
 static class JsonResponsePacketSerializer
 {
@@ -21,7 +26,18 @@ public:
 	static unsigned char* serializeSignUpResponse(SignUpResponse response);
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
 private:
+	/*
+	* Doing seralizing to msg we get
+	* input: msg and response code
+	* output: seralized msg
+	*/
 	static unsigned char* seralizingMsg(int responseNum, string msg);
+	/*
+	* Function that creating data msg with json
+	* input: response code
+	* output: string msg
+	*/
+	static string creatingResponseData(int respone_code);
 };
 
 
@@ -33,10 +49,10 @@ public:
 	static SignupRequest DeserializeSignupRequest(unsigned char* buffer);
 
 private:
+	/*
+	* Function that deseralizing the buffer into json
+	* input: char ptr 
+	* output: json with data
+	*/
 	 static json DeseralizingMsg(unsigned char* buffer);
-
-     static string DeseralizingRespone(int respone_code);
-
-	 friend  JsonResponsePacketSerializer; // Now JsonResponsePacketSerializer can access DeseralizingRespone
-
 };

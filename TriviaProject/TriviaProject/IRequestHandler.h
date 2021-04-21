@@ -9,7 +9,7 @@ class IRequestHandler
 
 struct Requestresult
 {
-	unsigned char* buffer;
+	unsigned char* response;
 	IRequestHandler* newhandler;
 };
 

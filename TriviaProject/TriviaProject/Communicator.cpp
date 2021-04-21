@@ -28,8 +28,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	try
 	{
-		Helper::sendData(clientSocket, "Hello");
+		Helper::sendData(clientSocket, "Welcome");
 		std::cout << "Result: " << std::string(Helper::getPartFromSocket(clientSocket, 5)) << std::endl;
+
 	}
 	catch (const std::exception& e)
 	{

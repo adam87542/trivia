@@ -8,15 +8,21 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 
 Requestresult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    Requestresult* result = new Requestresult;
-    if (!isRequestRelevant(info))
+    Requestresult myResult;
+    if (info.RequestId == LOGIN_RESPONSE)
     {
-        result = nullptr;
+        LoginRequest myRequest = JsonRequestPacketDeserializer::DeserializeLoginRequest(info.buffer);
+        LoginResponse response;
+        response.status = SUCCESS;
+        myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
     }
     else
     {
-        result->buffer = info.buffer;
-        result->newhandler = new LoginRequestHandler;
+        SignupRequest myRequest = JsonRequestPacketDeserializer::DeserializeSignupRequest(info.buffer);
+        SignUpResponse response;
+        response.status = SUCCESS;
+        myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
     }
-    return *result;
+
+    return myResult;
 }

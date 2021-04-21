@@ -3,13 +3,13 @@
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
-    return info.RequestId == LOGIN_RESPONSE || info.RequestId == SIGNUP_RESPONSE;
+    return info.requestId == LOGIN_RESPONSE || info.requestId == SIGNUP_RESPONSE;
 }
 
 Requestresult LoginRequestHandler::handleRequest(RequestInfo info)
 {
     Requestresult myResult;
-    if (info.RequestId == LOGIN_RESPONSE)
+    if (info.requestId == LOGIN_RESPONSE)
     {
         LoginRequest myRequest = JsonRequestPacketDeserializer::DeserializeLoginRequest(info.buffer);
         LoginResponse response;

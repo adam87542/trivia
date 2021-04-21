@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <ctime>
 
 using std::string;
 //**************************** Respones  *********************************//
@@ -35,6 +36,20 @@ struct SignupRequest
 	string password;
 	string email;
 };
+
+struct RequestInfo
+{
+	int requestId;
+	std::time_t recivalTime;
+	unsigned char* buffer;
+};
+
+struct Requestresult
+{
+	unsigned char* response;
+	IRequestHandler* newhandler;
+};
+
 
 struct User
 {

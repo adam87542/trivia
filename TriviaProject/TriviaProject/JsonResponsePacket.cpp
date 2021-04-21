@@ -78,7 +78,7 @@ json JsonRequestPacketDeserializer::DeseralizingMsg(unsigned char* buffer)
 {
 	json* data = new json;
 	string str_buffer((char*)buffer);
-	string msg = str_buffer.substr(LENGTH_BYTES);
-	*data = msg;
+	//string msg = str_buffer.substr(LENGTH_BYTES);
+	*data = str_buffer;
 	return *data;
 }

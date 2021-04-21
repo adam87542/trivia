@@ -1,6 +1,6 @@
 #pragma once
 #include "json.hpp"
-#include "Response.h"
+#include "Structs.h"
 #include "Helper.h"
 #include <iostream>
 

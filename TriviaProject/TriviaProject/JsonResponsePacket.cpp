@@ -1,15 +1,5 @@
 #include "JsonResponsePacket.h"
 
-#define LENGTH_BYTES 4
-#define BUFFER_START_LEN 5
-#define ERR_RESPONSE 0
-#define LOGIN_RESPONSE 1
-#define SIGNUP_RESPONSE 2
-#define PASSWORD "password"
-#define EMAIL "email"
-#define USERNAME "username"
-#define STATUS "status"
-
 //**************************** Serialize *********************************//
 
 unsigned char* JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)

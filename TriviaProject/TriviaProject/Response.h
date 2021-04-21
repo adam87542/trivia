@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+using std::string;
 
 
 //**************************** Respones  *********************************//
@@ -33,4 +35,15 @@ struct SignupRequest
 	string username;
 	string password;
 	string email;
+};
+
+
+
+//**************************** Info *********************************//
+
+struct RequestInfo
+{
+	int RequestId;
+	std::time_t  receivalTime;
+	unsigned char* buffer;
 };

@@ -69,7 +69,9 @@ void Communicator::startHandleRequests()
 
 		if (client_socket == INVALID_SOCKET)
 			throw std::exception(__FUNCTION__);
-		m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket, LoginRequestHandler()));
+		IRequestHandler* handler = new LoginRequestHandler();
+		std::pair<SOCKET, IRequestHandler*> currentClient(client_socket,handler);
+		m_clients.insert(currentClient);
 		std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 		// Creating the thread that will communicate with the user

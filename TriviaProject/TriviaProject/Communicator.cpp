@@ -5,6 +5,8 @@
 #include <thread>
 
 #define PORT 25667
+#define CODE 1
+#define MSG_LENGTH 4
 
 void Communicator::bindAndListen()
 {
@@ -33,10 +35,10 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		LoginRequestHandler log;
 		Requestresult res;
 
-		Helper::sendData(clientSocket, "Welcome");
-		//std::cout << "Result: " << std::string(Helper::getPartFromSocket(clientSocket, 5)) << std::endl;
-		recived.requestId = Helper::getIntPartFromSocket(clientSocket, 1);
-		int length = Helper::getIntPartFromSocket(clientSocket, 4);
+		Helper::sendData(clientSocket, "Hello");
+		//getting all msg
+		recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE);
+		int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
 		recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
 
 		std::cout << recived.buffer << std::endl;

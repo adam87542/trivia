@@ -15,8 +15,6 @@ void Helper::sendData(SOCKET sc, std::string message)
 	}
 }
 
-
-
 char* Helper::getPartFromSocket(SOCKET sc, int bytesNum)
 {
 	if (bytesNum == 0)
@@ -35,7 +33,6 @@ char* Helper::getPartFromSocket(SOCKET sc, int bytesNum)
 	data[bytesNum] = 0;
 	return data;
 }
-
 // return string after padding zeros if necessary
 std::string Helper::getPaddedNumber(int num, int digits)
 {
@@ -43,4 +40,10 @@ std::string Helper::getPaddedNumber(int num, int digits)
 	ostr << std::setw(digits) << std::setfill('0') << num;
 	return ostr.str();
 
+}
+
+int Helper::getIntPartFromSocket(SOCKET sc, int bytesNum)
+{
+	char* s = getPartFromSocket(sc, bytesNum);
+	return atoi(s);
 }

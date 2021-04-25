@@ -6,14 +6,14 @@ unsigned char* JsonResponsePacketSerializer::serializeLoginResponse(LoginRespons
 {
 	string msg = creatingResponseData(response.status);
 
-	return seralizingMsg(LOGIN_RESPONSE, msg);
+	return seralizingMsg(LOGIN_CODE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeSignUpResponse(SignUpResponse response)
 {
 	string msg = creatingResponseData(response.status);
 
-	return seralizingMsg(SIGNUP_RESPONSE, msg);
+	return seralizingMsg(SIGNUP_CODE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
@@ -48,37 +48,38 @@ string JsonResponsePacketSerializer::creatingResponseData(int respone_code)
 
 //**************************** Deserialize *********************************//
 
-LoginRequest JsonRequestPacketDeserializer::DeserializeLoginRequest(unsigned char* buffer)
+LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(unsigned char* buffer)
 {
-	LoginRequest* login = new LoginRequest;
+	LoginRequest login;
 
-	json data = DeseralizingMsg(buffer);
+	json data = deseralizingMsg(buffer);
 
-	login->password = data[PASSWORD]; // getting password
-	login->username = data[USERNAME]; //getting username
+	login.password = data[PASSWORD]; // getting password
+	login.username = data[USERNAME]; //getting username
 
-	return *login;
+	return login;
 
 }
 
-SignupRequest JsonRequestPacketDeserializer::DeserializeSignupRequest(unsigned char* buffer)
+SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(unsigned char* buffer)
 {
-	SignupRequest* sign_up = new SignupRequest;
+	SignupRequest sign_up;
 
-	json data = DeseralizingMsg(buffer);
+	json data = deseralizingMsg(buffer);
 
-	sign_up->password = data[PASSWORD]; // getting password
-	sign_up->username = data[USERNAME]; //getting username
-	sign_up->email = data[EMAIL]; // getting email
+	sign_up.password = data[PASSWORD]; // getting password
+	sign_up.username = data[USERNAME]; //getting username
+	sign_up.email = data[EMAIL]; // getting email
 
-	return *sign_up;
+	return sign_up;
 }
 
-json JsonRequestPacketDeserializer::DeseralizingMsg(unsigned char* buffer)
+json JsonRequestPacketDeserializer::deseralizingMsg(unsigned char* buffer)
 {
-	json* data = new json;
-	string str_buffer((char*)buffer);
+	json data;
+	//string str_buffer((char*)buffer);
 	//string msg = str_buffer.substr(LENGTH_BYTES);
-	*data = str_buffer;
-	return *data;
+	//*data = str_buffer;
+	data = json::parse((char*)buffer);
+	return data;
 }

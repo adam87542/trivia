@@ -1,6 +1,7 @@
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
 #include "Helper.h"
+#include "Structs.h"
 #include <thread>
 
 #define PORT 25667
@@ -28,9 +29,29 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	try
 	{
-		Helper::sendData(clientSocket, "Welcome");
-		std::cout << "Result: " << std::string(Helper::getPartFromSocket(clientSocket, 5)) << std::endl;
+		RequestInfo recived;
+		LoginRequestHandler log;
+		Requestresult res;
 
+		Helper::sendData(clientSocket, "Welcome");
+		//std::cout << "Result: " << std::string(Helper::getPartFromSocket(clientSocket, 5)) << std::endl;
+		recived.requestId = Helper::getIntPartFromSocket(clientSocket, 1);
+		int length = Helper::getIntPartFromSocket(clientSocket, 4);
+		recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
+
+		std::cout << recived.buffer << std::endl;
+
+		if (!log.isRequestRelevant(recived))
+		{
+			res = log.handleRequest(recived);
+		}
+		else
+		{
+			res.response = (unsigned char*)"none";
+		}
+
+		std::cout << res.response << std::endl;
+		Helper::sendData(clientSocket, std::string((char*)res.response));
 	}
 	catch (const std::exception& e)
 	{

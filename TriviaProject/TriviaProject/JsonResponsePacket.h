@@ -10,8 +10,8 @@ using json = nlohmann::json;
 #define LENGTH_BYTES 4
 #define BUFFER_START_LEN 5
 #define ERR_RESPONSE 0
-#define LOGIN_RESPONSE 1
-#define SIGNUP_RESPONSE 2
+#define LOGIN_CODE 1
+#define SIGNUP_CODE 2
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
@@ -44,9 +44,9 @@ private:
 static class JsonRequestPacketDeserializer
 {
 public:
-	static LoginRequest DeserializeLoginRequest(unsigned char* buffer);
+	static LoginRequest deserializeLoginRequest(unsigned char* buffer);
 
-	static SignupRequest DeserializeSignupRequest(unsigned char* buffer);
+	static SignupRequest deserializeSignupRequest(unsigned char* buffer);
 
 private:
 	/*
@@ -54,5 +54,5 @@ private:
 	* input: char ptr 
 	* output: json with data
 	*/
-	 static json DeseralizingMsg(unsigned char* buffer);
+	 static json deseralizingMsg(unsigned char* buffer);
 };

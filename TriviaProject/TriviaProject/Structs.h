@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <ctime>
+#include "IRequestHandler.h"
 
+class IRequestHandler;
 using std::string;
 //**************************** Respones  *********************************//
 
@@ -14,6 +16,7 @@ struct  SignUpResponse
 {
 	unsigned int status;
 };
+
 struct  ErrorResponse
 {
 	string message;
@@ -44,12 +47,11 @@ struct RequestInfo
 	unsigned char* buffer;
 };
 
-struct Requestresult
+struct RequestResult
 {
 	unsigned char* response;
 	IRequestHandler* newhandler;
 };
-
 
 struct User
 {

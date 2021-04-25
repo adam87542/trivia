@@ -6,9 +6,9 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
     return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
 }
 
-Requestresult LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    Requestresult myResult;
+    RequestResult myResult;
     if (info.requestId == LOGIN_CODE)
     {
         LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);

@@ -33,7 +33,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	{
 		RequestInfo recived;
 		LoginRequestHandler log;
-		Requestresult res;
+		RequestResult res;
 
 		Helper::sendData(clientSocket, "Hello");
 		//getting all msg

@@ -39,7 +39,7 @@
     <ClInclude Include="JsonResponsePacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Response.h">
+    <ClInclude Include="Structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

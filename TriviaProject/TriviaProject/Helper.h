@@ -25,6 +25,8 @@ public:
 	* into it
 	*/
 	static std::string getPaddedNumber(int num, int digits);
+
+	static int getIntPartFromSocket(SOCKET sc, int bytesNum);
 };
 
 

@@ -3,22 +3,22 @@
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
-    return info.RequestId == LOGIN_RESPONSE || info.RequestId == SIGNUP_RESPONSE;
+    return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
 }
 
-Requestresult LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    Requestresult myResult;
-    if (info.RequestId == LOGIN_RESPONSE)
+    RequestResult myResult;
+    if (info.requestId == LOGIN_CODE)
     {
-        LoginRequest myRequest = JsonRequestPacketDeserializer::DeserializeLoginRequest(info.buffer);
+        LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
         LoginResponse response;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
     }
     else
     {
-        SignupRequest myRequest = JsonRequestPacketDeserializer::DeserializeSignupRequest(info.buffer);
+        SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
         SignUpResponse response;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);

@@ -23,19 +23,19 @@ unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorRespons
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
 {
-	unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN];
+	  unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN];
 
 	string length = Helper::getPaddedNumber(msg.length(), LENGTH_BYTES);
 
-	buffer[0] = (unsigned char)responseNum; // adding code
+	buffer[0] = ( unsigned char)responseNum; // adding code
 
 	for (int i = 0; i < LENGTH_BYTES; i++) // adding length
-		buffer[i + 1] = length[i];
+		buffer[i + 1] = (unsigned char)length[i];
 
 	for (int i = 0; i < msg.length(); i++) // adding data
-		buffer[i + LENGTH_BYTES] = msg[i];
+		buffer[i + LENGTH_BYTES] = (unsigned char)msg[i];
 
-	return buffer;
+	return  buffer;
 }
 
 string JsonResponsePacketSerializer::creatingResponseData(int respone_code)

@@ -43,7 +43,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 		std::cout << recived.buffer << std::endl;
 
-		if (!log.isRequestRelevant(recived))
+		if (log.isRequestRelevant(recived))
 		{
 			res = log.handleRequest(recived);
 		}
@@ -52,7 +52,12 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			res.response = (unsigned char*)"none";
 		}
 
-		std::cout << res.response << std::endl;
+		//std::cout << res.response << std::endl;
+		printf("hashedChars: ");
+		for (int i = 0; i < 32; i++) {
+			printf("%x", res.response[i]);
+		}
+		printf("\n");
 		Helper::sendData(clientSocket, std::string((char*)res.response));
 	}
 	catch (const std::exception& e)

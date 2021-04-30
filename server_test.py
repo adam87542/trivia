@@ -6,7 +6,7 @@ SERVER_PORT = 25667
 BUFFER_LENGTH = 1024
 SIGNUP_CODE = '2'
 LOGINUP_CODE = '1'
-EXIT_CODE = '3'
+EXIT_CODE = 3
 LEN_BYTES = 4
 
 def creating_socket():
@@ -27,7 +27,7 @@ def main():
     Code = LOGINUP_CODE
     option = int(input("Enter 1 for login ,  2 to sign up or 3 to exit: "))
 
-    if(option == 2):
+    if(option == int(SIGNUP_CODE)):
         Code = SIGNUP_CODE
         email = input("Enter your email: ")
         dict["email"] = email

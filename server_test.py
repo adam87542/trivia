@@ -15,6 +15,11 @@ def creating_socket():
     return sock
 
 def main():
+    sock = creating_socket()
+    server_msg = sock.recv(1024)
+    server_msg = server_msg.decode()
+    print(server_msg)
+
     dict = {}
     Code = LOGINUP_CODE
     option = int(input("Enter 2 to sign up , or 1 for login: "))
@@ -33,11 +38,6 @@ def main():
     msg_len = str(len(buffer))
     len_with_zeros = msg_len.zfill(LEN_BYTES)
     msg = str(Code +  len_with_zeros  + buffer)
-
-    sock = creating_socket()
-    server_msg = sock.recv(1024)
-    server_msg = server_msg.decode()
-    print(server_msg)
 
     sock.sendall(msg.encode())
 

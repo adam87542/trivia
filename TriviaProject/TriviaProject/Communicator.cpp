@@ -41,8 +41,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
 		recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
 
-		std::cout << recived.buffer << std::endl;
-
 		if (log.isRequestRelevant(recived))
 		{
 			res = log.handleRequest(recived);
@@ -52,7 +50,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			res.response = (unsigned char*)"none";
 		}
 
-		std::cout << (char*)res.response << std::endl;
 		Helper::sendData(clientSocket, std::string((char*)res.response));
 	}
 	catch (const std::exception& e)

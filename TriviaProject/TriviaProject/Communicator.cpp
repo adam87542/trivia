@@ -1,9 +1,12 @@
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
 #include "Helper.h"
+#include "Structs.h"
 #include <thread>
 
 #define PORT 25667
+#define CODE 1
+#define MSG_LENGTH 4
 
 void Communicator::bindAndListen()
 {
@@ -28,9 +31,25 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	try
 	{
-		Helper::sendData(clientSocket, "Welcome");
-		std::cout << "Result: " << std::string(Helper::getPartFromSocket(clientSocket, 5)) << std::endl;
+		RequestInfo recived;
+		LoginRequestHandler log;
+		RequestResult res;
 
+		Helper::sendData(clientSocket, "Hello");
+		//getting all msg
+		recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE);
+		int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
+		recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
+
+		if (log.isRequestRelevant(recived))
+		{
+			res = log.handleRequest(recived);
+		}
+		else
+		{
+			res.response = (unsigned char*)"none";
+		}
+		Helper::sendData(clientSocket, std::string((char*)res.response));
 	}
 	catch (const std::exception& e)
 	{
@@ -69,7 +88,9 @@ void Communicator::startHandleRequests()
 
 		if (client_socket == INVALID_SOCKET)
 			throw std::exception(__FUNCTION__);
-		m_clients.insert(std::pair<SOCKET, IRequestHandler>(client_socket, LoginRequestHandler()));
+		IRequestHandler* handler = new LoginRequestHandler();
+		std::pair<SOCKET, IRequestHandler*> currentClient(client_socket,handler);
+		m_clients.insert(currentClient);
 		std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 		// Creating the thread that will communicate with the user

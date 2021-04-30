@@ -1,28 +1,34 @@
 #include "LoginRequestHandler.h"
+#include "MenuRequestHandler.h"
 #include "JsonResponsePacket.h"
-
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
-    return info.RequestId == LOGIN_RESPONSE || info.RequestId == SIGNUP_RESPONSE;
+    return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
 }
 
-Requestresult LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    Requestresult myResult;
-    if (info.RequestId == LOGIN_RESPONSE)
+    RequestResult myResult;
+    if (info.requestId == LOGIN_CODE)
     {
-        LoginRequest myRequest = JsonRequestPacketDeserializer::DeserializeLoginRequest(info.buffer);
+        LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
         LoginResponse response;
+        myResult.newhandler = new MenuRequestHandler;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
     }
-    else
+    else if(info.requestId == SIGNUP_CODE)
     {
-        SignupRequest myRequest = JsonRequestPacketDeserializer::DeserializeSignupRequest(info.buffer);
+        SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
         SignUpResponse response;
+        myResult.newhandler = new MenuRequestHandler;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
     }
-
+    else
+    {
+        myResult.response = FAILED;
+        myResult.newhandler = nullptr;
+    }
     return myResult;
 }

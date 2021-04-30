@@ -1,6 +1,6 @@
 #include "LoginRequestHandler.h"
+#include "MenuRequestHandler.h"
 #include "JsonResponsePacket.h"
-
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
     return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
@@ -13,6 +13,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
     {
         LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
         LoginResponse response;
+        myResult.newhandler = new MenuRequestHandler;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
     }
@@ -20,6 +21,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
     {
         SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
         SignUpResponse response;
+        myResult.newhandler = new MenuRequestHandler;
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
     }

@@ -49,7 +49,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		{
 			res.response = (unsigned char*)"none";
 		}
-
 		Helper::sendData(clientSocket, std::string((char*)res.response));
 	}
 	catch (const std::exception& e)

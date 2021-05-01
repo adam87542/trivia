@@ -1,11 +1,7 @@
 #include "Communicator.h"
-#include "LoginRequestHandler.h"
-#include "Helper.h"
-#include "Structs.h"
-#include <thread>
 
 #define PORT 25667
-#define CODE 1
+#define CODE_LENGTH 1
 #define MSG_LENGTH 4
 
 void Communicator::bindAndListen()
@@ -38,18 +34,13 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		try
 		{
 			//getting all msg
-			recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE);
+			recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE_LENGTH);
 			int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
 			recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
 
-			if (log.isRequestRelevant(recived))
-			{
-				res = log.handleRequest(recived);
-			}
-			else
-			{
-				res.response = (unsigned char*)"none";
-			}
+			if (!log.isRequestRelevant(recived))
+				recived.requestId = ERR_CODE;
+			res = log.handleRequest(recived);
 			Helper::sendData(clientSocket, std::string((char*)res.response));
 		}
 		catch (const std::exception& e)

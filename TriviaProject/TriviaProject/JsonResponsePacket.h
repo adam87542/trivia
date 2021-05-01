@@ -9,15 +9,14 @@ using std::string;
 using json = nlohmann::json;
 #define LENGTH_BYTES 4
 #define BUFFER_START_LEN 5
-#define ERR_RESPONSE 0
-#define LOGIN_CODE 1
-#define SIGNUP_CODE 2
+#define LOGIN_CODE 2
+#define SIGNUP_CODE 3
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
 #define STATUS "status"
 #define SUCCESS 1
-#define FAILED 0
+#define ERR_CODE 0
 
 static class JsonResponsePacketSerializer
 {

@@ -4,9 +4,9 @@ import json
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 25667
 BUFFER_LENGTH = 1024
-SIGNUP_CODE = '2'
-LOGINUP_CODE = '1'
-EXIT_CODE = 3
+SIGNUP_CODE = '3'
+LOGINUP_CODE = '2'
+EXIT_CODE = 999
 LEN_BYTES = 4
 
 def creating_socket():
@@ -25,7 +25,7 @@ def main():
   while(option != EXIT_CODE):
    dict = {}
    Code = LOGINUP_CODE
-   option = int(input("Enter 1 for login ,  2 to sign up or 3 to exit: "))
+   option = int(input("Enter 2 for login ,  3 to sign up or 999 to exit: "))
    if(option != EXIT_CODE):
     if(option == int(SIGNUP_CODE)):
         Code = SIGNUP_CODE

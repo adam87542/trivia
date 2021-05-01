@@ -18,7 +18,7 @@ unsigned char* JsonResponsePacketSerializer::serializeSignUpResponse(SignUpRespo
 
 unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
 {
-	return seralizingMsg(ERR_RESPONSE, response.message);
+	return seralizingMsg(ERR_CODE, response.message);
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)

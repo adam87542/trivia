@@ -21,7 +21,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         catch (...)
         {
             success = false;
-            response.status = FAILED;
+            response.status = ERR_CODE;
             myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
             myResult.newhandler = nullptr;
         }
@@ -43,7 +43,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         catch (...)
         {
             success = false;
-            response.status = FAILED;
+            response.status = ERR_CODE;
             myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
             myResult.newhandler = nullptr;
         }
@@ -54,9 +54,11 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
             myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
         }
     }
-    else
+    else if(info.requestId == ERR_CODE)
     {
-        myResult.response = FAILED;
+        ErrorResponse response;
+        response.message = "Bad request...";
+        myResult.response = JsonResponsePacketSerializer::serializeErrorResponse(response);
         myResult.newhandler = nullptr;
     }
     return myResult;

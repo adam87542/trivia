@@ -2,6 +2,7 @@
 #include "LoginManager.h"
 #include "LoginRequestHandler.h"
 #include "IDatabase.h"
+class LoginRequestHandler;
 
 class RequestHandlerFactory
 {

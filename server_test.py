@@ -17,16 +17,16 @@ def creating_socket():
     return sock
 
 def main():
-   sock = creating_socket()
-   server_msg = sock.recv(BUFFER_LENGTH)
-   server_msg = server_msg.decode()
-   print(server_msg)
-   option = 0
-   while(option != EXIT_CODE):
-    dict = {}
-    Code = LOGINUP_CODE
-    option = int(input("Enter 1 for login ,  2 to sign up or 3 to exit: "))
-
+  sock = creating_socket()
+  server_msg = sock.recv(BUFFER_LENGTH)
+  server_msg = server_msg.decode()
+  print(server_msg)
+  option = 0
+  while(option != EXIT_CODE):
+   dict = {}
+   Code = LOGINUP_CODE
+   option = int(input("Enter 1 for login ,  2 to sign up or 3 to exit: "))
+   if(option != EXIT_CODE):
     if(option == int(SIGNUP_CODE)):
         Code = SIGNUP_CODE
         email = input("Enter your email: ")
@@ -51,9 +51,7 @@ def main():
         print("Bad request")
         sock.close()
         exit();
-
-   wait = input("Press any key to continue...")
-   sock.close()
+  sock.close()
 
 if __name__ == "__main__":
     main()

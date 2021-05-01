@@ -31,11 +31,11 @@ unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, stri
 
 	buffer[0] = responseNum + '0'; // adding code
 
-	for (int i = 0; i < LENGTH_BYTES; i++) // adding length
-		buffer[i + 1] = (unsigned char)length[i];
+	for (unsigned int i = 0; i < LENGTH_BYTES; i++) // adding length
+		buffer[i + 1] = length[i];
 
-	for (int i = 0; i < msg.length(); i++) // adding data
-		buffer[i + BUFFER_START_LEN] = (unsigned char)msg[i];
+	for (unsigned int i = 0; i < msg.length(); i++) // adding data
+		buffer[i + BUFFER_START_LEN] = msg[i];
 
 	return buffer;
 }

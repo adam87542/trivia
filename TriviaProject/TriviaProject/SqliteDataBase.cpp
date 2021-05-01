@@ -1,6 +1,7 @@
 #include "SqliteDataBase.h"
 #include <exception>
 #include <io.h>
+#define DOES_NOT_EXSIT -1
 
 int userCallBack(void* data, int argc, char** argv, char** azColName);
 
@@ -21,7 +22,7 @@ void SqliteDataBase::openDataBase()
 	//If the database failed to open
 	if (res != SQLITE_OK)
 		throw std::exception("Couldn't Open DataBase");
-	if (!doesFileExist == 0)//If its the first time creating the database, establish the new base
+	if (doesFileExist == DOES_NOT_EXSIT)//If its the first time creating the database, establish the new base
 		sendSQLStatment("CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);", nullptr, nullptr);
 }
 

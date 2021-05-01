@@ -29,31 +29,34 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	try
+	RequestInfo recived;
+	LoginRequestHandler log;
+	RequestResult res;
+	Helper::sendData(clientSocket, "Hello");
+	while (true)
 	{
-		RequestInfo recived;
-		LoginRequestHandler log;
-		RequestResult res;
-
-		Helper::sendData(clientSocket, "Hello");
-		//getting all msg
-		recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE);
-		int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
-		recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
-
-		if (log.isRequestRelevant(recived))
+		try
 		{
-			res = log.handleRequest(recived);
+			//getting all msg
+			recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE);
+			int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
+			recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
+
+			if (log.isRequestRelevant(recived))
+			{
+				res = log.handleRequest(recived);
+			}
+			else
+			{
+				res.response = (unsigned char*)"none";
+			}
+			Helper::sendData(clientSocket, std::string((char*)res.response));
 		}
-		else
+		catch (const std::exception& e)
 		{
-			res.response = (unsigned char*)"none";
+			std::cout << e.what() << std::endl;
+			break;
 		}
-		Helper::sendData(clientSocket, std::string((char*)res.response));
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
 	}
 }
 
@@ -88,7 +91,7 @@ void Communicator::startHandleRequests()
 
 		if (client_socket == INVALID_SOCKET)
 			throw std::exception(__FUNCTION__);
-		IRequestHandler* handler = new LoginRequestHandler();
+		IRequestHandler* handler = new LoginRequestHandler;
 		std::pair<SOCKET, IRequestHandler*> currentClient(client_socket,handler);
 		m_clients.insert(currentClient);
 		std::cout << "Client accepted. Server and client can speak" << std::endl;

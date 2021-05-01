@@ -1,5 +1,11 @@
 #include "LoginManager.h"
 
+LoginManager::LoginManager()
+{
+	this->m_database = new SqliteDataBase;
+	this->m_database->openDataBase();
+}
+
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
 	if (!m_database->doesUserExist(username))
@@ -18,9 +24,21 @@ void LoginManager::login(std::string username, std::string password)
 
 void LoginManager::logout(std::string username)
 {
-	auto currentChecked = std::find(m_loggedUsers.begin(), m_loggedUsers.end(), LoggedUser(username));
-	if (currentChecked != m_loggedUsers.end())
-		m_loggedUsers.erase(currentChecked);
-	else
-		throw std::exception("Couldn't find user to log out");
+	auto loggedUserItr = m_loggedUsers.begin();
+	while (loggedUserItr != m_loggedUsers.end())
+	{
+		if (loggedUserItr->getUsername() == username)
+		{
+			delete& loggedUserItr;
+			m_loggedUsers.erase(loggedUserItr);
+			return;
+		}
+		loggedUserItr++;
+	}
+		throw std::exception("Couldn't find user , can't log out");
+}
+
+LoginManager::~LoginManager()
+{
+	delete this->m_database;
 }

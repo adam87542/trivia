@@ -2,10 +2,10 @@
 
 LoggedUser::LoggedUser(std::string newUsername)
 {
-    username = newUsername;
+    this->username = newUsername;
 }
 
 std::string LoggedUser::getUsername()
 {
-    return username;
+    return this->username;
 }

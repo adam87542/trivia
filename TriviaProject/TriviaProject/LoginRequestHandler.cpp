@@ -8,22 +8,51 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
+    bool success = true;
     RequestResult myResult;
     if (info.requestId == LOGIN_CODE)
     {
-        LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
         LoginResponse response;
-        myResult.newhandler = new MenuRequestHandler;
-        response.status = SUCCESS;
-        myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
+        LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+        try
+        {
+          m_loginManager.login(myRequest.username, myRequest.password);
+        }
+        catch (...)
+        {
+            success = false;
+            response.status = FAILED;
+            myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
+            myResult.newhandler = nullptr;
+        }
+        if (success)
+        {
+            myResult.newhandler = new MenuRequestHandler;
+            response.status = SUCCESS;
+            myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
+        }
     }
     else if(info.requestId == SIGNUP_CODE)
     {
-        SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
         SignUpResponse response;
-        myResult.newhandler = new MenuRequestHandler;
-        response.status = SUCCESS;
-        myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
+        SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
+        try
+        {
+           m_loginManager.signup(myRequest.username, myRequest.password , myRequest.email);
+        }
+        catch (...)
+        {
+            success = false;
+            response.status = FAILED;
+            myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
+            myResult.newhandler = nullptr;
+        }
+        if (success)
+        {
+            myResult.newhandler = new MenuRequestHandler;
+            response.status = SUCCESS;
+            myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
+        }
     }
     else
     {

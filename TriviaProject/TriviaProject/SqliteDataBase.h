@@ -16,12 +16,6 @@ private:
 	*/
 	void sendSQLStatment(std::string statement, int(*callBack)(void*, int, char**, char**), std::queue<User>* userQueue);
 
-	/*
-	* Function that creates a database if it doesn't exist
-	* and opens it if it exists
-	*/
-	void openDataBase();
-
 	//Clears the user queue
 	void clearUsers();
 
@@ -29,5 +23,11 @@ public:
 	 bool doesUserExist(std::string username) override;
 	 bool doesPasswordMatch(std::string password, std::string username)  override;
 	 void addNewUser(std::string username, std::string password, std::string email)  override;
+
+	 /*
+ * Function that creates a database if it doesn't exist
+ * and opens it if it exists
+ */
+	 void openDataBase();
 };
 

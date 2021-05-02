@@ -1,10 +1,10 @@
 #pragma once
-#include <iostream>
-
+#include <string>
 class LoggedUser
 {
-private: 
-	std::string m_username;
+private:
+	std::string username;
 public:
+	LoggedUser(std::string newUsername);
 	std::string getUsername();
 };

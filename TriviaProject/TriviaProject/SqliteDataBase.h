@@ -1,10 +1,9 @@
 #pragma once
 #include "IDatabase.h"
 #include "Structs.h"
-#include <queue>
 
-class SqliteDataBase :
-    public IDatabase
+
+class SqliteDataBase : public IDatabase
 {
 private:
 	sqlite3* db;//The database
@@ -17,18 +16,18 @@ private:
 	*/
 	void sendSQLStatment(std::string statement, int(*callBack)(void*, int, char**, char**), std::queue<User>* userQueue);
 
-	/*
-	* Function that creates a database if it doesn't exist
-	* and opens it if it exists
-	*/
-	void openDataBase();
-
 	//Clears the user queue
 	void clearUsers();
 
 public:
-	virtual bool doesUserExist(std::string username) = 0;
-	virtual bool doesPasswordMatch(std::string password, std::string username) = 0;
-	virtual void addNewUser(std::string username, std::string password, std::string email) = 0;
+	 bool doesUserExist(std::string username) override;
+	 bool doesPasswordMatch(std::string password, std::string username)  override;
+	 void addNewUser(std::string username, std::string password, std::string email)  override;
+
+	 /*
+ * Function that creates a database if it doesn't exist
+ * and opens it if it exists
+ */
+	 void openDataBase();
 };
 

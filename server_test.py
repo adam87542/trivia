@@ -3,8 +3,10 @@ import json
 
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 25667
-SIGNUP_CODE = '2'
-LOGINUP_CODE = '1'
+BUFFER_LENGTH = 1024
+SIGNUP_CODE = '3'
+LOGINUP_CODE = '2'
+EXIT_CODE = 999
 LEN_BYTES = 4
 
 def creating_socket():
@@ -15,12 +17,17 @@ def creating_socket():
     return sock
 
 def main():
-    sock = creating_socket()
-    dict = {}
-    Code = LOGINUP_CODE
-    option = int(input("Enter 2 to sign up , or 1 for login: "))
-
-    if(option == 2):
+  sock = creating_socket()
+  server_msg = sock.recv(BUFFER_LENGTH)
+  server_msg = server_msg.decode()
+  print(server_msg)
+  option = 0
+  while(option != EXIT_CODE):
+   dict = {}
+   Code = LOGINUP_CODE
+   option = int(input("Enter 2 for login ,  3 to sign up or 999 to exit: "))
+   if(option != EXIT_CODE):
+    if(option == int(SIGNUP_CODE)):
         Code = SIGNUP_CODE
         email = input("Enter your email: ")
         dict["email"] = email
@@ -34,20 +41,17 @@ def main():
     msg_len = str(len(buffer))
     len_with_zeros = msg_len.zfill(LEN_BYTES)
     msg = str(Code +  len_with_zeros  + buffer)
-    server_msg = sock.recv(1024)
-    server_msg = server_msg.decode()
-    print(server_msg)
 
     sock.sendall(msg.encode())
-
-    server_msg = sock.recv(1024)
+    server_msg = sock.recv(BUFFER_LENGTH)
     server_msg = server_msg.decode()
     print(server_msg)
+
     if(server_msg == "none"):
         print("Bad request")
-
-    wait = input("Wait for key")
-    sock.close()
+        sock.close()
+        exit();
+  sock.close()
 
 if __name__ == "__main__":
     main()

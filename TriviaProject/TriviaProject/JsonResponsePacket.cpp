@@ -18,24 +18,26 @@ unsigned char* JsonResponsePacketSerializer::serializeSignUpResponse(SignUpRespo
 
 unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
 {
-	return seralizingMsg(ERR_RESPONSE, response.message);
+	return seralizingMsg(ERR_CODE, response.message);
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
 {
-	  unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN];
+	unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN + 1];
+
+	buffer[msg.length() + BUFFER_START_LEN] = 0;
 
 	string length = Helper::getPaddedNumber(msg.length(), LENGTH_BYTES);
 
-	buffer[0] = ( unsigned char)responseNum; // adding code
+	buffer[0] = responseNum + '0'; // adding code
 
-	for (int i = 0; i < LENGTH_BYTES; i++) // adding length
-		buffer[i + 1] = (unsigned char)length[i];
+	for (unsigned int i = 0; i < LENGTH_BYTES; i++) // adding length
+		buffer[i + 1] = length[i];
 
-	for (int i = 0; i < msg.length(); i++) // adding data
-		buffer[i + LENGTH_BYTES] = (unsigned char)msg[i];
+	for (unsigned int i = 0; i < msg.length(); i++) // adding data
+		buffer[i + BUFFER_START_LEN] = msg[i];
 
-	return  buffer;
+	return buffer;
 }
 
 string JsonResponsePacketSerializer::creatingResponseData(int respone_code)
@@ -77,9 +79,6 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(unsigned c
 json JsonRequestPacketDeserializer::deseralizingMsg(unsigned char* buffer)
 {
 	json data;
-	//string str_buffer((char*)buffer);
-	//string msg = str_buffer.substr(LENGTH_BYTES);
-	//*data = str_buffer;
 	data = json::parse((char*)buffer);
 	return data;
 }

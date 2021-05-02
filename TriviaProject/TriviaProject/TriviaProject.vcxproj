@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="IDatabase.h" />
     <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonResponsePacket.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="SqliteDataBase.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
@@ -163,6 +165,8 @@
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="SqliteDataBase.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

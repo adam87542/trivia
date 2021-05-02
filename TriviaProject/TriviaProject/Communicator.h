@@ -12,13 +12,15 @@
 class Communicator
 {
 private:
+	Communicator();
+	~Communicator();
 	SOCKET m_serverSocket;
 	std::map <SOCKET, IRequestHandler*> m_clients;
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
 public:
+	static Communicator* get_instance();
 	void startHandleRequests();
-	Communicator();
-	~Communicator();
+	static  Communicator* ptr;
 };
 

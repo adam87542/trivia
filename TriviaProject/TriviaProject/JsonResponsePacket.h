@@ -21,10 +21,13 @@ using json = nlohmann::json;
 static class JsonResponsePacketSerializer
 {
 public:
+	static JsonResponsePacketSerializer* get_instance();
+	static  JsonResponsePacketSerializer* ptr;
 	static unsigned char* serializeLoginResponse(LoginResponse response);
 	static unsigned char* serializeSignUpResponse(SignUpResponse response);
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
 private:
+	JsonResponsePacketSerializer() = default;
 	/*
 	* Doing seralizing to msg we get
 	* input: msg and response code
@@ -43,11 +46,14 @@ private:
 static class JsonRequestPacketDeserializer
 {
 public:
+	static JsonRequestPacketDeserializer* get_instance();
+	static  JsonRequestPacketDeserializer* ptr;
 	static LoginRequest deserializeLoginRequest(unsigned char* buffer);
 
 	static SignupRequest deserializeSignupRequest(unsigned char* buffer);
 
 private:
+	JsonRequestPacketDeserializer() = default;
 	/*
 	* Function that deseralizing the buffer into json
 	* input: char ptr 

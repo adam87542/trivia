@@ -2,6 +2,18 @@
 #include <thread>
 #include "WSAInitializer.h"
 
+Server* Server::ptr = nullptr;
+Server::~Server()
+{
+	delete this->ptr;
+}
+Server* Server::get_instance()
+{
+	if (!ptr)
+		ptr = new Server;
+	return ptr;
+}
+
 void Server::run()
 {
 	std::thread t_connector(&Communicator::startHandleRequests,this->m_communicator);

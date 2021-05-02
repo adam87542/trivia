@@ -1,9 +1,17 @@
 #include "LoginManager.h"
 
+LoginManager* LoginManager::ptr = nullptr;
 LoginManager::LoginManager()
 {
 	this->m_database = new SqliteDataBase;
 	this->m_database->openDataBase();
+}
+
+LoginManager* LoginManager::get_instance()
+{
+	if (!ptr)
+		ptr = new LoginManager;
+	return ptr;
 }
 
 void LoginManager::signup(std::string username, std::string password, std::string email)

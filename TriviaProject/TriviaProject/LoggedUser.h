@@ -8,4 +8,3 @@ public:
 	LoggedUser(std::string newUsername);
 	std::string getUsername();
 };
-

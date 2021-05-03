@@ -8,15 +8,17 @@
 #define PORT 25667
 int main()
 {
+	Server* myServer;
 	try
 	{
 		WSAInitializer wsaInit;
-		Server* myServer = myServer->get_instance();
+	    myServer = myServer->get_instance();
 		myServer->run();
 	}
 	catch (std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 	}
+	myServer->reset_instance();
 	return 0;
 }

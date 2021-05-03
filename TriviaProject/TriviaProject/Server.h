@@ -4,11 +4,12 @@
 class Server
 {
 private:
-	Server() = default;  // no one else can create one
+	static  Server* m_ptr;
+	Server();  // no one else can create one
 	~Server();
-	Communicator* m_communicator = Communicator::get_instance();
+	static Communicator* m_communicator;
 public:
 	static Server* get_instance();
+	static void reset_instance();
 	void run();
-	static  Server* ptr;
 };

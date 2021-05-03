@@ -12,6 +12,7 @@
 class Communicator
 {
 private:
+	static  Communicator* m_ptr;
 	Communicator();
 	~Communicator();
 	SOCKET m_serverSocket;
@@ -20,7 +21,7 @@ private:
 	void handleNewClient(SOCKET clientSocket);
 public:
 	static Communicator* get_instance();
+	static void reset_instance();
 	void startHandleRequests();
-	static  Communicator* ptr;
 };
 

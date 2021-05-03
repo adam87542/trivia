@@ -2,13 +2,19 @@
 
 //**************************** Serialize *********************************//
 
-JsonResponsePacketSerializer* JsonResponsePacketSerializer::ptr = nullptr;
-JsonRequestPacketDeserializer* JsonRequestPacketDeserializer::ptr = nullptr;
+JsonResponsePacketSerializer* JsonResponsePacketSerializer::m_ptr = nullptr;
+JsonRequestPacketDeserializer* JsonRequestPacketDeserializer::m_ptr = nullptr;
 JsonResponsePacketSerializer* JsonResponsePacketSerializer::get_instance()
 {
-	if (!ptr)
-		ptr = new JsonResponsePacketSerializer;
-	return ptr;
+	if (!m_ptr)
+		m_ptr = new JsonResponsePacketSerializer;
+	return m_ptr;
+}
+
+void JsonResponsePacketSerializer::reset_instance()
+{
+	delete m_ptr;
+	m_ptr = nullptr;
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)
@@ -61,9 +67,15 @@ string JsonResponsePacketSerializer::creatingResponseData(int respone_code)
 
 JsonRequestPacketDeserializer* JsonRequestPacketDeserializer::get_instance()
 {
-	if (!ptr)
-		ptr = new JsonRequestPacketDeserializer;
-	return ptr;
+	if (!m_ptr)
+		m_ptr = new JsonRequestPacketDeserializer;
+	return m_ptr;
+}
+
+void JsonRequestPacketDeserializer::reset_instance()
+{
+	delete m_ptr;
+	m_ptr = nullptr;
 }
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(unsigned char* buffer)

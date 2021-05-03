@@ -7,13 +7,14 @@ class RequestHandlerFactory
 {
 public:
 	static RequestHandlerFactory* get_instance();
-	static  RequestHandlerFactory* ptr;
+	static void reset_instance();
 	LoginRequestHandler createLoginRequestHandler();
 	LoginManager* getLoginManager();
 
 private:
-	IDatabase* m_database;
-	LoginManager* m_loginManager = m_loginManager->get_instance();
+	static  RequestHandlerFactory* m_ptr;
+	static IDatabase* m_database;
+	static LoginManager* m_loginManager;
 	RequestHandlerFactory();
 	~RequestHandlerFactory();
 };

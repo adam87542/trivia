@@ -1,6 +1,6 @@
 #include "LoginManager.h"
 
-LoginManager* LoginManager::ptr = nullptr;
+LoginManager* LoginManager::m_ptr = nullptr;
 LoginManager::LoginManager()
 {
 	this->m_database = new SqliteDataBase;
@@ -9,9 +9,15 @@ LoginManager::LoginManager()
 
 LoginManager* LoginManager::get_instance()
 {
-	if (!ptr)
-		ptr = new LoginManager;
-	return ptr;
+	if (!m_ptr)
+		m_ptr = new LoginManager;
+	return m_ptr;
+}
+
+void LoginManager::reset_instance()
+{
+	delete m_ptr;
+	m_ptr = nullptr;
 }
 
 void LoginManager::signup(std::string username, std::string password, std::string email)
@@ -49,4 +55,5 @@ void LoginManager::logout(std::string username)
 LoginManager::~LoginManager()
 {
 	delete this->m_database;
+	this->m_loggedUsers.clear();
 }

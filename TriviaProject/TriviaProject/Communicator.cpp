@@ -4,7 +4,7 @@
 #define CODE_LENGTH 1
 #define MSG_LENGTH 4
 
-Communicator* Communicator::ptr = nullptr;
+Communicator* Communicator::m_ptr = nullptr;
 void Communicator::bindAndListen()
 {
 	struct sockaddr_in sa = { 0 };
@@ -67,14 +67,21 @@ Communicator::~Communicator()
 		closesocket(m_serverSocket);
 	}
 	catch (...) {}
-	delete ptr;
 }
 
 Communicator* Communicator::get_instance()
 {
-	if (!ptr)
-		ptr = new Communicator;
-	return ptr;
+	if (!m_ptr)
+	{
+		m_ptr = new Communicator;
+	}
+	return m_ptr;
+}
+
+void Communicator::reset_instance()
+{
+	delete  m_ptr;
+	m_ptr = nullptr;
 }
 
 void Communicator::startHandleRequests()

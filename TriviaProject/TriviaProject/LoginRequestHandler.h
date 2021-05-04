@@ -8,6 +8,6 @@ public:
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 private:
-	LoginManager* m_loginManager = m_loginManager->get_instance();
+	static LoginManager* m_loginManager;
 };
 

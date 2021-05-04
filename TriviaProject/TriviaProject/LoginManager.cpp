@@ -1,10 +1,10 @@
 #include "LoginManager.h"
-
+#include "SqliteDataBase.h"
 LoginManager* LoginManager::m_ptr = nullptr;
+IDatabase* LoginManager::m_database = nullptr;
 LoginManager::LoginManager()
 {
-	this->m_database = new SqliteDataBase;
-	this->m_database->openDataBase();
+	this->m_database  = SqliteDataBase::get_instance();
 }
 
 LoginManager* LoginManager::get_instance()
@@ -54,6 +54,5 @@ void LoginManager::logout(std::string username)
 
 LoginManager::~LoginManager()
 {
-	delete this->m_database;
 	this->m_loggedUsers.clear();
 }

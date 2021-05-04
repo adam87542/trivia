@@ -1,6 +1,8 @@
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "JsonResponsePacket.h"
+
+LoginManager* LoginRequestHandler::m_loginManager =  m_loginManager->get_instance();
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
     return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;

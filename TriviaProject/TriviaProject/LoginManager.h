@@ -9,7 +9,7 @@ private:
 	static  LoginManager* m_ptr;
 	LoginManager();
 	~LoginManager();
-	IDatabase* m_database;//The database
+	static IDatabase* m_database;//The database
 	std::vector<LoggedUser> m_loggedUsers;//All current logged users
 public:
 	static LoginManager* get_instance();

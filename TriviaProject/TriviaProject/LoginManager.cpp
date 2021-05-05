@@ -54,5 +54,6 @@ void LoginManager::logout(std::string username)
 
 LoginManager::~LoginManager()
 {
+	SqliteDataBase::reset_instance();
 	this->m_loggedUsers.clear();
 }

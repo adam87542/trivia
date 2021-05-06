@@ -6,12 +6,15 @@
 class LoginManager
 {
 private:
-	IDatabase* m_database;//The database
+	static  LoginManager* m_ptr;
+	LoginManager();
+	~LoginManager();
+	static IDatabase* m_database;//The database
 	std::vector<LoggedUser> m_loggedUsers;//All current logged users
 public:
-	LoginManager();
+	static LoginManager* get_instance();
+	static void reset_instance();
 	void signup(std::string username, std::string password, std::string email);
 	void login(std::string username, std::string password);
 	void logout(std::string username);
-	~LoginManager();
 };

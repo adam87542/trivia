@@ -1,4 +1,7 @@
 #include "RequestHandlerFactory.h"
+#include "SqliteDataBase.h"
+RequestHandlerFactory* RequestHandlerFactory::m_ptr = nullptr;
+
 
 LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
 {
@@ -6,7 +9,17 @@ LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
 	return *login_request_handler;
 }
 
-LoginManager& RequestHandlerFactory::getLoginManager()
+RequestHandlerFactory* RequestHandlerFactory::get_instance()
 {
-	return this->m_loginManager;
+	if (!m_ptr)
+	{
+		m_ptr = new RequestHandlerFactory;
+	}
+	return m_ptr;
+}
+
+void RequestHandlerFactory::reset_instance()
+{
+	delete m_ptr;
+	m_ptr = nullptr;
 }

@@ -3,7 +3,19 @@
 #include <io.h>
 #define DOES_NOT_EXSIT -1
 
+SqliteDataBase* SqliteDataBase::m_ptr = nullptr;
+
 int userCallBack(void* data, int argc, char** argv, char** azColName);
+
+SqliteDataBase::~SqliteDataBase()
+{
+	delete db;
+	db = nullptr;
+}
+SqliteDataBase::SqliteDataBase()
+{
+	openDataBase();
+}
 
 void SqliteDataBase::sendSQLStatment(std::string statement, int(*callBack)(void*, int, char**, char**), std::queue<User>* userQueue)
 {
@@ -48,6 +60,20 @@ void SqliteDataBase::clearUsers()
 {
 	for (int i = 0; i < users.size(); i++)
 		users.pop();
+}
+
+
+IDatabase* SqliteDataBase::get_instance()
+{
+	if (!m_ptr)
+		m_ptr = new SqliteDataBase;
+	return m_ptr;
+}
+
+void SqliteDataBase::reset_instance()
+{
+	delete m_ptr;
+	m_ptr = nullptr;
 }
 
 

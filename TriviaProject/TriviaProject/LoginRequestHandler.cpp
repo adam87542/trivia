@@ -1,6 +1,8 @@
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "JsonResponsePacket.h"
+
+LoginManager* LoginRequestHandler::m_loginManager =  m_loginManager->get_instance();
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
     return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
@@ -16,7 +18,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         LoginRequest myRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
         try
         {
-          m_loginManager.login(myRequest.username, myRequest.password);
+          m_loginManager->login(myRequest.username, myRequest.password);
         }
         catch (...)
         {
@@ -38,7 +40,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
         SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
         try
         {
-           m_loginManager.signup(myRequest.username, myRequest.password , myRequest.email);
+           m_loginManager->signup(myRequest.username, myRequest.password , myRequest.email);
         }
         catch (...)
         {

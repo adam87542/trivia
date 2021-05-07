@@ -3,6 +3,8 @@ import sqlite3
 
 def main():
 	
+
+
 	#Creating a basic connection to the database, if fail, exit
 	try:
 		con = sqlite3.connect("Trivia.sqlite")
@@ -10,13 +12,16 @@ def main():
 		print(e)
 		return
 
+
 	#Getting the questions, easy,medium,hard , and then inserting it to the db
+	num_of_questions = 15
+
 	client = OpenTDBClient()
-	questions_easy = client.get_questions(amount=15,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.EASY)
+	questions_easy = client.get_questions(amount=num_of_questions,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.EASY)
 	enter_questions_to_db(questions_easy,con,"Easy")
-	questions_medium = client.get_questions(amount=15,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.MEDIUM)
+	questions_medium = client.get_questions(amount=num_of_questions,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.MEDIUM)
 	enter_questions_to_db(questions_medium,con,"Medium")
-	questions_hard = client.get_questions(amount=15,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.HARD)
+	questions_hard = client.get_questions(amount=num_of_questions,category=Category.SCIENCE_COMPUTERS,question_type=QuestionType.MULTIPLE,difficulty=Difficulty.HARD)
 	enter_questions_to_db(questions_hard,con,"Hard")
 	print("Done")
 

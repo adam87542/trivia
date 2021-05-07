@@ -36,6 +36,11 @@ unsigned char* JsonResponsePacketSerializer::serializeErrorResponse(ErrorRespons
 	return seralizingMsg(ERR_CODE, response.message);
 }
 
+unsigned char* JsonResponsePacketSerializer::serializeLogoutResponse(LogoutResponse respone)
+{
+	return nullptr;
+}
+
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
 {
 	unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN + 1];

@@ -26,6 +26,7 @@ public:
 	static unsigned char* serializeLoginResponse(LoginResponse response);
 	static unsigned char* serializeSignUpResponse(SignUpResponse response);
 	static unsigned char* serializeErrorResponse(ErrorResponse response);
+	static unsigned char* serializeLogoutResponse(LogoutResponse respone);
 private:
 	static  JsonResponsePacketSerializer* m_ptr;
 	JsonResponsePacketSerializer() = default;

@@ -21,12 +21,26 @@ private:
 
 	//Clears the user queue
 	void clearUsers();
+
 	/*
-* Function that creates a database if it doesn't exist
-* and opens it if it exists
-*/
+	* This fucntion gets a statment 
+	* and return the sqlite3_stmt as a pointer
+	* of that statment
+	*/
+	sqlite3_stmt* getStmt(std::string statment);
+	
+	/*
+	* Function that creates a database if it doesn't exist
+	* and opens it if it exists
+	*/
 	void openDataBase();
 
+	/*
+	* User callback used to retrive
+	* the information after selecting it 
+	* from the database
+	*/
+	void userCallBack(sqlite3_stmt* stmt);
 public:
 	static IDatabase* get_instance();
 	static void reset_instance();

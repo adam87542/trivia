@@ -1,11 +1,23 @@
 #pragma once
 #include <iostream>
+#include <vector>
 #include <ctime>
 #include "IRequestHandler.h"
 
 class IRequestHandler;
 using std::string;
-//**************************** Respones  *********************************//
+//**************************** Room  ********************************// 
+
+struct RoomData
+{
+	unsigned int id;
+	string name;
+	unsigned int maxPlayers;
+	unsigned int numOfQuestionsInGame;
+	unsigned int timePerQuestion;
+	unsigned int isActive;
+};
+//**************************** Responses  *********************************//
 
 struct LoginResponse
 {
@@ -20,6 +32,37 @@ struct  SignUpResponse
 struct  ErrorResponse
 {
 	string message;
+};
+struct LogoutResponse
+{
+	unsigned int status;
+};
+struct GetRoomsResponse
+{
+	unsigned int status;
+	std::vector<RoomData> rooms;
+};
+
+struct GetPlayersInRoomResponse
+{
+	std::vector<string> players;
+};
+struct getHighScoreResponse
+{
+	unsigned int status;
+	std::vector<string> statistics;
+};
+struct getPersonalStatsResponse
+{
+	unsigned int status;
+};
+struct JoinRoomResponse
+{
+	unsigned int status;
+};
+struct CreateRoomResponse
+{
+	unsigned int status;
 };
 
 //**************************** Requests *********************************//
@@ -56,16 +99,4 @@ struct User
 	string username;
 	string password;
 	string email;
-};
-
-//**************************** Room  ********************************// 
-
-struct RoomData
-{
-	unsigned int id;
-	string name;
-	unsigned int maxPlayers;
-	unsigned int numOfQuestionsInGame;
-	unsigned int timePerQuestion;
-	unsigned int isActive;
 };

@@ -5,7 +5,6 @@
 
 SqliteDataBase* SqliteDataBase::m_ptr = nullptr;
 
-int userCallBack(void* data, int argc, char** argv, char** azColName);
 
 SqliteDataBase::~SqliteDataBase()
 {
@@ -25,6 +24,13 @@ void SqliteDataBase::sendSQLStatment(std::string statement, int(*callBack)(void*
 		throw std::exception("Couldn't Send SQL Query: " + *errMessage);
 }
 
+sqlite3_stmt* SqliteDataBase::getStmt(std::string statment)
+{
+	sqlite3_stmt* stmt;
+	sqlite3_prepare(db, statment.c_str(), statment.length(), &stmt, nullptr);
+	return stmt;
+}
+
 void SqliteDataBase::openDataBase()
 {
 	std::string dbFileName = "Trivia.sqlite";
@@ -38,30 +44,25 @@ void SqliteDataBase::openDataBase()
 		sendSQLStatment("CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);", nullptr, nullptr);
 }
 
-int userCallBack(void* data, int argc, char** argv, char** azColName)
+void SqliteDataBase::userCallBack(sqlite3_stmt* stmt)
 {
-	std::queue<User>* result = (std::queue<User>*)data;
-	User user;
-	for (int i = 0; i < argc; i++)
+	int result = sqlite3_step(stmt);
+	while (result != SQLITE_DONE)
 	{
-		if (std::string(azColName[i]) == "username")
-			user.username = atoi(argv[i]);
-		else if (std::string(azColName[i]) == "password")
-			user.password = atoi(argv[i]);
-		else if (std::string(azColName[i]) == "email")
-			user.email = atoi(argv[i]);
+		User user;
+		user.username = std::string((char*)sqlite3_column_text(stmt,0));
+		user.password = std::string((char*)sqlite3_column_text(stmt, 1));
+		user.email = std::string((char*)sqlite3_column_text(stmt, 2));
+		users.push(user);
+		result = sqlite3_step(stmt);
 	}
-	result->push(user);
-	return 0;
 }
-
 
 void SqliteDataBase::clearUsers()
 {
 	for (int i = 0; i < users.size(); i++)
 		users.pop();
 }
-
 
 IDatabase* SqliteDataBase::get_instance()
 {
@@ -76,22 +77,34 @@ void SqliteDataBase::reset_instance()
 	m_ptr = nullptr;
 }
 
-
 bool SqliteDataBase::doesUserExist(std::string username)
 {
 	clearUsers();
-	sendSQLStatment("select * from users where username = '" + username + "';", userCallBack, &users);
+	
+	sqlite3_stmt* stmt = getStmt("select * from users where username = ?;");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	
+	userCallBack(stmt);
 	return !users.empty();
 }
 
 bool SqliteDataBase::doesPasswordMatch(std::string password, std::string username)
 {
 	clearUsers();
-	sendSQLStatment("select * from users where username = '" + username + "' and password = '" + password + "';", userCallBack, &users);
+	
+	sqlite3_stmt* stmt = getStmt("select * from users where username = ? and password = ?;");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	sqlite3_bind_text(stmt, 2, password.c_str(), password.length(), nullptr);
+
+	userCallBack(stmt);
 	return !users.empty();
 }
 
 void SqliteDataBase::addNewUser(std::string username, std::string password, std::string email)
 {
-	sendSQLStatment("insert into users values('"+ username + "','" + password + "','" + email + "');", nullptr,nullptr);
+	sqlite3_stmt* stmt = getStmt("insert into users values(?,?,?);");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	sqlite3_bind_text(stmt, 2, password.c_str(), password.length(), nullptr);
+	sqlite3_bind_text(stmt, 3, email.c_str(), email.length(), nullptr);
+	userCallBack(stmt);
 }

@@ -100,3 +100,26 @@ struct User
 	string password;
 	string email;
 };
+
+struct UserStatistics
+{
+	string username;
+	float avrageAnswerTime;
+	int numCorrectAnswers;
+	int numTotalAnswer;
+	int numOfPlayerGames;
+};
+
+//**************************** Question *******************************//
+
+struct Question
+{
+	string question;
+	string difficulty;
+	string firstAnswer;
+	string secondAnswer;
+	string thridAnswer;
+	string fourthAnswer;
+	string correctAnswer;
+	int correctAnswerIndex;
+};

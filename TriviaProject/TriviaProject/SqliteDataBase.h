@@ -10,7 +10,7 @@ private:
 	SqliteDataBase();  // no one else can create one
 	~SqliteDataBase();
 	sqlite3* db;//The database
-	std::queue<User> users;//Vector to hold users
+	std::queue<User> users;//Queue to hold users
 
 	/*
 	* Function that sends the sql statment instead
@@ -41,12 +41,22 @@ private:
 	* from the database
 	*/
 	void userCallBack(sqlite3_stmt* stmt);
+
+	UserStatistics userStatisticsCallBack(sqlite3_stmt* stmt);
+
+	sqlite3_stmt* getUserStatisticsStmt(std::string username);
 public:
 	static IDatabase* get_instance();
 	static void reset_instance();
 	 bool doesUserExist(std::string username) override;
 	 bool doesPasswordMatch(std::string password, std::string username)  override;
 	 void addNewUser(std::string username, std::string password, std::string email)  override;
+
+	 virtual std::list<Question> getQuestions();
+	 virtual float getPlayerAverageAnswerTime(std::string username);
+	 virtual int getNumOfCorrectAnswer(std::string username);
+	 virtual int getNumOfTotalAnswers(std::string username);
+	 virtual int getNumOfPlayerGames(std::string username);
 
 };
 

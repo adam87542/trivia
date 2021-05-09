@@ -41,7 +41,8 @@ void SqliteDataBase::openDataBase()
 	if (res != SQLITE_OK)
 		throw std::exception("Couldn't Open DataBase");
 	if (doesFileExist == DOES_NOT_EXSIT)//If its the first time creating the database, establish the new base
-		sendSQLStatment("CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);", nullptr, nullptr);
+		sendSQLStatment("CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);create table questions(question text not null,difficulty text not null,answer1 text not null,answer2 text not null, answer3 text not null, answer4 text not null, correcrtAnswer text not null, correctIndex int not null);", nullptr, nullptr);
+
 }
 
 void SqliteDataBase::userCallBack(sqlite3_stmt* stmt)

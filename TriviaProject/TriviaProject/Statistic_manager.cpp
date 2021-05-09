@@ -2,17 +2,27 @@
 
 IDatabase* StatisticManager::m_database = SqliteDataBase::get_instance();
 
-vector<string> StatisticManager::getStatistics()
+std::map<string, int> StatisticManager::getHighScore(Room room)
 {
-	return vector<string>();
+	UserStatistics user_statistic;
+
+	std::map<string, int> HighScores;
+	vector<string> users = room.getAllUsers();
+	for (const auto user : users)
+	{  
+		user_statistic = getUserStatistics(user);
+		float score = user_statistic.numCorrectAnswers / user_statistic.avrageAnswerTime;
+		HighScores.insert(std::pair<string, int>(user, score));
+	}
+	return HighScores;
 }
 
-vector<string> StatisticManager::getHighScore()
+UserStatistics StatisticManager::getUserStatistics(string username)
 {
-	return vector<string>();
-}
-
-vector<string> StatisticManager::getUserStatistics(string username)
-{
-	return vector<string>();
+	UserStatistics user_statistic;
+	user_statistic.numCorrectAnswers = m_database->getNumOfCorrectAnswer(username);
+	user_statistic.avrageAnswerTime = m_database->getPlayerAverageAnswerTime(username);
+	user_statistic.numOfPlayerGames = m_database->getNumOfPlayerGames(username);
+	user_statistic.numTotalAnswer = m_database->getNumOfTotalAnswers(username);
+	return user_statistic;
 }

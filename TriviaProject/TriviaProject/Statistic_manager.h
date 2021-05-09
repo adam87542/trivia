@@ -1,7 +1,9 @@
 #pragma once
 #include "IDatabase.h"
 #include "SqliteDataBase.h"
+#include "RoomManager.h"
 #include <vector>
+#include <map>
 #include <iostream>
 using std::vector;
 using std::string;
@@ -11,10 +13,9 @@ using std::string;
 class StatisticManager
 {
 public:
-	 vector<string> getStatistics();
+	std::map<string , int> getHighScore(Room room);
+	UserStatistics getUserStatistics(string username);
 
 private:
 	static  IDatabase* m_database;
-	vector<string> getHighScore();
-	vector<string> getUserStatistics(string username);
 };

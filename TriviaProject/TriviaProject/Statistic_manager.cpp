@@ -2,10 +2,15 @@
 
 IDatabase* StatisticManager::m_database = SqliteDataBase::get_instance();
 
-std::map<string, int> StatisticManager::getHighScore(Room room)
+bool sortByVal(const std::pair<string, int>& a, const std::pair<string, int>& b)
+{
+	return (a.second < b.second);
+}
+
+
+vector<std::pair<string, int>> StatisticManager::getHighScore(Room room)
 {
 	UserStatistics user_statistic;
-
 	std::map<string, int> HighScores;
 	vector<string> users = room.getAllUsers();
 	for (const auto user : users)
@@ -14,7 +19,17 @@ std::map<string, int> StatisticManager::getHighScore(Room room)
 		float score = user_statistic.numCorrectAnswers / user_statistic.avrageAnswerTime;
 		HighScores.insert(std::pair<string, int>(user, score));
 	}
-	return HighScores;
+
+	vector<std::pair<string, int>> High_score_vec;
+	std::map<string, int> :: iterator iter;
+	for (iter = HighScores.begin(); iter != HighScores.end(); iter++)
+	{
+		High_score_vec.push_back(make_pair(iter->first, iter->second));
+	}
+	std::sort(High_score_vec.begin(), High_score_vec.end(), sortByVal);
+
+
+	return High_score_vec;
 }
 
 UserStatistics StatisticManager::getUserStatistics(string username)

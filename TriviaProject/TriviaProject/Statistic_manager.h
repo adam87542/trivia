@@ -1,10 +1,8 @@
 #pragma once
 #include "IDatabase.h"
 #include "SqliteDataBase.h"
-#include "RoomManager.h"
-#include <vector>
+#include "Room.h"
 #include <map>
-#include <iostream>
 using std::vector;
 using std::string;
 
@@ -13,7 +11,7 @@ using std::string;
 class StatisticManager
 {
 public:
-	std::map<string , int> getHighScore(Room room);
+	vector<std::pair<string, int>> getHighScore(Room room);
 	UserStatistics getUserStatistics(string username);
 
 private:

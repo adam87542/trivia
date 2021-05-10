@@ -1,12 +1,28 @@
 #include "Statistic_manager.h"
 
 IDatabase* StatisticManager::m_database = SqliteDataBase::get_instance();
+StatisticManager* StatisticManager::m_ptr = StatisticManager::get_instance();
 
 bool sortByVal(const std::pair<string, int>& a, const std::pair<string, int>& b)
 {
 	return (a.second < b.second);
 }
 
+
+StatisticManager* StatisticManager::get_instance()
+{
+	if (!m_ptr)
+	{
+		m_ptr = new StatisticManager;
+	}
+	return m_ptr;
+}
+
+void StatisticManager::reset_instance()
+{
+	delete  m_ptr;
+	m_ptr = nullptr;
+}
 
 vector<std::pair<string, int>> StatisticManager::getHighScore(Room room)
 {

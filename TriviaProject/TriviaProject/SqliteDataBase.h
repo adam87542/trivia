@@ -7,6 +7,10 @@ class SqliteDataBase : public IDatabase
 {
 private:
 	static  SqliteDataBase* m_ptr;
+	/*
+* Function that creates a database if it doesn't exist
+* and opens it if it exists
+*/
 	SqliteDataBase();  // no one else can create one
 	~SqliteDataBase();
 	sqlite3* db;//The database
@@ -29,12 +33,6 @@ private:
 	*/
 	sqlite3_stmt* getStmt(std::string statment);
 	
-	/*
-	* Function that creates a database if it doesn't exist
-	* and opens it if it exists
-	*/
-	void openDataBase();
-
 	/*
 	* User callback used to retrive
 	* the information after selecting it 

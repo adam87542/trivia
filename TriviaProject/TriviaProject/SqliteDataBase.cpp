@@ -11,10 +11,6 @@ SqliteDataBase::~SqliteDataBase()
 	delete db;
 	db = nullptr;
 }
-SqliteDataBase::SqliteDataBase()
-{
-	openDataBase();
-}
 
 void SqliteDataBase::sendSQLStatment(std::string statement, int(*callBack)(void*, int, char**, char**), std::queue<User>* userQueue)
 {
@@ -31,7 +27,7 @@ sqlite3_stmt* SqliteDataBase::getStmt(std::string statment)
 	return stmt;
 }
 
-void SqliteDataBase::openDataBase()
+SqliteDataBase::SqliteDataBase()
 {
 	std::string dbFileName = "Trivia.sqlite";
 	int doesFileExist = _access(dbFileName.c_str(), 0);

@@ -1,5 +1,7 @@
 #include "RoomManager.h"
 
+
+RoomManager* RoomManager::m_ptr = RoomManager::get_instance();
 RoomManager* RoomManager::get_instance()
 {
 	if (!m_ptr)

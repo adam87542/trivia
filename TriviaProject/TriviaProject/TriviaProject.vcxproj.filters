@@ -63,7 +63,11 @@
     <ClInclude Include="MenuRequestHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="RequestHandlerFactory.h">
+=======
+    <ClInclude Include="Statistic_manager.h">
+>>>>>>> feature/StatisticManager
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +120,11 @@
     <ClCompile Include="IDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="RequestHandlerFactory.cpp">
+=======
+    <ClCompile Include="Statistic_manager.cpp">
+>>>>>>> feature/StatisticManager
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

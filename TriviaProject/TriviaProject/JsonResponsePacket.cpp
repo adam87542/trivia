@@ -157,7 +157,6 @@ void JsonRequestPacketDeserializer::reset_instance()
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(unsigned char* buffer)
 {
 	LoginRequest login;
-
 	json data = deseralizingMsg(buffer);
 
 	login.password = data[PASSWORD]; // getting password
@@ -170,7 +169,6 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(unsigned cha
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(unsigned char* buffer)
 {
 	SignupRequest sign_up;
-
 	json data = deseralizingMsg(buffer);
 
 	sign_up.password = data[PASSWORD]; // getting password
@@ -178,6 +176,39 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(unsigned c
 	sign_up.email = data[EMAIL]; // getting email
 
 	return sign_up;
+}
+
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(unsigned char* buffer)
+{
+	GetPlayersInRoomRequest request;
+	json data = deseralizingMsg(buffer);
+
+	request.roomId = data[ID];
+
+	return request;
+}
+
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(unsigned char* buffer)
+{
+	JoinRoomRequest request;
+	json data = deseralizingMsg(buffer);
+
+	request.roomId = data[ID];
+
+	return request;
+}
+
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(unsigned char* buffer)
+{
+	CreateRoomRequest request;
+	json data = deseralizingMsg(buffer);
+
+	request.roomName = data[NAME];
+	request.maxUsers = data[MAX_USERS];
+	request.questionCount = data[NUM_Q];
+	request.answerTimeOut = data[ANSWER_TIME];
+
+	return request;
 }
 
 json JsonRequestPacketDeserializer::deseralizingMsg(unsigned char* buffer)

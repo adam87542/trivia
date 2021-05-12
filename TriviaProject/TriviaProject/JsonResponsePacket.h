@@ -16,6 +16,11 @@ enum codes {ERR_CODE = 0, SUCCESS = 1, LOGIN_CODE, SIGNUP_CODE, LOGOUT_CODE,
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
+#define ID "id"
+#define NAME "name" 
+#define MAX_USERS "maxUsers"
+#define NUM_Q "numOfQuestions"
+#define ANSWER_TIME "answerTime"
 #define STATUS "status"
 #define ERROR "error"
 #define ROOMS "rooms"
@@ -63,8 +68,10 @@ public:
 	static JsonRequestPacketDeserializer* get_instance();
 	static void reset_instance();
 	static LoginRequest deserializeLoginRequest(unsigned char* buffer);
-
 	static SignupRequest deserializeSignupRequest(unsigned char* buffer);
+	static GetPlayersInRoomRequest deserializeGetPlayersRequest(unsigned char* buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(unsigned char* buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(unsigned char* buffer);
 
 private:
 	static  JsonRequestPacketDeserializer* m_ptr;

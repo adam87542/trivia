@@ -23,7 +23,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
     {
         ErrorResponse response;
         response.message = "Bad request...";
-        myResult.response = JsonResponsePacketSerializer::serializeErrorResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
         myResult.newhandler = nullptr;
     }
     return myResult;
@@ -43,14 +43,14 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     {
         success = false;
         response.status = ERR_CODE;
-        myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
         myResult.newhandler = nullptr;
     }
     if (success)
     {
-        myResult.newhandler = new MenuRequestHandler;
+        myResult.newhandler = new MenuRequestHandler(myRequest.username);
         response.status = SUCCESS;
-        myResult.response = JsonResponsePacketSerializer::serializeLoginResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }
     return myResult;
 }
@@ -69,14 +69,14 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     {
         success = false;
         response.status = ERR_CODE;
-        myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
         myResult.newhandler = nullptr;
     }
     if (success)
     {
-        myResult.newhandler = new MenuRequestHandler;
+        myResult.newhandler = new MenuRequestHandler(myRequest.username);
         response.status = SUCCESS;
-        myResult.response = JsonResponsePacketSerializer::serializeSignUpResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }
     return myResult;
 }

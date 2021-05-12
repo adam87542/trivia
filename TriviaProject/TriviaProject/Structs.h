@@ -33,13 +33,15 @@ struct  ErrorResponse
 {
 	string message;
 };
+
 struct LogoutResponse
 {
 	unsigned int status;
 };
+
 struct GetRoomsResponse
 {
-	unsigned int status;
+	//unsigned int status;
 	std::vector<RoomData> rooms;
 };
 
@@ -47,19 +49,23 @@ struct GetPlayersInRoomResponse
 {
 	std::vector<string> players;
 };
-struct getHighScoreResponse
+
+struct GetHighScoreResponse
 {
 	unsigned int status;
 	std::vector<string> statistics;
 };
-struct getPersonalStatsResponse
+
+struct GetPersonalStatsResponse
 {
 	unsigned int status;
 };
+
 struct JoinRoomResponse
 {
 	unsigned int status;
 };
+
 struct CreateRoomResponse
 {
 	unsigned int status;

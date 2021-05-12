@@ -5,10 +5,11 @@
 class MenuRequestHandler : public IRequestHandler
 {
 public:
+	MenuRequestHandler(string username);
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 private:
-	LoggedUser m_user;
+	LoggedUser* m_user;
 	RequestResult signout(RequestInfo info);
 	RequestResult getRooms(RequestInfo info);
 	RequestResult getPlayersInRoom(RequestInfo);

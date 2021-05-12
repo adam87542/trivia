@@ -7,26 +7,38 @@
 using std::string;
 
 using json = nlohmann::json;
+
+enum codes {ERR_CODE = 0, SUCCESS = 1, LOGIN_CODE, SIGNUP_CODE, LOGOUT_CODE, 
+	GET_ROOMS_CODE, GET_PLAYERS_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE, GET_HIGH_SCORES};
+
 #define LENGTH_BYTES 4
 #define BUFFER_START_LEN 5
-#define LOGIN_CODE 2
-#define SIGNUP_CODE 3
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
 #define STATUS "status"
-#define SUCCESS 1
-#define ERR_CODE 0
+#define ERROR "error"
+#define ROOMS "rooms"
+#define PLAYERS_IN_ROOM "PlayersInRoom"
+#define USER_STATISTICS "UserStatistics"
+#define HIGH_SCORES "HighScores"
+#define COMMA ","
 
 static class JsonResponsePacketSerializer
 {
 public:
 	static JsonResponsePacketSerializer* get_instance();
 	static void reset_instance();
-	static unsigned char* serializeLoginResponse(LoginResponse response);
-	static unsigned char* serializeSignUpResponse(SignUpResponse response);
-	static unsigned char* serializeErrorResponse(ErrorResponse response);
-	static unsigned char* serializeLogoutResponse(LogoutResponse respone);
+	static unsigned char* serializeResponse(LoginResponse response);
+	static unsigned char* serializeResponse(SignUpResponse response);
+	static unsigned char* serializeResponse(ErrorResponse response);
+	static unsigned char* serializeResponse(LogoutResponse response);
+	static unsigned char* serializeResponse(GetRoomsResponse response);
+	static unsigned char* serializeResponse(GetPlayersInRoomResponse response);
+	static unsigned char* serializeResponse(JoinRoomResponse response);
+	static unsigned char* serializeResponse(CreateRoomResponse response);
+	static unsigned char* serializeResponse(GetHighScoreResponse response);
+
 private:
 	static  JsonResponsePacketSerializer* m_ptr;
 	JsonResponsePacketSerializer() = default;
@@ -41,7 +53,7 @@ private:
 	* input: response code
 	* output: string msg
 	*/
-	static string creatingResponseData(int respone_code);
+	static string creatingStatusResponse(int respone_code);
 };
 
 

@@ -1,5 +1,10 @@
 #include "MenuRequestHandler.h"
 
+MenuRequestHandler::MenuRequestHandler(string username)
+{
+	this->m_user = new LoggedUser(username);
+}
+
 bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 {
 	return false;

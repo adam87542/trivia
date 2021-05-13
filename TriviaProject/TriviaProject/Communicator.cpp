@@ -41,6 +41,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		catch (const std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
+			delete res.newhandler;
 			break;
 		}
 	}

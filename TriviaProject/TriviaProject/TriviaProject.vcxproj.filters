@@ -19,6 +19,8 @@
     <ClCompile Include="SqliteDataBase.cpp" />
     <ClCompile Include="Statistic_manager.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />
+    <ClCompile Include="RoomAdminRequestHandler.cpp" />
+    <ClCompile Include="RoomMemberRequestHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />

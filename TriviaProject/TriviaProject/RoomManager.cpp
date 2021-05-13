@@ -17,6 +17,26 @@ void RoomManager::reset_instance()
 	m_ptr = nullptr;
 }
 
+std::vector<string> RoomManager::getPlayersInRoom(int room_id)
+{
+	return this->m_rooms[room_id].getAllUsers();
+}
+
+void RoomManager::addPlayerToRoom(int room_id , string username)
+{
+	this->m_rooms[room_id].addUser(LoggedUser(username));
+}
+
+Room RoomManager::GetRoomPlayerIsOn(string usrename)
+{
+	for (auto room : m_rooms)
+	{
+		if (std::find(room.getAllUsers().begin(), room.getAllUsers().end(), usrename) != room.getAllUsers().end())
+			return room;
+	}
+	throw std::exception("This user isnt in a room...");
+}
+
 void RoomManager::createRoom(LoggedUser user, RoomData data)
 {
 	Room room(data);

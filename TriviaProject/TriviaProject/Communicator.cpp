@@ -1,5 +1,4 @@
 #include "Communicator.h"
-
 #define PORT 25667
 #define CODE_LENGTH 1
 #define MSG_LENGTH 4
@@ -27,21 +26,20 @@ void Communicator::bindAndListen()
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	RequestInfo recived;
-	LoginRequestHandler log;
 	RequestResult res;
-	Helper::sendData(clientSocket, "Hello");
+	res.response = (unsigned char*)"Hello";
+	res.newhandler = RequestHandlerFactory::createLoginRequestHandler();
+	Helper::sendData(clientSocket, std::string((char*)res.response));
 	while (true)
 	{
 		try
 		{
-			//getting all msg
-			recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE_LENGTH);
-			int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
-			recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
+			recived = getMsgFromClient(clientSocket);
+			res = PraseData(recived , res);
+			Helper::sendData(clientSocket, std::string((char*)res.response));
 
-			if (!log.isRequestRelevant(recived))
-				recived.requestId = ERR_CODE;
-			res = log.handleRequest(recived);
+			recived = getMsgFromClient(clientSocket);
+			res = PraseData(recived , res);
 			Helper::sendData(clientSocket, std::string((char*)res.response));
 		}
 		catch (const std::exception& e)
@@ -50,6 +48,24 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			break;
 		}
 	}
+}
+
+RequestInfo Communicator::getMsgFromClient(SOCKET clientSocket)
+{
+	RequestInfo recived;
+	//getting all msg
+	recived.requestId = Helper::getIntPartFromSocket(clientSocket, CODE_LENGTH);
+	int length = Helper::getIntPartFromSocket(clientSocket, MSG_LENGTH);
+	recived.buffer = (unsigned char*)Helper::getPartFromSocket(clientSocket, length);
+	return recived;
+}
+
+RequestResult Communicator::PraseData(RequestInfo recived , RequestResult res)
+{
+	if (!res.newhandler->isRequestRelevant(recived))
+		recived.requestId = ERR_CODE;
+	res = res.newhandler->handleRequest(recived);
+	return res;
 }
 
 Communicator::Communicator()

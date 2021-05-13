@@ -44,7 +44,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
         success = false;
         response.status = ERR_CODE;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-        myResult.newhandler = nullptr;
+        myResult.newhandler = RequestHandlerFactory::createLoginRequestHandler();
     }
     if (success)
     {
@@ -69,8 +69,8 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     {
         success = false;
         response.status = ERR_CODE;
+        myResult.newhandler = RequestHandlerFactory::createLoginRequestHandler();
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-        myResult.newhandler = nullptr;
     }
     if (success)
     {

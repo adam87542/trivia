@@ -41,7 +41,7 @@ struct LogoutResponse
 
 struct GetRoomsResponse
 {
-	//unsigned int status;
+	unsigned int status;
 	std::vector<RoomData> rooms;
 };
 

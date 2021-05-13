@@ -1,6 +1,7 @@
 #pragma once
 #include "IRequestHandler.h"
 #include "LoggedUser.h"
+#include "JsonResponsePacket.h"
 
 class MenuRequestHandler : public IRequestHandler
 {
@@ -10,7 +11,7 @@ public:
 	RequestResult handleRequest(RequestInfo info) override;
 private:
 	LoggedUser* m_user;
-	RequestResult signout(RequestInfo info);
+	RequestResult logout(RequestInfo info);
 	RequestResult getRooms(RequestInfo info);
 	RequestResult getPlayersInRoom(RequestInfo);
 	RequestResult getPersonalStats(RequestInfo info);

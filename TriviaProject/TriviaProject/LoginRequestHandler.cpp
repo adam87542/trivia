@@ -19,10 +19,10 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
     {
         myResult = signup(info);
     }
-    else if(info.requestId == ERR_CODE)
+    else 
     {
         ErrorResponse response;
-        response.message = "Bad request...";
+        response.message = ERROR;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
         myResult.newhandler = nullptr;
     }

@@ -37,10 +37,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			recived = getMsgFromClient(clientSocket);
 			res = PraseData(recived , res);
 			Helper::sendData(clientSocket, std::string((char*)res.response));
-
-			recived = getMsgFromClient(clientSocket);
-			res = PraseData(recived , res);
-			Helper::sendData(clientSocket, std::string((char*)res.response));
 		}
 		catch (const std::exception& e)
 		{

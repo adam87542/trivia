@@ -31,5 +31,10 @@ namespace Kahool
 			if (e.ChangedButton == MouseButton.Left)
 				this.DragMove();
 		}
-	}
+
+        private void OnSendClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }

@@ -64,7 +64,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Button x:Name="Login_Button" HorizontalAlignment="Left" Margin="35,414,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="23" Width="101" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="Send_button" HorizontalAlignment="Left" Margin="35,414,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="23" Width="101" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Click="OnSendClick">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -95,8 +95,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox  x:Name="PasswordBox_Copy" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="0,351,0,0" Grid.Column="1"/>
-        <Label Content="Confirm password"  FontFamily="Resources/Fonts/#QuickSand.ttf"  FontSize="17" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Margin="131,349,0,0" Width="159" Background="#FFC9ADA7" VerticalAlignment="Top" Grid.Row="1">
+        <TextBox  x:Name="ConfimPasswordBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="0,351,0,0" Grid.Column="1"/>
+        <Label Name ="ConfirmPassword" Content="Confirm password"  FontFamily="Resources/Fonts/#QuickSand.ttf"  FontSize="17" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Margin="131,349,0,0" Width="159" Background="#FFC9ADA7" VerticalAlignment="Top" Grid.Row="1">
 
             <Label.RenderTransform>
                 <TransformGroup>

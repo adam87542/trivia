@@ -3,10 +3,28 @@
 RequestHandlerFactory* RequestHandlerFactory::m_ptr = nullptr;
 
 
-LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
+LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 {
-	LoginRequestHandler* login_request_handler = new LoginRequestHandler;
-	return *login_request_handler;
+	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler;
+	return loginRequestHandler;
+}
+
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string username)
+{
+	MenuRequestHandler* menuRequestHandler = new MenuRequestHandler(username);
+	return menuRequestHandler;
+}
+
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler()
+{
+	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler;
+	return roomAdminRequestHandler;
+}
+
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler()
+{
+	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler;
+	return roomMemberRequestHandler;
 }
 
 RequestHandlerFactory* RequestHandlerFactory::get_instance()

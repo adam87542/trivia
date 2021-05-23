@@ -13,6 +13,9 @@ private:
 public:
 	static RoomManager* get_instance();
 	static void reset_instance();
+	std::vector<string> getPlayersInRoom(int room_id);
+	void addPlayerToRoom(int room_id , string username);
+	Room GetRoomPlayerIsOn(string usrename);
 	void createRoom(LoggedUser user, RoomData data);
 	void deleteRoom(int id);
 	unsigned int getRoomState(int id);

@@ -1,6 +1,6 @@
 #include "LoginRequestHandler.h"
-#include "MenuRequestHandler.h"
 #include "JsonResponsePacket.h"
+#include "RequestHandlerFactory.h"
 
 LoginManager* LoginRequestHandler::m_loginManager =  m_loginManager->get_instance();
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
@@ -44,11 +44,11 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
         success = false;
         response.status = ERR_CODE;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-        myResult.newhandler = nullptr;
+        myResult.newhandler = RequestHandlerFactory::createLoginRequestHandler();
     }
     if (success)
     {
-        myResult.newhandler = new MenuRequestHandler(myRequest.username);
+        myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(myRequest.username);
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }
@@ -69,12 +69,12 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     {
         success = false;
         response.status = ERR_CODE;
+        myResult.newhandler = RequestHandlerFactory::createLoginRequestHandler();
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-        myResult.newhandler = nullptr;
     }
     if (success)
     {
-        myResult.newhandler = new MenuRequestHandler(myRequest.username);
+        myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(myRequest.username);
         response.status = SUCCESS;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }

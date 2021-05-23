@@ -2,8 +2,8 @@
 #include "LoginManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
-#include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
 
 class RequestHandlerFactory
 {

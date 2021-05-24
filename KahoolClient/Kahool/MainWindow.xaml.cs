@@ -28,7 +28,7 @@ namespace Kahool
 		public void Signup_Click(object sender, RoutedEventArgs e)
 		{
 			App.Current.MainWindow.Hide();
-			Window1 wnd = new Window1();
+			SignUpWindow wnd = new SignUpWindow();
 			wnd.ShowDialog();
 		}
 

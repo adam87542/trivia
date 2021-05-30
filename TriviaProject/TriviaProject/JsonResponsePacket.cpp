@@ -71,21 +71,8 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
 {
 	json j;
-	string allPlayers = "";
 
-	for (int i = 0; i < response.players.size(); i++) // creating string with all players
-	{
-		if (i != response.players.size() - 1)
-		{
-			allPlayers += response.players[i] + COMMA;
-		}
-		else
-		{
-			allPlayers += response.players[i];
-		}
-	}
-
-	j[PLAYERS_IN_ROOM] = allPlayers;
+	j[PLAYERS_IN_ROOM] = getAllPlayers(response.players);
 
 	return seralizingMsg(GET_PLAYERS_CODE, j.dump());
 }
@@ -113,6 +100,39 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreRespo
 	return seralizingMsg(GET_HIGH_SCORES, j.dump());
 }
 
+unsigned char* JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+	string msg = creatingStatusResponse(response.status);
+
+	return seralizingMsg(CLOSE_ROOM_CODE, msg);
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+	string msg = creatingStatusResponse(response.status);
+
+	return seralizingMsg(START_GAME_CODE, msg);
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+	json j;
+	j[STATUS] = response.status;
+	j[GAME_BEGUN] = response.hasGameBegun;
+	j[PLAYERS_IN_ROOM] = getAllPlayers(response.players);
+	j[NUM_Q] = response.questionCount;
+	j[ANSWER_TIME] = response.answerTimeOut;
+
+	return seralizingMsg(STATE_ROOM_CODE, j.dump());
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+	string msg = creatingStatusResponse(response.status);
+
+	return seralizingMsg(LEAVE_ROOM_CODE, msg);
+}
+
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
 {
 	unsigned char* buffer = new unsigned char[msg.length() + BUFFER_START_LEN + 1];
@@ -138,6 +158,25 @@ string JsonResponsePacketSerializer::creatingStatusResponse(int respone_code)
 	data[STATUS] = respone_code;
 	string msg = data.dump();
 	return msg;
+}
+
+string JsonResponsePacketSerializer::getAllPlayers(std::vector<string> players)
+{
+	string allPlayers = "";
+
+	for (int i = 0; i < players.size(); i++) // creating string with all players
+	{
+		if (i != players.size() - 1)
+		{
+			allPlayers += players[i] + COMMA;
+		}
+		else
+		{
+			allPlayers += players[i];
+		}
+	}
+
+	return allPlayers;
 }
 //**************************** Deserialize *********************************//
 

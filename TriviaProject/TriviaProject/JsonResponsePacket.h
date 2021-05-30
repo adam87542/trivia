@@ -9,7 +9,8 @@ using std::string;
 using json = nlohmann::json;
 
 enum codes {ERR_CODE = 0, SUCCESS = 1, LOGIN_CODE, SIGNUP_CODE, LOGOUT_CODE, 
-	GET_ROOMS_CODE, GET_PLAYERS_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE, GET_HIGH_SCORES};
+	GET_ROOMS_CODE, GET_PLAYERS_CODE, JOIN_ROOM_CODE, CREATE_ROOM_CODE, GET_HIGH_SCORES,
+	CLOSE_ROOM_CODE, START_GAME_CODE, STATE_ROOM_CODE, LEAVE_ROOM_CODE};
 
 #define LENGTH_BYTES 4
 #define BUFFER_START_LEN 5
@@ -24,6 +25,7 @@ enum codes {ERR_CODE = 0, SUCCESS = 1, LOGIN_CODE, SIGNUP_CODE, LOGOUT_CODE,
 #define STATUS "status"
 #define ERROR "error"
 #define ROOMS "rooms"
+#define GAME_BEGUN "GameBegun"
 #define PLAYERS_IN_ROOM "PlayersInRoom"
 #define USER_STATISTICS "UserStatistics"
 #define HIGH_SCORES "HighScores"
@@ -43,9 +45,13 @@ public:
 	static unsigned char* serializeResponse(JoinRoomResponse response);
 	static unsigned char* serializeResponse(CreateRoomResponse response);
 	static unsigned char* serializeResponse(GetHighScoreResponse response);
+	static unsigned char* serializeResponse(CloseRoomResponse response);
+	static unsigned char* serializeResponse(StartGameResponse response);
+	static unsigned char* serializeResponse(GetRoomStateResponse response);
+	static unsigned char* serializeResponse(LeaveRoomResponse response);
 
 private:
-	static  JsonResponsePacketSerializer* m_ptr;
+	static JsonResponsePacketSerializer* m_ptr;
 	JsonResponsePacketSerializer() = default;
 	/*
 	* Doing seralizing to msg we get
@@ -59,6 +65,12 @@ private:
 	* output: string msg
 	*/
 	static string creatingStatusResponse(int respone_code);
+	/*
+	* Function that doing a string with all players
+	* input: vector with all players.
+	* output: atring with all players.
+	*/
+	static string getAllPlayers(std::vector<string> players);
 };
 
 

@@ -22,9 +22,9 @@
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
+        <Rectangle Fill="#FF32324B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="40" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800" Margin="0,17,0,0"/>
         <TextBox HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="26" Grid.Row="1" Margin="26,130,0,0"/>
-
+        <Image  Source="Resources/Images/Kahool_Logo.png" HorizontalAlignment="Left" Height="30" Margin="26,22,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140"/>
 
         <Button x:Name="JoinRoomCode" HorizontalAlignment="Left" Margin="109,190,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Click="OnJoinRoomClick">
             <Button.Style>
@@ -49,9 +49,9 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Image  Source="Resources/Images/Kahool_Logo.png" HorizontalAlignment="Left" Height="48" Margin="10,24,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="196"/>
 
-        <Button  x:Name="CreateRoomButton"  HorizontalAlignment="Left" Margin="66,155,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Grid.Column="1" Click="OnCreateRoomClick">
+
+        <Button  x:Name="CreateRoomButton"  HorizontalAlignment="Center" Margin="0,332,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Grid.Column="1" Click="OnCreateRoomClick">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="TextElement.FontFamily" Value="Resources/Fonts/#QuickSand.ttf"/>
@@ -75,10 +75,44 @@
             </Button.Template>
         </Button>
 
-        <Rectangle Fill="#22223B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="19" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800"/>
-        <Button Name="EndRunningButton" Click="EndRunning"  FontSize="18" BorderThickness="0" Background="Transparent" Content="X" Foreground="White" Grid.Column="1"  Margin="377,-2,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="21" RenderTransformOrigin="0.49,0.333"/>
-        <Label Content="Enter Room Code:" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-        <Label Content="Create your own Room :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="305,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Rectangle Fill="#22223B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="17" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800"/>
+        <Button Name="EndRunningButton" Click="EndRunning"  FontSize="16" BorderThickness="0" Background="Transparent" Content="X" Foreground="White" Grid.Column="1"  Margin="377,-3,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="20" RenderTransformOrigin="0.49,0.333"/>
+        <Label Content="Enter Room Code :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+        <Label Content="Create your own Room :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="343,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button  x:Name="ProfileButton"  HorizontalAlignment="Left" Margin="278,43,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="19" Width="92" Grid.Column="1" Click="OnCreateRoomClick">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="TextElement.FontFamily" Value="Resources/Fonts/#QuickSand.ttf"/>
+                    <Setter Property="Background" Value="#C9AdA7"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#9A8C98"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate>
+                    <Border Height="25" CornerRadius="7" Background="{TemplateBinding Background}" Margin="-66,-30,-12,1" RenderTransformOrigin="0.5,0.5">
+                        <Label Content="Profile" FontFamily="Resources/Fonts/#QuickSand.ttf"  FontSize="14" FontWeight="Medium" Foreground="White" HorizontalAlignment="Center" Width="55"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="26" Grid.Row="1" Margin="56,130,0,0" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.075"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+
 
 
     </Grid>

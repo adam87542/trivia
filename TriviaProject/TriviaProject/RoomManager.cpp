@@ -37,11 +37,12 @@ Room RoomManager::GetRoomPlayerIsOn(string usrename)
 	throw std::exception("This user isnt in a room...");
 }
 
-void RoomManager::createRoom(LoggedUser user, RoomData data)
+Room RoomManager::createRoom(LoggedUser user, RoomData data)
 {
 	Room room(data);
 	room.addUser(user);
 	this->m_rooms.push_back(room);
+	return room;
 }
 
 void RoomManager::deleteRoom(int id)

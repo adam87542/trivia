@@ -15,9 +15,9 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 	return menuRequestHandler;
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler()
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(string username, Room UserRoom)
 {
-	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler;
+	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username , UserRoom);
 	return roomAdminRequestHandler;
 }
 

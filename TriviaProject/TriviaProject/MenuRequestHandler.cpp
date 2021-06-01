@@ -109,9 +109,9 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	JoinRoomResponse respone;
 	JoinRoomRequest  myRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
 	respone.status = SUCCESS_CODE;
-	m_roomManager->addPlayerToRoom(myRequest.roomId,m_user->getUsername());
+	Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId,m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler();
+	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername() , userRoomToJoin);
 	return myResult;
 
 }

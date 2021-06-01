@@ -21,9 +21,9 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(st
 	return roomAdminRequestHandler;
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler()
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(string username, Room UserRoom)
 {
-	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler;
+	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, UserRoom);
 	return roomMemberRequestHandler;
 }
 

@@ -22,9 +22,10 @@ std::vector<string> RoomManager::getPlayersInRoom(int room_id)
 	return this->m_rooms[room_id].getAllUsers();
 }
 
-void RoomManager::addPlayerToRoom(int room_id , string username)
+Room RoomManager::addPlayerToRoom(int room_id , string username)
 {
 	this->m_rooms[room_id].addUser(LoggedUser(username));
+	return this->m_rooms[room_id];
 }
 
 Room RoomManager::GetRoomPlayerIsOn(string usrename)

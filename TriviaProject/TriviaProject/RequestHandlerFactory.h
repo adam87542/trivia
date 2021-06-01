@@ -12,7 +12,7 @@ public:
 	static LoginRequestHandler* createLoginRequestHandler();
 	static MenuRequestHandler* createMenuRequestHandler(string username);
 	static RoomAdminRequestHandler* createRoomAdminRequestHandler(string username, Room UserRoom);
-	static RoomMemberRequestHandler* createRoomMemberRequestHandler();
+	static RoomMemberRequestHandler* createRoomMemberRequestHandler(string username, Room UserRoom);
 private:
 	static  RequestHandlerFactory* m_ptr;
 	RequestHandlerFactory() = default;

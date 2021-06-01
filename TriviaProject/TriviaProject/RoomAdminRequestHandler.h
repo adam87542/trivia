@@ -1,8 +1,5 @@
 #pragma once
-#include "IRequestHandler.h"
-#include "LoggedUser.h"
-#include "JsonResponsePacket.h"
-#include "RoomManager.h"
+#include "RoomMemberRequestHandler.h"
 
 class RoomAdminRequestHandler : public IRequestHandler
 {
@@ -15,6 +12,7 @@ private:
 	LoggedUser* m_user;
 	static RoomManager* m_roomManager;
 	RequestResult CloseRoom();
-	RequestResult StartGame();
-	RequestResult GetRoomState();
+	static RequestResult StartGame();
+	static RequestResult GetRoomState();
+	friend class RoomMemberRequestHandler;
 };

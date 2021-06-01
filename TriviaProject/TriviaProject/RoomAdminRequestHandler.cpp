@@ -43,6 +43,7 @@ RequestResult RoomAdminRequestHandler::CloseRoom()
 	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
+	m_roomManager->deleteRoom(m_room->getData().id);
 	return myResult;
 }
 

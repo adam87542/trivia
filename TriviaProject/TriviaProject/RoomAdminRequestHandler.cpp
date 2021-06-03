@@ -24,9 +24,11 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case  START_GAME_CODE:
 		myResult = StartGame();
+		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 		break;
 	case STATE_ROOM_CODE:
 		myResult = GetRoomState();
+		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -42,7 +44,6 @@ RequestResult RoomAdminRequestHandler::CloseRoom()
 	CloseRoomResponse response;
 	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 	m_roomManager->deleteRoom(m_room->getData().id);
 	return myResult;
 }

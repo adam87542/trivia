@@ -26,6 +26,7 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case STATE_ROOM_CODE:
 		myResult = GetRoomState();
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -50,6 +51,7 @@ RequestResult RoomMemberRequestHandler::LeaveGame()
 	RequestResult myResult;
 	LeaveRoomResponse response;
 	response.status = SUCCESS_CODE;
+	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	m_room->removeUser(*m_user);
 	return myResult;

@@ -8,22 +8,34 @@ namespace Kahool
 	{
 		private static string[] getConfigContent()
 		{
-			return System.IO.File.ReadAllLines("config.txt");
+			string[] data = System.IO.File.ReadAllLines("config.txt");
+			if (data.Length < 3)
+				throw new Exception("Config Not Right");
+			return data;
 		}
 
 		public static string getConfigIP()
 		{
-			return getConfigContent()[0].Split("-")[1];
+			string ip = getConfigContent()[0];
+			if (!ip.Contains("-") && ip.Split("-").Length < 2)
+				throw new Exception("Config Not Right");
+			return ip.Split("-")[1];
 		}
 
-		public static string getConfigPort()
+		public static int getConfigPort()
 		{
-			return getConfigContent()[1].Split("-")[1];
+			string port = getConfigContent()[1];
+			if (!port.Contains("-") && port.Split("-").Length < 2 && !int.TryParse(port.Split("-")[1], out _))
+				throw new Exception("Config Not Right");
+			return Int32.Parse(port.Split("-")[1]);
 		}
 
 		public static string getConfigEncrypt()
 		{
-			return getConfigContent()[2].Split("-")[1];
+			string isEncrypt = getConfigContent()[2];
+			if (!isEncrypt.Contains("-") && isEncrypt.Split("-").Length < 2)
+				throw new Exception("Config Not Right");
+			return isEncrypt.Split("-")[1];
 		}
 	}
 }

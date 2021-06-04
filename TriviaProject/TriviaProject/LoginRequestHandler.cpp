@@ -5,17 +5,17 @@
 LoginManager* LoginRequestHandler::m_loginManager =  m_loginManager->get_instance();
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
-    return info.requestId == LOGIN_CODE || info.requestId == SIGNUP_CODE;
+    return info.requestId == LOGIN_REQUEST || info.requestId == SIGNUP_REQUEST;
 }
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
     RequestResult myResult;
-    if (info.requestId == LOGIN_CODE)
+    if (info.requestId == LOGIN_REQUEST)
     {
         myResult = login(info);
     }
-    else if(info.requestId == SIGNUP_CODE)
+    else if(info.requestId == SIGNUP_REQUEST)
     {
         myResult = signup(info);
     }

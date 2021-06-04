@@ -21,14 +21,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(LoginResponse res
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LOGIN_CODE, msg);
+	return seralizingMsg(LOGIN_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(SignUpResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(SIGNUP_CODE, msg);
+	return seralizingMsg(SIGNUP_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
@@ -43,7 +43,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(LogoutResponse re
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LOGOUT_CODE, msg);
+	return seralizingMsg(LOGOUT_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
@@ -65,7 +65,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse 
 
 	j[ROOMS] = allRooms;
 
-	return seralizingMsg(GET_ROOMS_CODE, j.dump());
+	return seralizingMsg(GET_ROOMS_RESPONE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
@@ -74,21 +74,21 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomR
 
 	j[PLAYERS_IN_ROOM] = getAllPlayers(response.players);
 
-	return seralizingMsg(GET_PLAYERS_CODE, j.dump());
+	return seralizingMsg(GET_PLAYERS_RESPONE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(JOIN_ROOM_CODE, msg);
+	return seralizingMsg(JOIN_ROOM_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(CREATE_ROOM_CODE, msg);
+	return seralizingMsg(CREATE_ROOM_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
@@ -97,21 +97,21 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreRespo
 	j[USER_STATISTICS] = response.statistics[0];
 	j[HIGH_SCORES] = response.statistics[1];
 
-	return seralizingMsg(GET_HIGH_SCORES, j.dump());
+	return seralizingMsg(GET_HIGH_SCORES_REQUEST, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(CLOSE_ROOM_CODE, msg);
+	return seralizingMsg(CLOSE_ROOM_REQUEST, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(START_GAME_CODE, msg);
+	return seralizingMsg(START_GAME_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
@@ -123,14 +123,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateRespo
 	j[NUM_Q] = response.questionCount;
 	j[ANSWER_TIME] = response.answerTimeOut;
 
-	return seralizingMsg(STATE_ROOM_CODE, j.dump());
+	return seralizingMsg(STATE_ROOM_RESPONE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LEAVE_ROOM_CODE, msg);
+	return seralizingMsg(LEAVE_ROOM_RESPONE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)

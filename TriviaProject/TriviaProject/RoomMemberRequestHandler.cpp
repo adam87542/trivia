@@ -9,7 +9,7 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room UserRoo
 }
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == LEAVE_ROOM_CODE || info.requestId == START_GAME_CODE || info.requestId == STATE_ROOM_CODE;
+	return info.requestId == LEAVE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST;
 }
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
@@ -18,13 +18,13 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 	int code = info.requestId;
 	switch (code)
 	{
-	case LEAVE_ROOM_CODE:
+	case LEAVE_ROOM_REQUEST:
 		myResult = LeaveGame();
 		break;
-	case  START_GAME_CODE:
+	case  START_GAME_REQUEST:
 		myResult = StartGame();
 		break;
-	case STATE_ROOM_CODE:
+	case STATE_ROOM_REQUEST:
 		myResult = GetRoomState();
 		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), *m_room);
 		break;

@@ -10,7 +10,7 @@ MenuRequestHandler::MenuRequestHandler(string username)
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return (info.requestId == LOGOUT_CODE || info.requestId == GET_ROOMS_CODE || info.requestId == GET_PLAYERS_CODE || info.requestId == JOIN_ROOM_CODE || info.requestId == CREATE_ROOM_CODE || info.requestId == GET_HIGH_SCORES);
+	return (info.requestId == LOGOUT_REQUEST|| info.requestId == GET_ROOMS_REQUEST || info.requestId == GET_PLAYERS_REQUEST || info.requestId == JOIN_ROOM_REQUEST || info.requestId == CREATE_ROOM_REQUEST || info.requestId == GET_HIGH_SCORES_REQUEST);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
@@ -19,22 +19,22 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	int code = info.requestId;
 	switch (code)
 	{
-	case LOGOUT_CODE:
+	case LOGOUT_REQUEST:
 		myResult = logout(info);
 		break;
-	case GET_ROOMS_CODE:
+	case GET_ROOMS_REQUEST:
 		myResult = getRooms(info);
 		break;
-	case GET_PLAYERS_CODE:
+	case GET_PLAYERS_REQUEST:
 		myResult = getPlayersInRoom(info);
 		break;
-	case GET_HIGH_SCORES:
+	case GET_HIGH_SCORES_REQUEST:
 		myResult = getHighScore(info);
 		break;
-	case JOIN_ROOM_CODE:
+	case JOIN_ROOM_REQUEST:
 		myResult = joinRoom(info);
 		break;
-	case CREATE_ROOM_CODE:
+	case CREATE_ROOM_REQUEST:
 		myResult = createRoom(info);
 		break;
 	default:

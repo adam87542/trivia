@@ -10,7 +10,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == CLOSE_ROOM_CODE || info.requestId == START_GAME_CODE || info.requestId == STATE_ROOM_CODE;
+	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
@@ -19,14 +19,14 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 	int code = info.requestId;
 	switch (code)
 	{
-	case CLOSE_ROOM_CODE:
+	case CLOSE_ROOM_REQUEST:
 		myResult = CloseRoom();
 		break;
-	case  START_GAME_CODE:
+	case  START_GAME_REQUEST:
 		myResult = StartGame();
 		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 		break;
-	case STATE_ROOM_CODE:
+	case STATE_ROOM_REQUEST:
 		myResult = GetRoomState();
 		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;

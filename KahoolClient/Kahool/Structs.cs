@@ -7,60 +7,69 @@ namespace Kahool
 	//**************************** Requests *********************************//
 	struct LoginRequest
 	{
-		string username;
-		string password;
+		public string username;
+		public string password;
 	};
 
 	struct SignupRequest
 	{
-		string username;
-		string password;
-		string email;
+		public string username;
+		public string password;
+		public string email;
 	};
 	struct JoinRoomRequest
 	{
-		uint roomId;
+		public uint roomId;
 	};
 
 	struct CreateRoomRequest
 	{
-		string roomName;
-		uint maxUsers;
-		uint questionCount;
-		uint answerTimeOut;
+		public string roomName;
+		public uint maxUsers;
+		public uint questionCount;
+		public uint answerTimeOut;
 	};
 	struct LogoutRequest
 	{
-		uint code;
+		public uint code;
 	};
 	struct GetStatisticsRequest
     {
-		uint code;
+		public uint code;
     };
 
 	//**************************** Responses  *********************************//
 	struct ResponeInfo
 	{
-		uint ResponetId;
-		List<Byte> buffer;
+		public uint ResponetId;
+		public List<Byte> buffer;
+	};
+	struct LoginResponse
+	{
+		public uint status;
+	};
+
+	struct SignUpResponse
+	{
+		public uint status;
 	};
 	struct GetHighScoreResponse
 	{
-		uint status;
-		List<string> statistics;
+		public uint status;
+		public List<string> statistics;
 	};
 
 	struct JoinRoomResponse
 	{
-		uint status;
+		public uint status;
 	};
 	struct CreateRoomResponse
 	{
-		uint status;
+		public uint status;
 	};
 	struct LogoutResponse
 	{
-		uint status;
+		public uint status;
 	};
 
 

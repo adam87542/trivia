@@ -15,8 +15,8 @@
 
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="399*"/>
-            <ColumnDefinition Width="401*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
@@ -77,8 +77,8 @@
 
         <Rectangle Fill="#22223B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="17" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800"/>
         <Button Name="EndRunningButton" Click="EndRunning"  FontSize="16" BorderThickness="0" Background="Transparent" Content="X" Foreground="White" Grid.Column="1"  Margin="377,-3,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="20" RenderTransformOrigin="0.49,0.333"/>
-        <Label Content="Enter Room Code :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Create your own Room :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Bold"/>
+        <Label Content="Enter Room Code :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" FontWeight="Bold" Height="30" Width="158"/>
+        <Label Content="Create your own Room :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Bold" Height="30" Width="202"/>
         <Button  x:Name="ProfileButton"  HorizontalAlignment="Left" Margin="278,43,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="19" Width="92" Grid.Column="1" Click="OnCreateRoomClick">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -112,21 +112,31 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <Label Content="Room Name :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="26,128,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal"/>
-        <Label Content="Difficulty :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="27,230,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal" Height="30" Width="84"/>
-        <Label Content="Max Players :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="26,182,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal"/>
-        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="51,260,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140">
+        <Label Content="Room Name :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="26,128,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal" Height="30" Width="112"/>
+        <Label Content="Difficulty :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="27,231,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal" Height="30" Width="84"/>
+        <Label Content="Max Players :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="26,182,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal" Height="30" Width="107"/>
+        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="51,261,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140" Height="22">
             <ComboBoxItem>Easy</ComboBoxItem>
             <ComboBoxItem>Medium</ComboBoxItem>
             <ComboBoxItem>Hard</ComboBoxItem>
             <ComboBoxItem IsSelected="True">Every Difficulty</ComboBoxItem>
 
         </ComboBox>
-        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="51,209,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140">
+        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="51,209,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140" Height="22">
             <ComboBoxItem IsSelected="True">5</ComboBoxItem>
             <ComboBoxItem>10</ComboBoxItem>
             <ComboBoxItem>15</ComboBoxItem>
         </ComboBox>
+        <Rectangle HorizontalAlignment="Left" Height="402" Margin="399,57,0,0" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
 
 
 

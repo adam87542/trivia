@@ -23,7 +23,7 @@
         <TextBox  Name="EmailBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,144,0,0" Grid.ColumnSpan="2"/>
         <TextBox  Name="UserNameBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,208,0,0" Grid.ColumnSpan="2" FontSize="16"/>
         <TextBox  Name="PasswordBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,277,0,0" Grid.ColumnSpan="2"/>
-        <Button x:Name="Send_button" HorizontalAlignment="Left" Margin="35,414,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="23" Width="101" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Click="OnSendClick">
+        <Button x:Name="Send_button" HorizontalAlignment="Left" Margin="56,414,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="23" Width="101" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Click="OnSendClick">
 
             <Button.RenderTransform>
                 <TransformGroup>

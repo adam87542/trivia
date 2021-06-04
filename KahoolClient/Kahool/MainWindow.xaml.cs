@@ -41,5 +41,12 @@ namespace Kahool
 			if (e.ChangedButton == MouseButton.Left)
 				this.DragMove();
 		}
-	}
+
+        private void OnLoginClick(object sender, RoutedEventArgs e)
+        {
+			App.Current.MainWindow.Hide();
+			MenuWindow wnd = new MenuWindow();
+			wnd.ShowDialog();
+		}
+    }
 }

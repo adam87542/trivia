@@ -27,7 +27,7 @@
         <TextBox HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Center" Width="268" Height="26" Grid.Row="1" Margin="266,0,0,0" Grid.ColumnSpan="2"/>
 
 
-        <Button Name="Login_Button" HorizontalAlignment="Left" Margin="356,368,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Grid.ColumnSpan="2">
+        <Button Name="Login_Button" HorizontalAlignment="Left" Margin="356,368,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Grid.ColumnSpan="2" Click="OnLoginClick">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="TextElement.FontFamily" Value="Fonts/#QuickSand.ttf"/>

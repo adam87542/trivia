@@ -49,7 +49,7 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 {
 	RequestResult myResult;
 	LogoutResponse response;
-	response.status = SUCCESS;
+	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = nullptr;
 	return myResult;
@@ -59,7 +59,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 {
 	RequestResult myResult;
 	GetRoomsResponse respone;
-	respone.status = SUCCESS;
+	respone.status = SUCCESS_CODE;
 	respone.rooms = m_roomManager->getRooms();
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return  myResult;
@@ -92,7 +92,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 		myResult.newhandler = nullptr;
 		return myResult;
 	}
-	respone.status = SUCCESS;
+	respone.status = SUCCESS_CODE;
 	UserStatistics statisticsOfUser = m_statisticManager->getUserStatistics(m_user->getUsername());
 	string personalStats = FromUserStatisticsToString(statisticsOfUser);
 	respone.statistics[0] = personalStats;
@@ -108,10 +108,10 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	RequestResult myResult;
 	JoinRoomResponse respone;
 	JoinRoomRequest  myRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
-	respone.status = SUCCESS;
-	m_roomManager->addPlayerToRoom(myRequest.roomId,m_user->getUsername());
+	respone.status = SUCCESS_CODE;
+	Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId,m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler();
+	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername() , userRoomToJoin);
 	return myResult;
 
 }
@@ -130,10 +130,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	roomData.numOfQuestionsInGame = myRequest.questionCount;
 	roomData.timePerQuestion = myRequest.answerTimeOut;
 
-	m_roomManager->createRoom(m_user->getUsername() , roomData);
-	respone.status = SUCCESS;
+	Room UserRoom = m_roomManager->createRoom(m_user->getUsername() , roomData);
+	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler();
+	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , UserRoom);
 	return myResult;
 }
 
@@ -143,7 +143,7 @@ string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> v
 	for (auto elemnet : vec)
 	{
 		TheVec += elemnet.first + ':' + std::to_string(elemnet.second);
-		TheVec += ',';
+		TheVec += COMMA;
 	}
 	return TheVec;
 }

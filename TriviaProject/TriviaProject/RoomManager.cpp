@@ -22,9 +22,10 @@ std::vector<string> RoomManager::getPlayersInRoom(int room_id)
 	return this->m_rooms[room_id].getAllUsers();
 }
 
-void RoomManager::addPlayerToRoom(int room_id , string username)
+Room RoomManager::addPlayerToRoom(int room_id , string username)
 {
 	this->m_rooms[room_id].addUser(LoggedUser(username));
+	return this->m_rooms[room_id];
 }
 
 Room RoomManager::GetRoomPlayerIsOn(string usrename)
@@ -37,11 +38,12 @@ Room RoomManager::GetRoomPlayerIsOn(string usrename)
 	throw std::exception("This user isnt in a room...");
 }
 
-void RoomManager::createRoom(LoggedUser user, RoomData data)
+Room RoomManager::createRoom(LoggedUser user, RoomData data)
 {
 	Room room(data);
 	room.addUser(user);
 	this->m_rooms.push_back(room);
+	return room;
 }
 
 void RoomManager::deleteRoom(int id)

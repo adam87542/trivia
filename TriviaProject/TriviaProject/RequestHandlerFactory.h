@@ -1,5 +1,4 @@
 #pragma once
-#include "LoginManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
@@ -12,8 +11,8 @@ public:
 	static void reset_instance();
 	static LoginRequestHandler* createLoginRequestHandler();
 	static MenuRequestHandler* createMenuRequestHandler(string username);
-	static RoomAdminRequestHandler* createRoomAdminRequestHandler();
-	static RoomMemberRequestHandler* createRoomMemberRequestHandler();
+	static RoomAdminRequestHandler* createRoomAdminRequestHandler(string username, Room UserRoom);
+	static RoomMemberRequestHandler* createRoomMemberRequestHandler(string username, Room UserRoom);
 private:
 	static  RequestHandlerFactory* m_ptr;
 	RequestHandlerFactory() = default;

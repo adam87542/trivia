@@ -49,7 +49,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
     if (success)
     {
         myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(myRequest.username);
-        response.status = SUCCESS;
+        response.status = SUCCESS_CODE;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }
     return myResult;
@@ -75,7 +75,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     if (success)
     {
         myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(myRequest.username);
-        response.status = SUCCESS;
+        response.status = SUCCESS_CODE;
         myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
     }
     return myResult;

@@ -28,11 +28,6 @@ namespace Kahool
 
         private void OnJoinRoomClick(object sender, RoutedEventArgs e)
         {
-            var uri = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-            var psi = new System.Diagnostics.ProcessStartInfo();
-            psi.UseShellExecute = true;
-            psi.FileName = uri;
-            System.Diagnostics.Process.Start(psi);
         }
 
         public void EndRunning(object sender, RoutedEventArgs e)

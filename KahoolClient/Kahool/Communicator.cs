@@ -17,8 +17,10 @@ namespace Kahool
 		{
 			try
 			{
+				string ServerIp = ConfigManager.getConfigIP();
+				int port = ConfigManager.getConfigPort();
 				client = new TcpClient();
-				serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());
+				serverEndPoint = new IPEndPoint(IPAddress.Parse(ServerIp), port);
 				client.Connect(serverEndPoint);
 				socketStream = client.GetStream();
 

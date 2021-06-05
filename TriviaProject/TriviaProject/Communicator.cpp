@@ -27,9 +27,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	RequestInfo recived;
 	RequestResult res;
-	res.response = (unsigned char*)"Hello";
 	res.newhandler = RequestHandlerFactory::createLoginRequestHandler();
-	Helper::sendData(clientSocket, std::string((char*)res.response));
 	while (true)
 	{
 		try

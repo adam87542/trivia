@@ -61,7 +61,7 @@ namespace Kahool
 				MessageLabelSignup.Content = signupResult;
 			else
 			{
-				SignupRequest request = new SignupRequest(UserNameBox.Text, EmailBox.Text, PasswordBox.Password);
+				SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password , EmailBox.Text);
 				try
 				{
 					//Sign up was a success

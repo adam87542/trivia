@@ -9,14 +9,28 @@ namespace Kahool
 
 		public static bool CheckSignUp(Communicator com,SignupRequest request)
 		{
-			SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(com.SendPacket(JsonRequestSerializer.serializeRequest(request)));
-			return respone.status == (int)Constants.respones.SIGNUP_RESPONE;
+			if (com != null)
+			{
+				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
+                string MsgFromServer = com.SendPacket(MsgToServer);
+				string CleanBuffer = MsgFromServer.Trim('\0');
+				SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(CleanBuffer);
+				return respone.status == (int)Constants.Success;
+			}
+			return false;
 		}
 
 		public static bool CheckLogin(Communicator com, LoginRequest request)
 		{
-			LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(com.SendPacket(JsonRequestSerializer.serializeRequest(request)));
-			return respone.status == (int)Constants.respones.LOGIN_RESPONE;
+			if (com != null)
+			{
+				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
+				string MsgFromServer = com.SendPacket(MsgToServer);
+				string CleanBuffer = MsgFromServer.Trim('\0');
+				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(CleanBuffer);
+				return respone.status == (int)Constants.Success;
+			}
+			return false;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Kahool
 		{
 			try
 			{
-				string[] data = System.IO.File.ReadAllLines("config.txt");
+				string[] data = System.IO.File.ReadAllLines("C:\\Users\\misha\\Desktop\\config.txt");
 				if (data.Length < 3)
 					throw new Exception("Config Not Right");
 				return data;

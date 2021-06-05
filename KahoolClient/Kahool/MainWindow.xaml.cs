@@ -46,7 +46,7 @@ namespace Kahool
 				com = new Communicator();
 				this.Dispatcher.Invoke(() =>
 				{
-					MessageLabelMain.Content = "";
+					MessageLabelMain.Content = null;
 				});
 			}
 			catch (Exception ex)

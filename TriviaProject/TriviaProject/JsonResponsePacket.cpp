@@ -252,7 +252,6 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(un
 
 json JsonRequestPacketDeserializer::deseralizingMsg(unsigned char* buffer)
 {
-	json data;
-	data = json::parse((char*)buffer);
+	json data = json::parse((char*)buffer);
 	return data;
 }

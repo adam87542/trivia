@@ -10,38 +10,39 @@ namespace Kahool
     {
       public static string serializeRequest(LoginRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
         }
          public static string  serializeRequest(SignupRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.SIGNUP_REQUEST, json);
         }
         public static string serializeRequest(LogoutRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request , Formatting.None);
             return serializeMsg((int)Constants.requests.LOGOUT_REQUEST, json);
         }
         public static string serializeRequest(JoinRoomRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.JOIN_ROOM_REQUEST, json);
 
         }
         public static string serializeRequest(CreateRoomRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.CREATE_ROOM_REQUEST, json);
         }
         public static string GetStatisticsRequest(GetStatisticsRequest request)
         {
-            string json = JsonConvert.SerializeObject(request, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.GET_HIGH_SCORES_REQUEST, json);
         }
         private static string serializeMsg(int RequestId , string msg)
         {
-            string MsgToServer = RequestId + msg.Length + msg;
+            string length = msg.Length.ToString().PadLeft(4, '0');
+            string MsgToServer = RequestId.ToString() + length + msg;
             return MsgToServer;
         }
     }

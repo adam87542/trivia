@@ -59,7 +59,7 @@ RequestInfo Communicator::getMsgFromClient(SOCKET clientSocket)
 
 RequestResult Communicator::PraseData(RequestInfo recived , RequestResult res)
 {
-	if (!res.newhandler->isRequestRelevant(recived))
+	if (res.newhandler != nullptr && !res.newhandler->isRequestRelevant(recived))
 		recived.requestId = ERR_CODE;
 	res = res.newhandler->handleRequest(recived);
 	return res;

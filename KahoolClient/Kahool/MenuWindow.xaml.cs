@@ -17,9 +17,13 @@ namespace Kahool
     /// </summary>
     public partial class MenuWindow : Window
     {
-        public MenuWindow()
+        private Communicator com;
+        private string username;
+        public MenuWindow(Communicator com, string username)
         {
             InitializeComponent();
+            this.com = com;
+            this.username = username;
         }
         private void OnCreateRoomClick(object sender, RoutedEventArgs e)
         {

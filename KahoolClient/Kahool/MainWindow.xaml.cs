@@ -21,7 +21,7 @@ namespace Kahool
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public Communicator com;
+		private Communicator com;
 
 		public MainWindow()
 		{
@@ -46,14 +46,14 @@ namespace Kahool
 				com = new Communicator();
 				this.Dispatcher.Invoke(() =>
 				{
-					MessageLabel.Content = "";
+					MessageLabelMain.Content = "";
 				});
 			}
 			catch (Exception ex)
 			{
 				this.Dispatcher.Invoke(() =>
 				{
-					MessageLabel.Content = ex.Message + " - Click here to retry";
+					MessageLabelMain.Content = ex.Message + " - Press F5 to retry";
 				});
 				com = null;
 			}
@@ -62,7 +62,7 @@ namespace Kahool
 		public void Signup_Click(object sender, RoutedEventArgs e)
 		{
 			App.Current.MainWindow.Hide();
-			SignUpWindow wnd = new SignUpWindow();
+			SignUpWindow wnd = new SignUpWindow(com);
 			wnd.ShowDialog();
 		}
 
@@ -78,9 +78,20 @@ namespace Kahool
 
         private void OnLoginClick(object sender, RoutedEventArgs e)
         {
-			App.Current.MainWindow.Hide();
-			MenuWindow wnd = new MenuWindow();
-			wnd.ShowDialog();
+			LoginRequest request;
+			request.username = UserNameBox.Text;
+			request.password = PasswordBox.Password;
+			bool isSucceed = LoginResponeHandler.CheckLogin(com, request);
+			if (isSucceed)
+			{
+				App.Current.MainWindow.Hide();
+				MenuWindow wnd = new MenuWindow(com, request.username);
+				wnd.ShowDialog();
+			}
+            else
+            {
+				MessageLabelMain.Content = "Username or Password Incorrect";
+            }
 		}
     }
 }

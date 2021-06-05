@@ -22,9 +22,9 @@
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <PasswordBox FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19" HorizontalAlignment="Left" Margin="266,270,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="268" Height="25" Grid.ColumnSpan="2"/>
-
-        <TextBox HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Center" Width="268" Height="26" Grid.Row="1" Margin="266,0,0,0" Grid.ColumnSpan="2"/>
+        <PasswordBox x:Name="PasswordBox" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19" HorizontalAlignment="Left" Margin="266,270,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="268" Height="25" Grid.ColumnSpan="2"/>
+        <Label Name="MessageLabel" Content="" HorizontalContentAlignment="Center" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="DarkRed" FontSize="17" HorizontalAlignment="Left" Margin="248,371,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="322"/>
+        <TextBox  x:Name="UserNameBox" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Center" Width="268" Height="26" Grid.Row="1" Margin="266,0,0,0" Grid.ColumnSpan="2"/>
 
 
         <Button Name="Login_Button" HorizontalAlignment="Left" Margin="356,368,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="22" Width="102" Grid.ColumnSpan="2" Click="OnLoginClick">

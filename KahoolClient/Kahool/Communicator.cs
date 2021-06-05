@@ -7,18 +7,26 @@ using System.Text;
 
 namespace Kahool
 {
-	public class Communicator
+	public  class Communicator
 	{
 		private TcpClient client;
 		private IPEndPoint serverEndPoint;
 		private NetworkStream socketStream;
-
-		public Communicator()
+		public static Communicator ComInstanse = new Communicator();
+		private Communicator()
 		{
-			client = new TcpClient();
-			serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());
-			client.Connect(serverEndPoint);
-			socketStream = client.GetStream();
+			try
+			{
+				client = new TcpClient();
+				serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());
+				client.Connect(serverEndPoint);
+				socketStream = client.GetStream();
+			}
+            catch
+            {
+				System.Environment.Exit(0);
+			}
+
 		}
 
 

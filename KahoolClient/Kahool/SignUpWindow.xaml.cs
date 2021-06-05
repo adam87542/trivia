@@ -36,9 +36,9 @@ namespace Kahool
 		{
 			if (password != confirmPassword)
 				return "Password's Are not Matching!";
-			else if (password.Length < 8 || password.Length > 20)
+			else if (password.Length < Constants.MIN_PASSWORD_LENGTH || password.Length > Constants.MAX_PASSWORD_LENGTH)
 				return "Password length is 8-20!";
-			else if (username.Length < 6 || username.Length > 15)
+			else if (username.Length < Constants.MIN_USERNAME_LENGTH || username.Length > Constants.MAX_USERNAME_LENGTH)
 				return "Username length is 6-15";
 			try
 			{
@@ -49,17 +49,21 @@ namespace Kahool
 				return "Email not valid!";
 			}
 
-			return "";
+			return null;
 		}
 
 		private void VerifySignUp(object sender, RoutedEventArgs e)
 		{
 			string signupResult = CheckSignUpContent(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
-			if (signupResult != "")
+			if (signupResult != null)
 				MessageLabel.Content = signupResult;
 			else
 			{
-				SignupRequest request = new SignupRequest(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
+				SignupRequest request = new SignupRequest();
+				request.email = EmailBox.Text;
+				request.password = PasswordBox.Password;
+				request.username = UserNameBox.Text;
+				bool IsSucceed = LoginResponeHandler.CheckSignUp(request);
 
 			}
 		}

@@ -46,9 +46,20 @@ namespace Kahool
 
         private void OnLoginClick(object sender, RoutedEventArgs e)
         {
-			App.Current.MainWindow.Hide();
-			MenuWindow wnd = new MenuWindow();
-			wnd.ShowDialog();
+			LoginRequest request;
+			request.username = UserNameBox.Text;
+			request.password = PasswordBox.Password;
+			bool IsSucceed = LoginResponeHandler.CheckLogin(request);
+			if (IsSucceed)
+			{
+				App.Current.MainWindow.Hide();
+				MenuWindow wnd = new MenuWindow();
+				wnd.ShowDialog();
+			}
+            else
+            {
+				MessageLabel.Content = "Failed To Login , try agian!";
+            }
 		}
     }
 }

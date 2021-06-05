@@ -51,13 +51,13 @@ namespace Kahool
 				return "Email not valid!";
 			}
 
-			return "";
+			return null;
 		}
 
 		private void VerifySignUp(object sender, RoutedEventArgs e)
 		{
 			string signupResult = CheckSignUpContent(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
-			if (signupResult != "")
+			if (signupResult != null)
 				MessageLabelSignup.Content = signupResult;
 			else
 			{
@@ -69,7 +69,7 @@ namespace Kahool
 					{
 						App.Current.MainWindow.Hide();
 						MenuWindow menu = new MenuWindow(com,request.username);
-						menu.Show();
+						menu.ShowDialog();
 					}
 				}
 				catch (Exception ex)

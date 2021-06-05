@@ -44,7 +44,8 @@ namespace Kahool
 				socketStream.Flush();
 				buffer = new byte[4096];
 				int bytesRead = socketStream.Read(buffer, 0, 4096);
-				return Encoding.Default.GetString(buffer);
+				string MsgFromServer = Encoding.Default.GetString(buffer);
+				return MsgFromServer.Trim('\0');
 			}
 			catch
 			{

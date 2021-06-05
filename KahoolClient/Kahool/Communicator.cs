@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kahool
 {
-	class Communicator
+	public class Communicator
 	{
 		private TcpClient client;
 		private IPEndPoint serverEndPoint;

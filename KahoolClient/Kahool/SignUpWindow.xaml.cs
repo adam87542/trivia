@@ -32,9 +32,36 @@ namespace Kahool
 				this.DragMove();
 		}
 
-        private void OnSendClick(object sender, RoutedEventArgs e)
-        {
+		public string CheckSignUpContent(string username, string email, string password, string confirmPassword)
+		{
+			if (password != confirmPassword)
+				return "Password's Are not Matching!";
+			else if (password.Length < 8 || password.Length > 20)
+				return "Password length is 8-20!";
+			else if (username.Length < 6 || username.Length > 15)
+				return "Username length is 6-15";
+			try
+			{
+				var addr = new System.Net.Mail.MailAddress(email);
+			}
+			catch
+			{
+				return "Email not valid!";
+			}
 
-        }
+			return "";
+		}
+
+		private void VerifySignUp(object sender, RoutedEventArgs e)
+		{
+			string signupResult = CheckSignUpContent(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
+			if (signupResult != "")
+				MessageLabel.Content = signupResult;
+			else
+			{
+				SignupRequest request = new SignupRequest(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
+
+			}
+		}
     }
 }

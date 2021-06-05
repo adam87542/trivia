@@ -8,10 +8,18 @@ namespace Kahool
 	{
 		private static string[] getConfigContent()
 		{
-			string[] data = System.IO.File.ReadAllLines("config.txt");
-			if (data.Length < 3)
-				throw new Exception("Config Not Right");
-			return data;
+			try
+			{
+				string[] data = System.IO.File.ReadAllLines("config.txt");
+				if (data.Length < 3)
+					throw new Exception("Config Not Right");
+				return data;
+			}
+			catch
+			{
+				throw new Exception("No Config File Found");
+			}
+
 		}
 
 		public static string getConfigIP()

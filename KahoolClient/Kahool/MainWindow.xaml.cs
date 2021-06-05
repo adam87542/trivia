@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Kahool
 {
@@ -20,15 +21,48 @@ namespace Kahool
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private Communicator com;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+			Thread comThread = new Thread(initiateCommunication);
+			comThread.Start();
+		}
+
+		private void retryCommunication(object sender, KeyEventArgs e)
+		{
+			if(e.Key == Key.F5 && com == null)
+			{
+				Thread comThread = new Thread(initiateCommunication);
+				comThread.Start();
+			}
+		}
+
+		public void initiateCommunication()
+		{
+			try
+			{
+				com = new Communicator();
+				this.Dispatcher.Invoke(() =>
+				{
+					MessageLabelMain.Content = "";
+				});
+			}
+			catch (Exception ex)
+			{
+				this.Dispatcher.Invoke(() =>
+				{
+					MessageLabelMain.Content = ex.Message + " - Press F5 to retry";
+				});
+				com = null;
+			}
 		}
 
 		public void Signup_Click(object sender, RoutedEventArgs e)
 		{
 			App.Current.MainWindow.Hide();
-			SignUpWindow wnd = new SignUpWindow();
+			SignUpWindow wnd = new SignUpWindow(com);
 			wnd.ShowDialog();
 		}
 
@@ -44,9 +78,20 @@ namespace Kahool
 
         private void OnLoginClick(object sender, RoutedEventArgs e)
         {
-			App.Current.MainWindow.Hide();
-			MenuWindow wnd = new MenuWindow();
-			wnd.ShowDialog();
+			LoginRequest request;
+			request.username = UserNameBox.Text;
+			request.password = PasswordBox.Password;
+			bool isSucceed = LoginResponeHandler.CheckLogin(com, request);
+			if (isSucceed)
+			{
+				App.Current.MainWindow.Hide();
+				MenuWindow wnd = new MenuWindow(com, request.username);
+				wnd.ShowDialog();
+			}
+            else
+            {
+				MessageLabelMain.Content = "Username or Password Incorrect";
+            }
 		}
     }
 }

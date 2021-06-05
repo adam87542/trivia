@@ -5,54 +5,41 @@ using Newtonsoft.Json;
 
 namespace Kahool
 {
-    enum requests
-    {
-        LOGIN_REQUEST = 2, SIGNUP_REQUEST = 3, LOGOUT_REQUEST,
-        GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
-        CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST
-    };
-
-    enum respones
-    {
-        LOGIN_RESPONE = 15, SIGNUP_RESPONE = 16, LOGOUT_RESPONE,
-        GET_ROOMS_RESPONE, GET_PLAYERS_RESPONE, JOIN_ROOM_RESPONE, CREATE_ROOM_RESPONE, GET_HIGH_SCORES_RESPONE,
-        CLOSE_ROOM_RESPONE, START_GAME_RESPONE, STATE_ROOM_RESPONE, LEAVE_ROOM_RESPONE
-    };
 
     class JsonRequestSerializer
     {
-      public string serializeRequest(LoginRequest request)
+      public static string serializeRequest(LoginRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.LOGIN_REQUEST, json);
+            return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
         }
-         public string  serializeRequest(SignupRequest request)
+         public static string  serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.SIGNUP_REQUEST, json);
+            return serializeMsg((int)Constants.requests.SIGNUP_REQUEST, json);
         }
-        public string serializeRequest(LogoutRequest request)
+        public static string serializeRequest(LogoutRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.LOGOUT_REQUEST, json);
+            return serializeMsg((int)Constants.requests.LOGOUT_REQUEST, json);
         }
-        public string serializeRequest(JoinRoomRequest request)
+        public static string serializeRequest(JoinRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.JOIN_ROOM_REQUEST, json);
+            return serializeMsg((int)Constants.requests.JOIN_ROOM_REQUEST, json);
 
         }
-        public string serializeRequest(CreateRoomRequest request)
+        public static string serializeRequest(CreateRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.CREATE_ROOM_REQUEST, json);
+            return serializeMsg((int)Constants.requests.CREATE_ROOM_REQUEST, json);
         }
-        public string GetStatisticsRequest(GetStatisticsRequest request)
+        public static string GetStatisticsRequest(GetStatisticsRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.Indented);
-            return serializeMsg((int)requests.GET_HIGH_SCORES_REQUEST, json);
+            return serializeMsg((int)Constants.requests.GET_HIGH_SCORES_REQUEST, json);
         }
-        private string serializeMsg(int RequestId , string msg)
+        private static string serializeMsg(int RequestId , string msg)
         {
             string MsgToServer = RequestId + msg.Length + msg;
             return MsgToServer;
@@ -60,29 +47,34 @@ namespace Kahool
     }
     class JsonResponeDeserializer
     {
-       LoginResponse deserializeLoginRespone(string Buffer)
+        public static LoginResponse deserializeLoginRespone(string Buffer)
         {
-            LoginResponse response = JsonConvert.DeserializeObject<LoginResponse>(Buffer);
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            LoginResponse response = JsonConvert.DeserializeObject<LoginResponse>(JsonMsg);
             return response;
         }
-        SignUpResponse deserializeSignUpRespone(string Buffer)
+        public static SignUpResponse deserializeSignUpRespone(string Buffer)
         {
-            SignUpResponse response = JsonConvert.DeserializeObject<SignUpResponse>(Buffer);
+           string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            SignUpResponse response = JsonConvert.DeserializeObject<SignUpResponse>(JsonMsg);
             return response;
         }
-        GetHighScoreResponse deserializeGetStatisticsRespone(string Buffer)
+        public static GetHighScoreResponse deserializeGetStatisticsRespone(string Buffer)
         {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
             GetHighScoreResponse response = JsonConvert.DeserializeObject<GetHighScoreResponse>(Buffer);
             return response;
         }
-        JoinRoomResponse deserializeJoinRoomRespone(string Buffer)
+        public static JoinRoomResponse deserializeJoinRoomRespone(string Buffer)
         {
-            JoinRoomResponse response = JsonConvert.DeserializeObject<JoinRoomResponse>(Buffer);
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            JoinRoomResponse response = JsonConvert.DeserializeObject<JoinRoomResponse>(JsonMsg);
             return response;
         }
-        CreateRoomResponse deserializeCreateRoomResponse(string Buffer)
+        public static CreateRoomResponse deserializeCreateRoomResponse(string Buffer)
         {
-            CreateRoomResponse response = JsonConvert.DeserializeObject<CreateRoomResponse>(Buffer);
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            CreateRoomResponse response = JsonConvert.DeserializeObject<CreateRoomResponse>(JsonMsg);
             return response;
         }
     }

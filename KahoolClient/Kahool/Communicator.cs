@@ -15,10 +15,18 @@ namespace Kahool
 
 		public Communicator()
 		{
-			client = new TcpClient();
-			serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());
-			client.Connect(serverEndPoint);
-			socketStream = client.GetStream();
+			try
+			{
+				client = new TcpClient();
+				serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());
+				client.Connect(serverEndPoint);
+				socketStream = client.GetStream();
+
+			}
+			catch
+			{
+				throw new Exception("Couldn't connect to Server");
+			}
 		}
 
 

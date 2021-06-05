@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Kahool
 {
@@ -25,6 +26,37 @@ namespace Kahool
 		public MainWindow()
 		{
 			InitializeComponent();
+			Thread comThread = new Thread(initiateCommunication);
+			comThread.Start();
+		}
+
+		private void retryCommunication(object sender, KeyEventArgs e)
+		{
+			if(e.Key == Key.F5 && com == null)
+			{
+				Thread comThread = new Thread(initiateCommunication);
+				comThread.Start();
+			}
+		}
+
+		public void initiateCommunication()
+		{
+			try
+			{
+				com = new Communicator();
+				this.Dispatcher.Invoke(() =>
+				{
+					MessageLabel.Content = "";
+				});
+			}
+			catch (Exception ex)
+			{
+				this.Dispatcher.Invoke(() =>
+				{
+					MessageLabel.Content = ex.Message + " - Click here to retry";
+				});
+				com = null;
+			}
 		}
 
 		public void Signup_Click(object sender, RoutedEventArgs e)

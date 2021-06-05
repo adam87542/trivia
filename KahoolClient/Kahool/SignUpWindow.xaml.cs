@@ -59,7 +59,7 @@ namespace Kahool
 				MessageLabel.Content = signupResult;
 			else
 			{
-				SignupRequest request = new SignupRequest(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
+				SignupRequest request = new SignupRequest(UserNameBox.Text, EmailBox.Text, PasswordBox.Password);
 
 			}
 		}

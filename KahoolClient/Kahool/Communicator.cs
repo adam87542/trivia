@@ -12,8 +12,9 @@ namespace Kahool
 		private TcpClient client;
 		private IPEndPoint serverEndPoint;
 		private NetworkStream socketStream;
+		public static Communicator instanse = new Communicator(); 
 
-		public Communicator()
+		private Communicator()
 		{
 			client = new TcpClient();
 			serverEndPoint = new IPEndPoint(IPAddress.Parse(ConfigManager.getConfigIP()), ConfigManager.getConfigPort());

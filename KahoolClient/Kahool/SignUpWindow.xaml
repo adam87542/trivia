@@ -20,9 +20,9 @@
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox  Name="EmailBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,144,0,0" Grid.ColumnSpan="2"/>
-        <TextBox  Name="UserNameBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,208,0,0" Grid.ColumnSpan="2" FontSize="16"/>
-        <TextBox  Name="PasswordBox" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,277,0,0" Grid.ColumnSpan="2"/>
+        <TextBox  Name="EmailBox" HorizontalAlignment="Left"  FontSize="19" TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,144,0,0" Grid.ColumnSpan="2"/>
+        <TextBox  Name="UserNameBox" HorizontalAlignment="Left"  FontSize="19" TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,208,0,0" Grid.ColumnSpan="2" />
+        <PasswordBox  Name="PasswordBox" HorizontalAlignment="Left"  FontSize="19" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,277,0,0" Grid.ColumnSpan="2"/>
         <Button x:Name="Send_button" HorizontalAlignment="Left" Margin="56,414,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="23" Width="101" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Click="OnSendClick">
 
             <Button.RenderTransform>
@@ -55,7 +55,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox  x:Name="PasswordBox_Copy" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,341,0,0" Grid.ColumnSpan="2"/>
+        <PasswordBox  x:Name="ConfirmPasswordBox" HorizontalAlignment="Left"  FontSize="19" FontFamily="Resources/Fonts/QuickSand.ttf"   VerticalAlignment="Top" Width="268" Height="30" Grid.Row="1" Margin="277,341,0,0" Grid.ColumnSpan="2"/>
         <Label Content="Sign Up" Foreground="#C9AdA7" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="35" HorizontalContentAlignment="Center" Margin="210,64,210,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="80" Grid.ColumnSpan="2"/>
         <Label Content="Email:" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="20" HorizontalAlignment="Left" Margin="277,110,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label Content="Username:" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="20" HorizontalAlignment="Left" Margin="277,174,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>

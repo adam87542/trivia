@@ -40,6 +40,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		{
 			std::cout << e.what() << std::endl;
 			delete res.newhandler;
+			std::cout << "Server has been disconnected from client" << std::endl;
+			this->m_clients.erase(this->m_clients.find(clientSocket));
+			closesocket(clientSocket);
 			break;
 		}
 	}
@@ -57,8 +60,9 @@ RequestInfo Communicator::getMsgFromClient(SOCKET clientSocket)
 
 RequestResult Communicator::PraseData(RequestInfo recived , RequestResult res)
 {
-	if (res.newhandler != nullptr && !res.newhandler->isRequestRelevant(recived))
-		recived.requestId = ERR_CODE;
+	if (!res.newhandler->isRequestRelevant(recived))
+		throw std::exception("Invalid request , server is disconecting...");
+	else
 	res = res.newhandler->handleRequest(recived);
 	return res;
 }

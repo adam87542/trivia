@@ -27,7 +27,8 @@ namespace Kahool
         }
         private void OnCreateRoomClick(object sender, RoutedEventArgs e)
         {
-
+            CreateRoomRequest createRoomRequest;
+            string selected = this.DifficultyBox.SelectedItem.ToString();
         }
 
         private void OnJoinRoomClick(object sender, RoutedEventArgs e)

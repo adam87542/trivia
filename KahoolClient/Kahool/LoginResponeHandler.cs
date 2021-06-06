@@ -14,7 +14,7 @@ namespace Kahool
 				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
                 string MsgFromServer = com.SendPacket(MsgToServer);
 				SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(MsgFromServer);
-				return respone.status == (int)Constants.Success;
+				return respone.status == Constants.Success;
 			}
 			return false;
 		}
@@ -26,7 +26,7 @@ namespace Kahool
 				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
 				string MsgFromServer = com.SendPacket(MsgToServer);
 				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(MsgFromServer);
-				return respone.status == (int)Constants.Success;
+				return respone.status == Constants.Success;
 			}
 			return false;
 		}

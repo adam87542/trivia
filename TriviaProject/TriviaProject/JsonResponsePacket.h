@@ -86,8 +86,6 @@ private:
 	* output: list
 	*/
 	static std::list<string> vectorToList(std::vector<string> src);
-
-	static friend std::ostream& operator<<(std::ostream& os, PlayerResults const& arg);
 };
 
 

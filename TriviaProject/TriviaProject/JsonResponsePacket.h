@@ -12,9 +12,11 @@ enum requests {LOGIN_REQUEST = 2, SIGNUP_REQUEST = 3, LOGOUT_REQUEST,
 	GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
 	CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST };
 
-enum respones { LOGIN_RESPONE = 15, SIGNUP_RESPONE = 16, LOGOUT_RESPONE,
-	GET_ROOMS_RESPONE, GET_PLAYERS_RESPONE, JOIN_ROOM_RESPONE, CREATE_ROOM_RESPONE, GET_HIGH_SCORES_RESPONE,
-	CLOSE_ROOM_RESPONE, START_GAME_RESPONE, STATE_ROOM_RESPONE, LEAVE_ROOM_RESPONE };
+enum responses { LOGIN_RESPONSE = 15, SIGNUP_RESPONSE = 16, LOGOUT_RESPONSE,
+	GET_ROOMS_RESPONSE, GET_PLAYERS_RESPONSE, JOIN_ROOM_RESPONSE, CREATE_ROOM_RESPONSE, GET_HIGH_SCORES_RESPONSE,
+	CLOSE_ROOM_RESPONSE, START_GAME_RESPONSE, STATE_ROOM_RESPONSE, LEAVE_ROOM_RESPONSE , GET_GAME_RESULT_RESPONSE,
+	SUBMIT_ANSWER_RESPONSE, GET_Q_RESPONSE, LEAVE_GAME_RESPONSE};
+
 #define ERR_CODE  0
 #define SUCCESS_CODE  1
 #define LENGTH_BYTES 4
@@ -34,6 +36,10 @@ enum respones { LOGIN_RESPONE = 15, SIGNUP_RESPONE = 16, LOGOUT_RESPONE,
 #define PLAYERS_IN_ROOM "PlayersInRoom"
 #define USER_STATISTICS "UserStatistics"
 #define HIGH_SCORES "HighScores"
+#define RESULTS "Results"
+#define CORRECT_ANS "CorrectAnswerId" 
+#define QUESTION "Question"
+#define ANSWERS "Answers"
 #define COMMA ","
 
 static class JsonResponsePacketSerializer
@@ -54,6 +60,10 @@ public:
 	static unsigned char* serializeResponse(StartGameResponse response);
 	static unsigned char* serializeResponse(GetRoomStateResponse response);
 	static unsigned char* serializeResponse(LeaveRoomResponse response);
+	static unsigned char* serializeResponse(GetGameResultsResponse response);
+	static unsigned char* serializeResponse(SubmitAnswerResponse response);
+	static unsigned char* serializeResponse(GetQuestionResponse response);
+	static unsigned char* serializeResponse(LeaveGameResponse response);
 
 private:
 	static JsonResponsePacketSerializer* m_ptr;
@@ -71,11 +81,13 @@ private:
 	*/
 	static string creatingStatusResponse(int respone_code);
 	/*
-	* Function that doing a string with all players
-	* input: vector with all players.
-	* output: atring with all players.
+	* Function that converts vector to list
+	* input: vector
+	* output: list
 	*/
-	static string getAllPlayers(std::vector<string> players);
+	static std::list<string> vectorToList(std::vector<string> src);
+
+	static friend std::ostream& operator<<(std::ostream& os, PlayerResults const& arg);
 };
 
 

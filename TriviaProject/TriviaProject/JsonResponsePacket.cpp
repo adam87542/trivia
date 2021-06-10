@@ -21,14 +21,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(LoginResponse res
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LOGIN_RESPONE, msg);
+	return seralizingMsg(LOGIN_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(SignUpResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(SIGNUP_RESPONE, msg);
+	return seralizingMsg(SIGNUP_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
@@ -43,52 +43,45 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(LogoutResponse re
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LOGOUT_RESPONE, msg);
+	return seralizingMsg(LOGOUT_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
 {
 	json j;
-	string allRooms = "";
+	std::list<string> allRooms;
 
-	for (int i = 0; i < response.rooms.size(); i++) // creating string with all rooms
+	for (auto room : response.rooms)
 	{
-		if (i != response.rooms.size() - 1)
-		{
-			allRooms += response.rooms[i].name + COMMA;
-		}
-		else
-		{
-			allRooms += response.rooms[i].name;
-		}
+		allRooms.push_back(room.name);
 	}
 
 	j[ROOMS] = allRooms;
 
-	return seralizingMsg(GET_ROOMS_RESPONE, j.dump());
+	return seralizingMsg(GET_ROOMS_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
 {
 	json j;
 
-	j[PLAYERS_IN_ROOM] = getAllPlayers(response.players);
+	j[PLAYERS_IN_ROOM] = vectorToList(response.players);
 
-	return seralizingMsg(GET_PLAYERS_RESPONE, j.dump());
+	return seralizingMsg(GET_PLAYERS_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(JOIN_ROOM_RESPONE, msg);
+	return seralizingMsg(JOIN_ROOM_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(CREATE_ROOM_RESPONE, msg);
+	return seralizingMsg(CREATE_ROOM_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
@@ -97,21 +90,21 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreRespo
 	j[USER_STATISTICS] = response.statistics[0];
 	j[HIGH_SCORES] = response.statistics[1];
 
-	return seralizingMsg(GET_HIGH_SCORES_REQUEST, j.dump());
+	return seralizingMsg(GET_HIGH_SCORES_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(CLOSE_ROOM_REQUEST, msg);
+	return seralizingMsg(CLOSE_ROOM_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(START_GAME_RESPONE, msg);
+	return seralizingMsg(START_GAME_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
@@ -119,18 +112,85 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateRespo
 	json j;
 	j[STATUS] = response.status;
 	j[GAME_BEGUN] = response.hasGameBegun;
-	j[PLAYERS_IN_ROOM] = getAllPlayers(response.players);
+	j[PLAYERS_IN_ROOM] = vectorToList(response.players);
 	j[NUM_Q] = response.questionCount;
 	j[ANSWER_TIME] = response.answerTimeOut;
 
-	return seralizingMsg(STATE_ROOM_RESPONE, j.dump());
+	return seralizingMsg(STATE_ROOM_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
 {
 	string msg = creatingStatusResponse(response.status);
 
-	return seralizingMsg(LEAVE_ROOM_RESPONE, msg);
+	return seralizingMsg(LEAVE_ROOM_RESPONSE, msg);
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse response)
+{
+	json j;
+	std::list<string> myResults;
+	std::string temp = "";
+
+	if (response.status == SUCCESS_CODE)
+	{
+		for (auto result : response.results)
+		{
+			// creating string with all info
+			temp = result.username;
+			temp += ",";
+			temp += result.correctAnswerCount;
+			temp += ",";
+			temp += result.wrongAnswerCount;
+			temp += ",";
+			temp += result.averageAnswerTime;
+
+			myResults.push_back(temp);
+		}
+		j[RESULTS] = myResults;
+	}
+	else
+	{
+		j[RESULTS] = myResults;
+	}
+	j[STATUS] = response.status;
+
+	return seralizingMsg(GET_GAME_RESULT_RESPONSE, j.dump());
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
+{
+	json j;
+	j[STATUS] = response.status;
+	j[CORRECT_ANS] = response.correctAnswerId;
+
+	return seralizingMsg(SUBMIT_ANSWER_RESPONSE, j.dump());
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)
+{
+	json j;
+	if (response.status == SUCCESS_CODE)
+	{
+		j[QUESTION] = response.question;
+		j[ANSWERS] = response.answers;
+	}
+	else
+	{
+		j[QUESTION] = "";
+		j[ANSWERS] = std::map<unsigned int, string>();
+
+	}
+	j[STATUS] = response.status;
+
+	return seralizingMsg(GET_Q_RESPONSE, j.dump());
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
+{
+	string msg = creatingStatusResponse(response.status);
+
+	return seralizingMsg(LEAVE_GAME_RESPONSE, msg);
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
@@ -160,24 +220,16 @@ string JsonResponsePacketSerializer::creatingStatusResponse(int respone_code)
 	return msg;
 }
 
-string JsonResponsePacketSerializer::getAllPlayers(std::vector<string> players)
+std::list<string> JsonResponsePacketSerializer::vectorToList(std::vector<string> src)
 {
-	string allPlayers = "";
-
-	for (int i = 0; i < players.size(); i++) // creating string with all players
+	std::list<string> dest;
+	for (auto obj : src)
 	{
-		if (i != players.size() - 1)
-		{
-			allPlayers += players[i] + COMMA;
-		}
-		else
-		{
-			allPlayers += players[i];
-		}
+		dest.push_back(obj);
 	}
-
-	return allPlayers;
+	return dest;
 }
+
 //**************************** Deserialize *********************************//
 
 JsonRequestPacketDeserializer* JsonRequestPacketDeserializer::get_instance()

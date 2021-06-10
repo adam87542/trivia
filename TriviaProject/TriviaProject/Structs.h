@@ -2,10 +2,37 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <map>
 #include "IRequestHandler.h"
 
 class IRequestHandler;
 using std::string;
+
+//****************************  User  *******************************//
+struct User
+{
+	string username;
+	string password;
+	string email;
+};
+
+struct UserStatistics
+{
+	string username;
+	float avrageAnswerTime;
+	int numCorrectAnswers;
+	int numTotalAnswer;
+	int numOfPlayerGames;
+};
+
+struct PlayerResults
+{
+	string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+};
+
 //**************************** Room  ********************************// 
 
 struct RoomData
@@ -95,6 +122,30 @@ struct LeaveRoomResponse
 	unsigned int status;
 };
 
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+struct GetQuestionResponse
+{
+	unsigned int status;
+	string question;
+	std::map<unsigned int, string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+};
+
 //**************************** Requests *********************************//
 
 struct LoginRequest
@@ -139,23 +190,6 @@ struct CreateRoomRequest
 	unsigned int maxUsers;
 	unsigned int questionCount;
 	unsigned int answerTimeOut;
-};
-
-//****************************  User  *******************************//
-struct User
-{
-	string username;
-	string password;
-	string email;
-};
-
-struct UserStatistics
-{
-	string username;
-	float avrageAnswerTime;
-	int numCorrectAnswers;
-	int numTotalAnswer;
-	int numOfPlayerGames;
 };
 
 //**************************** Question *******************************//

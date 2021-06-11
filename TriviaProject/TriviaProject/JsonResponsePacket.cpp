@@ -162,7 +162,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRespo
 {
 	json j;
 	j[STATUS] = response.status;
-	j[CORRECT_ANS] = response.correctAnswerId;
+	j[ANSWER_ID] = response.correctAnswerId;
 
 	return seralizingMsg(SUBMIT_ANSWER_RESPONSE, j.dump());
 }
@@ -298,6 +298,16 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(un
 	request.maxUsers = data[MAX_USERS];
 	request.questionCount = data[NUM_Q];
 	request.answerTimeOut = data[ANSWER_TIME];
+
+	return request;
+}
+
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(unsigned char* buffer)
+{
+	SubmitAnswerRequest request;
+	json j = deseralizingMsg(buffer);
+
+	request.answerId = j[ANSWER_ID];
 
 	return request;
 }

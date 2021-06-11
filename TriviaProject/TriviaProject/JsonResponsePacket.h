@@ -37,7 +37,7 @@ enum responses { LOGIN_RESPONSE = 15, SIGNUP_RESPONSE = 16, LOGOUT_RESPONSE,
 #define USER_STATISTICS "UserStatistics"
 #define HIGH_SCORES "HighScores"
 #define RESULTS "Results"
-#define CORRECT_ANS "CorrectAnswerId" 
+#define ANSWER_ID "AnswerId" 
 #define QUESTION "Question"
 #define ANSWERS "Answers"
 #define COMMA ","
@@ -99,6 +99,7 @@ public:
 	static GetPlayersInRoomRequest deserializeGetPlayersRequest(unsigned char* buffer);
 	static JoinRoomRequest deserializeJoinRoomRequest(unsigned char* buffer);
 	static CreateRoomRequest deserializeCreateRoomRequest(unsigned char* buffer);
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(unsigned char* buffer);
 
 private:
 	static  JsonRequestPacketDeserializer* m_ptr;

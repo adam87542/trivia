@@ -52,6 +52,14 @@ namespace Kahool
 		public uint maxUsers;
 		public uint questionCount;
 		public uint answerTimeOut;
+
+		public CreateRoomRequest(string roomName, uint maxUsers, uint questionCount, uint answerTimeOut)
+		{
+			this.roomName = roomName;
+			this.maxUsers = maxUsers;
+			this.questionCount = questionCount;
+			this.answerTimeOut = answerTimeOut;
+		}
 	};
 	struct LogoutRequest
 	{

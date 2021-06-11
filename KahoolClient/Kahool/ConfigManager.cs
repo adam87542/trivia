@@ -10,14 +10,14 @@ namespace Kahool
 		{
 			try
 			{
-				string[] data = System.IO.File.ReadAllLines("C:\\Users\\misha\\Desktop\\config.txt");
+				string[] data = System.IO.File.ReadAllLines("config.txt");
 				if (data.Length < 3)
 					throw new Exception("Config Not Right");
 				return data;
 			}
 			catch
 			{
-				throw new Exception("No Config File Found");
+				throw new Exception("Cant Find Config.txt");
 			}
 
 		}

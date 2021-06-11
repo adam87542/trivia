@@ -20,4 +20,11 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="ErrorPage - Copy.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ErrorPage.xaml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

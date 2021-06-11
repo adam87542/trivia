@@ -192,6 +192,11 @@ struct CreateRoomRequest
 	unsigned int answerTimeOut;
 };
 
+struct SubmitAnswerRequest
+{
+	unsigned int answerId;
+};
+
 //**************************** Question *******************************//
 
 struct Question

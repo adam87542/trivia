@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <Rectangle Fill="#FF32324B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="40" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800" Margin="0,17,0,0"/>
         <TextBox HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="19"  TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="26" Grid.Row="1" Margin="14,153,0,0"/>
-        <Image  Source="Resources/Images/Kahool_Logo.png" HorizontalAlignment="Left" Height="30" Margin="26,22,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140"/>
+        <Image  Source="Resources/Images/Kahool_Logo.png" HorizontalAlignment="Left" Height="30" Margin="26,22,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="90"/>
 
         <Button x:Name="JoinRoomCode" HorizontalAlignment="Left" Margin="98,0,0,0" VerticalAlignment="Center" Height="22" Width="102" Click="OnJoinRoomClick" Grid.Row="1">
             <Button.Style>
@@ -137,8 +137,16 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Label Name="MessageLabelCreate" Content="" FontSize="17" FontFamily="Resource/Fonts/QuickSand.ttf" Foreground="DarkRed" HorizontalAlignment="Center" Margin="0,328,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="388" Height="33" HorizontalContentAlignment="Center" Grid.Column="1"/>
+        <Label Name="MessageLabelCreate" Content="" FontSize="17" FontFamily="Resource/Fonts/QuickSand.ttf" Foreground="DarkRed" HorizontalAlignment="Center" Margin="0,350,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="388" Height="33" HorizontalContentAlignment="Center" Grid.Column="1"/>
         <Label x:Name="MessageLabelJoin" Content="" FontSize="17" FontFamily="Resource/Fonts/QuickSand.ttf" Foreground="DarkRed" HorizontalAlignment="Center" Margin="0,246,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="388" Height="32" HorizontalContentAlignment="Center"/>
+        <Label Content="Question Timer :" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="27,282,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Grid.Column="1" FontStyle="Normal" FontWeight="Normal" Height="30" Width="149"/>
+        <ComboBox  x:Name="TimerBox" Grid.Column="1" HorizontalAlignment="Left" Margin="51,312,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="140" Height="22">
+            <ComboBoxItem IsSelected="True" Content="4"/>
+            <ComboBoxItem Content="6"/>
+            <ComboBoxItem Content="8"/>
+            <ComboBoxItem Content="10"/>
+
+        </ComboBox>
 
 
 

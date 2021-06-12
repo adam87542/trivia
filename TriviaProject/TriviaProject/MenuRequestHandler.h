@@ -4,6 +4,7 @@
 #include "JsonResponsePacket.h"
 #include "Statistic_manager.h"
 #include "RoomManager.h"
+#include "LoginManager.h"
 
 class MenuRequestHandler : public IRequestHandler
 {

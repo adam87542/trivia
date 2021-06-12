@@ -50,6 +50,7 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	RequestResult myResult;
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
+	LoginManager::get_instance()->logout(m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = nullptr;
 	return myResult;

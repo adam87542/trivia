@@ -15,10 +15,12 @@ namespace Kahool
 
 		public Communicator()
 		{
+
+			string ServerIp = ConfigManager.getConfigIP();
+			int port = ConfigManager.getConfigPort();
+
 			try
 			{
-				string ServerIp = ConfigManager.getConfigIP();
-				int port = ConfigManager.getConfigPort();
 				client = new TcpClient();
 				serverEndPoint = new IPEndPoint(IPAddress.Parse(ServerIp), port);
 				client.Connect(serverEndPoint);

@@ -7,28 +7,37 @@ namespace Kahool
 	class MenuResponeHandler
 	{
 
-		public static bool JoinRoom(Communicator com, JoinRoomRequest request)
+		public static JoinRoomResponse JoinRoom(Communicator com, JoinRoomRequest request)
 		{
+			JoinRoomResponse response;
+			response.status = Constants.Fail;
+			response.difficulty = "";
+			response.answerTimeOut = 0;
+			response.maxUsers = 0;
+			response.questionCount = 0;
+
 			if (com != null)
 			{
 				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
 				string MsgFromServer = com.SendPacket(MsgToServer);
-				SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(MsgFromServer);
-				return respone.status == Constants.Success;
+				response = JsonResponeDeserializer.deserializeJoinRoomRespone(MsgFromServer);
 			}
-			return false;
+			return response;
 		}
 
-		public static bool CreateRoom(Communicator com, CreateRoomRequest request)
+		public static CreateRoomResponse CreateRoom(Communicator com, CreateRoomRequest request)
 		{
+			CreateRoomResponse response;
+			response.status = Constants.Fail;
+			response.roomId = 0;
+
 			if (com != null)
 			{
 				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
 				string MsgFromServer = com.SendPacket(MsgToServer);
-				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(MsgFromServer);
-				return respone.status == Constants.Success;
+				response = JsonResponeDeserializer.deserializeCreateRoomResponse(MsgFromServer);
 			}
-			return false;
+			return response;
 		}
 	}
 }

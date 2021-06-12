@@ -11,21 +11,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kahool.Pages
+namespace Kahool
 {
 	/// <summary>
-	/// Interaction logic for RoomLobby.xaml
+	/// Interaction logic for LobbyRoom.xaml
 	/// </summary>
-	public partial class RoomLobby : Page
+	public partial class LobbyRoom : Page
 	{
-		public RoomLobby(bool isLeader)
+		Communicator com;
+		public LobbyRoom(bool isLeader, string roomId, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
 		{
-			if (!isLeader)//If its a guest, disable the abbility to start a game, and inform them to wait
+			InitializeComponent();
+			NumberOfQuestsionLabel.Content += numOfQuestions;
+			TimeBetweenQuestionsLabel.Content += timeBetweenQuestions + " sec";
+			RoomIDLabel.Content += roomId;
+			DifficultyLabel.Content += difficulty;
+
+			this.com = com;
+			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
 				GuestLabel.Content = "Waiting for the leader to start";
-			}	
-			InitializeComponent();
+			}
 		}
 
 		public void EndRunning(object sender, RoutedEventArgs e)

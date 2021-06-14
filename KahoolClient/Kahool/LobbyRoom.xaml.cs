@@ -39,5 +39,13 @@ namespace Kahool
 		{
 			System.Windows.Application.Current.Shutdown();
 		}
+		private void OnStartClick(object sender, RoutedEventArgs e)
+		{
+
+		}
+		private void OnCloseClick(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
-}
+	}

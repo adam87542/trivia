@@ -30,7 +30,7 @@ namespace Kahool
 			CreateRoomResponse response;
 			response.status = Constants.Fail;
 			response.roomId = 0;
-
+			response.roomName = null;
 			if (com != null)
 			{
 				string MsgToServer = JsonRequestSerializer.serializeRequest(request);

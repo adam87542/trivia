@@ -27,7 +27,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 		break;
 	case STATE_ROOM_REQUEST:
-		myResult = GetRoomState();
+		myResult = GetRoomState(*m_room);
 		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;
 	default:
@@ -57,12 +57,14 @@ RequestResult RoomAdminRequestHandler::StartGame()
 	return myResult;
 }
 
-RequestResult RoomAdminRequestHandler::GetRoomState()
+RequestResult RoomAdminRequestHandler::GetRoomState(Room room)
 {
 	RequestResult myResult;
-	GetRoomsResponse response;
+	GetRoomStateResponse response;
 	response.status = SUCCESS_CODE;
-	response.rooms = m_roomManager->getRooms();
+	response.answerTimeOut = room.getData().timePerQuestion;
+	response.difficulty = room.getData().difficulty;
+	response.questionCount = room.getData().numOfQuestionsInGame;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return myResult;
 }

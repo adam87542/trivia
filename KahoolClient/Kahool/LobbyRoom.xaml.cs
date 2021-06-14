@@ -19,12 +19,13 @@ namespace Kahool
 	public partial class LobbyRoom : Page
 	{
 		Communicator com;
-		public LobbyRoom(bool isLeader, string roomId, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
+		public LobbyRoom(bool isLeader, string roomId , string roomName , string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
 		{
 			InitializeComponent();
 			NumberOfQuestsionLabel.Content += numOfQuestions;
 			TimeBetweenQuestionsLabel.Content += timeBetweenQuestions + " sec";
 			RoomIDLabel.Content += roomId;
+			RoomNameLabel.Content += roomName;
 			DifficultyLabel.Content += difficulty;
 
 			this.com = com;

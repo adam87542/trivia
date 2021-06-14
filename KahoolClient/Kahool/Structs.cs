@@ -48,6 +48,7 @@ namespace Kahool
 
 	struct CreateRoomRequest
 	{
+		public string roomName;
 		public string difficulty;
 		public uint maxUsers;
 		public uint questionCount;
@@ -93,6 +94,7 @@ namespace Kahool
 	};
 	struct CreateRoomResponse
 	{
+		public string roomName;
 		public uint status;
 		public uint roomId;
 	};

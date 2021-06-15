@@ -146,9 +146,11 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	CreateRoomResponse respone;
 	CreateRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	RoomData roomData;
-	int givenRoomId = std::rand();
-	while(IsIdExists(givenRoomId))
-		int givenRoomId = std::rand();
+	int givenRoomId = rand() % 100 + 1;
+	while (IsIdExists(givenRoomId))
+	{
+        givenRoomId = rand() % 100 + 1;
+	}
 	roomData.roomAdmin = this->m_user->getUsername();
 	roomData.id = givenRoomId;
 	roomData.isActive = true;

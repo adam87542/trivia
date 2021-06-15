@@ -38,7 +38,7 @@ namespace Kahool
             CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
 
             if (response.status == Constants.Success)
-                this.Content = new LobbyRoom(true, response.roomId.ToString() , response.roomName ,createRoomRequest.answerTimeOut.ToString(),createRoomRequest.difficulty,createRoomRequest.questionCount.ToString(),com);
+                this.Content = new LobbyRoom(true, this.username,response.roomId.ToString() , response.roomName ,createRoomRequest.answerTimeOut.ToString(),createRoomRequest.difficulty,createRoomRequest.questionCount.ToString(),com);
             else
                 MessageLabelCreate.Content = "Couldn't create room, please try again later";
         }
@@ -52,7 +52,7 @@ namespace Kahool
             if(response.status != Constants.Success)
                 MessageLabelJoin.Content = "Invalid room id";
             else
-                this.Content = new LobbyRoom(false, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
+                this.Content = new LobbyRoom(false, this.username, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
  
 
         }

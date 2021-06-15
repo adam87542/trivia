@@ -48,7 +48,7 @@ namespace Kahool
 			if (com != null)
 			{
 				string MsgToServer = JsonRequestSerializer.serializeRequest(logoutRequest);
-				com.SendPacket(MsgToServer);
+				string MsgFromServer = com.SendPacket(MsgToServer);
 			}
 		}
 	}

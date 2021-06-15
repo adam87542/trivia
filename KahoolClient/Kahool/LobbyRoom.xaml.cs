@@ -19,8 +19,10 @@ namespace Kahool
 	public partial class LobbyRoom : Page
 	{
 		Communicator com;
-		public LobbyRoom(bool isLeader, string roomId , string roomName , string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
+		private string username;
+		public LobbyRoom(bool isLeader, string username , string roomId , string roomName , string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
 		{
+			this.username = username;
 			InitializeComponent();
 			NumberOfQuestsionLabel.Content += numOfQuestions;
 			TimeBetweenQuestionsLabel.Content += timeBetweenQuestions + " sec";
@@ -48,7 +50,9 @@ namespace Kahool
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
-
+			App.Current.MainWindow.Hide();
+			MenuWindow wnd = new MenuWindow(com, username);
+			wnd.ShowDialog();
 		}
 	}
 	}

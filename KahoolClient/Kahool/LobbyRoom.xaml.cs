@@ -32,12 +32,14 @@ namespace Kahool
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
+				CloseRoomButton.Visibility = Visibility.Collapsed;
 				GuestLabel.Content = "Waiting for the leader to start";
 			}
 		}
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
+			MenuResponeHandler.LogOut(com);
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)

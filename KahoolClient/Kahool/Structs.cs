@@ -45,6 +45,10 @@ namespace Kahool
 	{
 		public uint roomId;
 	};
+	struct GetRoomStateRequest
+    {
+		public uint code;
+	};
 
 	struct CreateRoomRequest
 	{
@@ -86,11 +90,12 @@ namespace Kahool
 
 	struct JoinRoomResponse
 	{
-		public uint status;
+	    public	uint status;
+		public string roomName;
 		public string difficulty;
-		public uint maxUsers;
 		public uint questionCount;
 		public uint answerTimeOut;
+		public uint roomId;
 	};
 	struct CreateRoomResponse
 	{
@@ -98,10 +103,12 @@ namespace Kahool
 		public uint status;
 		public uint roomId;
 	};
-	struct LogoutResponse
+	struct GetRoomStateRespone
 	{
-		public uint status;
-	};
-
+		public string difficulty;
+		public uint maxUsers;
+		public uint questionCount;
+		public uint answerTimeOut;
+	}
 
 }

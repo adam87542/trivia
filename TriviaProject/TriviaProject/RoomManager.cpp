@@ -24,8 +24,9 @@ std::vector<string> RoomManager::getPlayersInRoom(int room_id)
 
 Room RoomManager::addPlayerToRoom(int room_id , string username)
 {
-	this->m_rooms[room_id].addUser(LoggedUser(username));
-	return this->m_rooms[room_id];
+	Room itr = GetRoomById(room_id);
+	itr.addUser(LoggedUser(username));
+	return itr;
 }
 
 Room RoomManager::GetRoomPlayerIsOn(string usrename)
@@ -46,6 +47,16 @@ Room RoomManager::createRoom(LoggedUser user, RoomData data)
 	return room;
 }
 
+Room RoomManager::GetRoomById(int roomId)
+{
+	for (auto room : this->m_rooms)
+	{
+		if (room.getData().id == roomId)
+			return room;
+	}
+	throw std::exception("Room Doesn't exists");
+}
+
 void RoomManager::deleteRoom(int id)
 {
 	auto Iter = this->m_rooms.begin();
@@ -54,7 +65,6 @@ void RoomManager::deleteRoom(int id)
 	{
 		if (Iter->getData().id == id)
 		{
-			delete &Iter;
 			this->m_rooms.erase(Iter);
 			break;
 		}
@@ -64,7 +74,8 @@ void RoomManager::deleteRoom(int id)
 
 unsigned int RoomManager::getRoomState(int id)
 {
-	return this->m_rooms[id].getData().isActive;
+	Room itr = m_rooms.at(id);
+	return itr.getData().isActive;
 }
 
 std::vector<RoomData> RoomManager::getRooms()

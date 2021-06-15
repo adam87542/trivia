@@ -93,6 +93,11 @@ struct GetPersonalStatsResponse
 struct JoinRoomResponse
 {
 	unsigned int status;
+	string roomName;
+	string difficulty;
+	unsigned int questionCount;
+	unsigned int answerTimeOut;
+	unsigned int roomId;
 };
 
 struct CreateRoomResponse
@@ -116,9 +121,6 @@ struct GetRoomStateResponse
 {
 	unsigned int status;
 	bool hasGameBegun;
-	unsigned int questionCount;
-	unsigned int answerTimeOut;
-	string difficulty;
 };
 
 struct LeaveRoomResponse

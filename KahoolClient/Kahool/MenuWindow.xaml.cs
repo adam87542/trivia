@@ -49,12 +49,17 @@ namespace Kahool
             request.roomId = Convert.ToUInt32(RoomIdBox.Text);
 
             JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
-
+            if(response.status != Constants.Success)
+                MessageLabelJoin.Content = "Invalid room id";
+            else
+                this.Content = new LobbyRoom(false, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
+ 
 
         }
 
         public void EndRunning(object sender, RoutedEventArgs e)
         {
+            MenuResponeHandler.LogOut(com);
             System.Windows.Application.Current.Shutdown();
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

@@ -11,10 +11,12 @@ namespace Kahool
 		{
 			JoinRoomResponse response;
 			response.status = Constants.Fail;
-			response.difficulty = "";
-			response.answerTimeOut = 0;
-			response.maxUsers = 0;
+			response.roomId = 0;
+			response.roomName = null;
 			response.questionCount = 0;
+			response.answerTimeOut = 0;
+			response.difficulty = null;
+			response.status = Constants.Fail;
 
 			if (com != null)
 			{
@@ -38,6 +40,16 @@ namespace Kahool
 				response = JsonResponeDeserializer.deserializeCreateRoomResponse(MsgFromServer);
 			}
 			return response;
+		}
+		public static void LogOut(Communicator com)
+		{
+			LogoutRequest logoutRequest;
+			logoutRequest.code = (uint)Constants.requests.LOGOUT_REQUEST;
+			if (com != null)
+			{
+				string MsgToServer = JsonRequestSerializer.serializeRequest(logoutRequest);
+				com.SendPacket(MsgToServer);
+			}
 		}
 	}
 }

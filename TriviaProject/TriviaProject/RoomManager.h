@@ -17,6 +17,7 @@ public:
 	Room addPlayerToRoom(int room_id , string username);
 	Room GetRoomPlayerIsOn(string usrename);
 	Room createRoom(LoggedUser user, RoomData data);
+	Room GetRoomById(int roomId);
 	void deleteRoom(int id);
 	unsigned int getRoomState(int id);
 	std::vector<RoomData> getRooms();

@@ -72,9 +72,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomR
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
-	string msg = creatingStatusResponse(response.status);
-
-	return seralizingMsg(JOIN_ROOM_RESPONSE, msg);
+	json j;
+	j[STATUS] = response.status;
+	j[ID] = response.roomId;
+	j[ROOMNAME] = response.roomName;
+	j[NUM_Q] = response.questionCount;
+	j[ANSWER_TIME] = response.answerTimeOut;
+	j[DIFFICULTY] = response.difficulty;
+	return seralizingMsg(JOIN_ROOM_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
@@ -116,9 +121,6 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateRespo
 	json j;
 	j[STATUS] = response.status;
 	j[GAME_BEGUN] = response.hasGameBegun;
-	j[NUM_Q] = response.questionCount;
-	j[ANSWER_TIME] = response.answerTimeOut;
-	j[DIFFICULTY] = response.difficulty;
 
 	return seralizingMsg(STATE_ROOM_RESPONSE, j.dump());
 }

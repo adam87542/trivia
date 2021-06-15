@@ -3,6 +3,7 @@
 
 StatisticManager* MenuRequestHandler::m_statisticManager = StatisticManager::get_instance();
 RoomManager* MenuRequestHandler::m_roomManager = RoomManager::get_instance();
+LoginManager* MenuRequestHandler::m_loginManager = LoginManager::get_instance();
 MenuRequestHandler::MenuRequestHandler(string username)
 {
 	this->m_user = new LoggedUser(username);
@@ -50,7 +51,6 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	RequestResult myResult;
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
-	LoginManager::get_instance()->logout(m_user->getUsername());
 	for (auto room : m_roomManager->getRooms())
 	{
 		if (room.roomAdmin == m_user->getUsername())
@@ -58,6 +58,7 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 			m_roomManager->deleteRoom(room.id);
 		}
 	}
+	m_loginManager->logout(m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = nullptr;
 	return myResult;
@@ -116,10 +117,25 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	RequestResult myResult;
 	JoinRoomResponse respone;
 	JoinRoomRequest  myRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
-	respone.status = SUCCESS_CODE;
-	Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId,m_user->getUsername());
+	try
+	{
+		Room roomToJoin = m_roomManager->GetRoomById(myRequest.roomId);
+		respone.roomName = roomToJoin.getData().name;
+		respone.answerTimeOut = roomToJoin.getData().timePerQuestion;
+		respone.difficulty = roomToJoin.getData().difficulty;
+		respone.questionCount = roomToJoin.getData().numOfQuestionsInGame;
+		respone.roomId = roomToJoin.getData().id;
+		Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId, m_user->getUsername());
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), userRoomToJoin);
+		respone.status = SUCCESS_CODE;
+	}
+	catch (std::exception e)
+	{
+		e.what();
+		respone.status = ERR_CODE;
+		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
+	}
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername() , userRoomToJoin);
 	return myResult;
 
 }

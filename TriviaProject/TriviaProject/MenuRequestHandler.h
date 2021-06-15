@@ -16,6 +16,7 @@ private:
 	LoggedUser* m_user;
 	static StatisticManager* m_statisticManager;
 	static RoomManager* m_roomManager;
+	static LoginManager* m_loginManager;
 	RequestResult logout(RequestInfo info);
 	RequestResult getRooms(RequestInfo info);
 	RequestResult getPlayersInRoom(RequestInfo);

@@ -62,9 +62,7 @@ RequestResult RoomAdminRequestHandler::GetRoomState(Room room)
 	RequestResult myResult;
 	GetRoomStateResponse response;
 	response.status = SUCCESS_CODE;
-	response.answerTimeOut = room.getData().timePerQuestion;
-	response.difficulty = room.getData().difficulty;
-	response.questionCount = room.getData().numOfQuestionsInGame;
+	response.hasGameBegun = room.getData().isActive;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return myResult;
 }

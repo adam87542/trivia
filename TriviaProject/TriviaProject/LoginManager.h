@@ -1,13 +1,12 @@
 #pragma once
 #include "LoggedUser.h"
 #include "SqliteDataBase.h"
-#include <algorithm>
 
 class LoginManager
 {
 private:
 	static  LoginManager* m_ptr;
-	LoginManager();
+	LoginManager() = default;
 	~LoginManager();
 	static IDatabase* m_database;//The database
 	std::vector<LoggedUser> m_loggedUsers;//All current logged users

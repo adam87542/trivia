@@ -45,7 +45,7 @@
             </Button.Template>
         </Button>
 
-        <Button Name="CloseRoom" HorizontalAlignment="Left" Margin="637,418,0,0" VerticalAlignment="Top" Height="22" Width="86" Click="OnCloseClick">
+        <Button Name="CloseRoomButton" HorizontalAlignment="Left" Margin="637,418,0,0" VerticalAlignment="Top" Height="22" Width="86" Click="OnCloseClick">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="TextElement.FontFamily" Value="Fonts/#QuickSand.ttf"/>

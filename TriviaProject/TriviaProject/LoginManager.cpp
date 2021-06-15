@@ -1,11 +1,7 @@
 #include "LoginManager.h"
 #include "SqliteDataBase.h"
 LoginManager* LoginManager::m_ptr = nullptr;
-IDatabase* LoginManager::m_database = nullptr;
-LoginManager::LoginManager()
-{
-	this->m_database  = SqliteDataBase::get_instance();
-}
+IDatabase* LoginManager::m_database = SqliteDataBase::get_instance();
 
 LoginManager* LoginManager::get_instance()
 {
@@ -23,7 +19,10 @@ void LoginManager::reset_instance()
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
 	if (!m_database->doesUserExist(username))
+	{
 		m_database->addNewUser(username, password, email);
+		m_loggedUsers.push_back(LoggedUser(username));
+	}
 	else
 		throw std::exception("User already exists");
 }
@@ -43,7 +42,6 @@ void LoginManager::logout(std::string username)
 	{
 		if (loggedUserItr->getUsername() == username)
 		{
-			delete& loggedUserItr;
 			m_loggedUsers.erase(loggedUserItr);
 			return;
 		}

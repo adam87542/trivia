@@ -62,7 +62,6 @@ RequestResult Communicator::PraseData(RequestInfo recived , RequestResult res)
 {
 	if (!res.newhandler->isRequestRelevant(recived))
 		throw std::exception("Invalid request , server is disconecting...");
-	else
 	res = res.newhandler->handleRequest(recived);
 	return res;
 }

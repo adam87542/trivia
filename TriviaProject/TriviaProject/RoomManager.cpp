@@ -19,7 +19,8 @@ void RoomManager::reset_instance()
 
 std::vector<string> RoomManager::getPlayersInRoom(int room_id)
 {
-	return this->m_rooms[room_id].getAllUsers();
+	Room room = GetRoomById(room_id);
+	return room.getAllUsers();
 }
 
 Room RoomManager::addPlayerToRoom(int room_id , string username)
@@ -70,11 +71,12 @@ void RoomManager::deleteRoom(int id)
 		}
 		Iter++;
 	}
+
 }
 
 unsigned int RoomManager::getRoomState(int id)
 {
-	Room itr = m_rooms.at(id);
+	Room itr = GetRoomById(id);
 	return itr.getData().isActive;
 }
 

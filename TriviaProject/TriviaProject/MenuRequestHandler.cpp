@@ -146,9 +146,11 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	CreateRoomResponse respone;
 	CreateRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	RoomData roomData;
-
+	int givenRoomId = std::rand();
+	while(IsIdExists(givenRoomId))
+		int givenRoomId = std::rand();
 	roomData.roomAdmin = this->m_user->getUsername();
-	roomData.id = m_roomManager->getRooms().size() + 1;
+	roomData.id = givenRoomId;
 	roomData.isActive = true;
 	roomData.maxPlayers = myRequest.maxUsers;
 	roomData.name = myRequest.roomName;
@@ -163,6 +165,16 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , UserRoom);
 	return myResult;
+}
+
+bool MenuRequestHandler::IsIdExists(int Id)
+{
+	for (Room room : m_roomManager->getRooms())
+	{
+		if (room.getData().id == Id)
+			return true;
+	}
+	return false;
 }
 
 string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> vec)

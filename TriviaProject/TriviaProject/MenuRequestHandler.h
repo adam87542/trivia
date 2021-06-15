@@ -25,6 +25,7 @@ private:
 	RequestResult joinRoom(RequestInfo info);
 	RequestResult createRoom(RequestInfo info);
 
+	bool IsIdExists(int id);
 	string FromVecToString(std::vector<std::pair<string, int>> vec);
 	string FromUserStatisticsToString(UserStatistics statistics);
 };

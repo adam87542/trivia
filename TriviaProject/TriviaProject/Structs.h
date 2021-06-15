@@ -102,7 +102,6 @@ struct JoinRoomResponse
 
 struct CreateRoomResponse
 {
-	string roomName;
 	unsigned int status;
 	unsigned int roomId;
 };

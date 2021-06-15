@@ -29,6 +29,12 @@ namespace Kahool
             return serializeMsg((int)Constants.requests.JOIN_ROOM_REQUEST, json);
 
         }
+        public static string serializeRequest(GetPlayersInRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.GET_PLAYERS_REQUEST, json);
+
+        }
         public static string serializeRequest(CreateRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
@@ -70,6 +76,12 @@ namespace Kahool
         {
             string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
             JoinRoomResponse response = JsonConvert.DeserializeObject<JoinRoomResponse>(JsonMsg);
+            return response;
+        }
+        public static GetPlayersInRoomResponse deserializeGetPlayersInRoomRespone(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetPlayersInRoomResponse response = JsonConvert.DeserializeObject<GetPlayersInRoomResponse>(JsonMsg);
             return response;
         }
         public static CreateRoomResponse deserializeCreateRoomResponse(string Buffer)

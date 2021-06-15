@@ -16,11 +16,11 @@ namespace Kahool
 	/// <summary>
 	/// Interaction logic for LobbyRoom.xaml
 	/// </summary>
-	public partial class LobbyRoom : Page
+	public partial class LobbyRoom :Window
 	{
 		Communicator com;
 		private string username;
-		public LobbyRoom(bool isLeader, string username , string roomId , string roomName , string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
+		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
 		{
 			this.username = username;
 			InitializeComponent();
@@ -41,7 +41,6 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
-			MenuResponeHandler.LogOut(com);
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
@@ -50,9 +49,15 @@ namespace Kahool
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
-			App.Current.MainWindow.Hide();
+			this.Close();
 			MenuWindow wnd = new MenuWindow(com, username);
 			wnd.ShowDialog();
 		}
+		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Left)
+				this.DragMove();
+		}
+
 	}
-	}
+}

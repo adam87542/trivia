@@ -6,7 +6,7 @@ namespace Kahool
 {
 	//**************************** Const *********************************//
 	static class Constants
-    {
+	{
 		public const int Success = 1;
 		public const int Fail = 0;
 		public const int BUFFER_START_LEN = 5;
@@ -14,7 +14,7 @@ namespace Kahool
 		public const int MIN_PASSWORD_LENGTH = 8;
 		public const int MAX_USERNAME_LENGTH = 15;
 		public const int MIN_USERNAME_LENGTH = 6;
-		public	enum requests
+		public enum requests
 		{
 			LOGIN_REQUEST = 2, SIGNUP_REQUEST = 3, LOGOUT_REQUEST,
 			GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
@@ -46,7 +46,11 @@ namespace Kahool
 		public uint roomId;
 	};
 	struct GetRoomStateRequest
-    {
+	{
+		public uint code;
+	};
+	struct GetPlayersInRoomRequest
+	{
 		public uint code;
 	};
 
@@ -63,16 +67,11 @@ namespace Kahool
 		public uint code;
 	};
 	struct GetStatisticsRequest
-    {
+	{
 		public uint code;
-    };
+	};
 
 	//**************************** Responses  *********************************//
-	struct ResponeInfo
-	{
-		public uint ResponetId;
-		public List<Byte> buffer;
-	};
 	struct LoginResponse
 	{
 		public uint status;
@@ -90,7 +89,7 @@ namespace Kahool
 
 	struct JoinRoomResponse
 	{
-	    public	uint status;
+		public uint status;
 		public string roomName;
 		public string difficulty;
 		public uint questionCount;
@@ -105,10 +104,12 @@ namespace Kahool
 	};
 	struct GetRoomStateRespone
 	{
-		public string difficulty;
-		public uint maxUsers;
-		public uint questionCount;
-		public uint answerTimeOut;
+		public uint status;
+		public bool IsGameBegan;
 	}
-
+	struct GetPlayersInRoomResponse
+		{
+		public uint status;
+		public List<string> players;
+         };
 }

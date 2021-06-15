@@ -51,13 +51,6 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	RequestResult myResult;
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
-	for (auto room : m_roomManager->getRooms())
-	{
-		if (room.roomAdmin == m_user->getUsername())
-		{
-			m_roomManager->deleteRoom(room.id);
-		}
-	}
 	m_loginManager->logout(m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = nullptr;
@@ -93,10 +86,10 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	{
 		PlayersRoom = m_roomManager->GetRoomPlayerIsOn(m_user->getUsername());
 	}
-	catch(...)
+	catch(const std::exception e)
 	{
 		ErrorResponse respone;
-		respone.message = ERROR;
+		respone.message = e.what();
 		myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 		myResult.newhandler = nullptr;
 		return myResult;
@@ -159,11 +152,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	roomData.numOfQuestionsInGame = myRequest.questionCount;
 	roomData.timePerQuestion = myRequest.answerTimeOut;
 	roomData.difficulty = myRequest.difficulty;
-
-	Room UserRoom = m_roomManager->createRoom(m_user->getUsername() , roomData);
-	respone.status = SUCCESS_CODE;
 	respone.roomId = roomData.id;
-	respone.roomName = roomData.name;
+
+	respone.status = SUCCESS_CODE;
+	Room UserRoom = m_roomManager->createRoom(m_user->getUsername() , roomData);
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , UserRoom);
 	return myResult;

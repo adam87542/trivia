@@ -38,7 +38,11 @@ namespace Kahool
             CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
 
             if (response.status == Constants.Success)
-                this.Content = new LobbyRoom(true, this.username,response.roomId.ToString() , response.roomName ,createRoomRequest.answerTimeOut.ToString(),createRoomRequest.difficulty,createRoomRequest.questionCount.ToString(),com);
+            {
+                this.Close();
+                LobbyRoom wnd = new LobbyRoom(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com);
+                wnd.ShowDialog();
+            }
             else
                 MessageLabelCreate.Content = "Couldn't create room, please try again later";
         }
@@ -49,13 +53,16 @@ namespace Kahool
             request.roomId = Convert.ToUInt32(RoomIdBox.Text);
 
             JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
-            if(response.status != Constants.Success)
-                MessageLabelJoin.Content = "Invalid room id";
-            else
-                this.Content = new LobbyRoom(false, this.username, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
- 
 
-        }
+            if (response.status == Constants.Success)
+            {
+                this.Close();
+                LobbyRoom wnd = new LobbyRoom(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
+                wnd.ShowDialog();
+            }
+            MessageLabelJoin.Content = "Invalid room id";
+
+        } 
 
         public void EndRunning(object sender, RoutedEventArgs e)
         {

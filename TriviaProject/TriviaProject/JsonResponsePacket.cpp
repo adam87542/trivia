@@ -87,7 +87,6 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomRespons
 	json j;
 	j[STATUS] = response.status;
 	j[ID] = response.roomId;
-	j[ROOMNAME] = response.roomName;
 	string msg = j.dump();
 
 	return seralizingMsg(CREATE_ROOM_RESPONSE, msg);

@@ -13,7 +13,12 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
         }
-         public static string  serializeRequest(SignupRequest request)
+        public static string serializeRequest(CloseRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.CLOSE_ROOM_REQUEST, json);
+        }
+        public static string  serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.SIGNUP_REQUEST, json);
@@ -22,6 +27,11 @@ namespace Kahool
         {
             string json = JsonConvert.SerializeObject(request , Formatting.None);
             return serializeMsg((int)Constants.requests.LOGOUT_REQUEST, json);
+        }
+        public static string serializeRequest(LeaveRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.LEAVE_ROOM_REQUEST, json);
         }
         public static string serializeRequest(JoinRoomRequest request)
         {

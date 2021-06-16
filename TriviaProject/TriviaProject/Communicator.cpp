@@ -1,6 +1,6 @@
 #include "Communicator.h"
 #define PORT 25667
-#define CODE_LENGTH 1
+#define CODE_LENGTH 2
 #define MSG_LENGTH 4
 
 Communicator* Communicator::m_ptr = nullptr;

@@ -206,10 +206,11 @@ unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, stri
 
 	string length = Helper::getPaddedNumber(msg.length(), LENGTH_BYTES);
 
-	buffer[0] = responseNum + '0'; // adding code
+	buffer[0] = responseNum % 10 + '0'; // adding code
+	buffer[1] = responseNum / 10 + '0'; // adding code
 
 	for (unsigned int i = 0; i < LENGTH_BYTES; i++) // adding length
-		buffer[i + 1] = length[i];
+		buffer[i + 2] = length[i];
 
 	for (unsigned int i = 0; i < msg.length(); i++) // adding data
 		buffer[i + BUFFER_START_LEN] = msg[i];

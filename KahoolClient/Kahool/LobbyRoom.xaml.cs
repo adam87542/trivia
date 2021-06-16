@@ -20,8 +20,10 @@ namespace Kahool
 	{
 		Communicator com;
 		private string username;
+		private bool isLeader;
 		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
 		{
+			this.isLeader = isLeader;
 			this.username = username;
 			InitializeComponent();
 			NumberOfQuestsionLabel.Content += numOfQuestions;
@@ -41,6 +43,10 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
+			if (isLeader)
+				LobbyResponeHandler.CloseRoom(this.com);
+			else
+				LobbyResponeHandler.LeaveRoom(this.com);
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
@@ -49,6 +55,7 @@ namespace Kahool
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
+			LobbyResponeHandler.CloseRoom(this.com);
 			this.Close();
 			MenuWindow wnd = new MenuWindow(com, username);
 			wnd.ShowDialog();

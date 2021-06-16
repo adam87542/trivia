@@ -1,14 +1,11 @@
-﻿<Window x:Class="Kahool.MenuWindow"
+﻿<Page x:Class="Kahool.MenuPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kahool"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
         Background="#4A4E69"
-        WindowStyle="None"
-        MouseDown="Window_MouseDown"
         Title="Kahool:Login" Height="450" Width="800">
     <Grid>
 
@@ -149,4 +146,4 @@
 
 
     </Grid>
-</Window>
+</Page>

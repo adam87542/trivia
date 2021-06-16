@@ -16,11 +16,11 @@ namespace Kahool
     /// <summary>
     /// Interaction logic for MenuWindow.xaml
     /// </summary>
-    public partial class MenuWindow : Window
+    public partial class MenuPage : Page
     {
         private Communicator com;
         private string username;
-        public MenuWindow(Communicator com, string username)
+        public MenuPage(Communicator com, string username)
         {
             InitializeComponent();
             this.com = com;
@@ -38,11 +38,7 @@ namespace Kahool
             CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
 
             if (response.status == Constants.Success)
-            {
-                this.Close();
-                LobbyRoom wnd = new LobbyRoom(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com);
-                wnd.ShowDialog();
-            }
+                this.NavigationService.Navigate(new LobbyRoom(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com));
             else
                 MessageLabelCreate.Content = "Couldn't create room, please try again later";
         }
@@ -55,24 +51,16 @@ namespace Kahool
             JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
 
             if (response.status == Constants.Success)
-            {
-                this.Close();
-                LobbyRoom wnd = new LobbyRoom(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com);
-                wnd.ShowDialog();
-            }
-            MessageLabelJoin.Content = "Invalid room id";
+                this.NavigationService.Navigate(new LobbyRoom(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com));
+            else
+              MessageLabelJoin.Content = "Invalid room id";
 
-        } 
+        }
 
         public void EndRunning(object sender, RoutedEventArgs e)
         {
             MenuResponeHandler.LogOut(com);
             System.Windows.Application.Current.Shutdown();
-        }
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Kahool
 	/// <summary>
 	/// Interaction logic for LobbyRoom.xaml
 	/// </summary>
-	public partial class LobbyRoom :Window
+	public partial class LobbyRoom : Page
 	{
 		Communicator com;
 		private string username;
@@ -56,14 +56,7 @@ namespace Kahool
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
 			LobbyResponeHandler.CloseRoom(this.com);
-			this.Close();
-			MenuWindow wnd = new MenuWindow(com, username);
-			wnd.ShowDialog();
-		}
-		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.ChangedButton == MouseButton.Left)
-				this.DragMove();
+			this.NavigationService.Navigate(new MenuPage(com, this.username));
 		}
 
 	}

@@ -21,8 +21,10 @@ namespace Kahool
 		Communicator com;
 		private string username;
 		private bool isLeader;
-		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com)
+		MenuWindow wnd;
+		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
 		{
+			this.wnd = wnd;
 			this.isLeader = isLeader;
 			this.username = username;
 			InitializeComponent();
@@ -39,24 +41,30 @@ namespace Kahool
 				CloseRoomButton.Visibility = Visibility.Collapsed;
 				GuestLabel.Content = "Waiting for the leader to start";
 			}
+			else
+				ExitButton.Visibility = Visibility.Collapsed;
 		}
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
+			MenuResponeHandler.LogOut(com);
 			if (isLeader)
 				LobbyResponeHandler.CloseRoom(this.com);
-			else
-				LobbyResponeHandler.LeaveRoom(this.com);
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
 		{
 
 		}
+		private void OnExitClick(object sender, RoutedEventArgs e)
+		{
+			LobbyResponeHandler.LeaveRoom(com);
+			wnd.ChangeToMenu(com, username, wnd);
+		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
 			LobbyResponeHandler.CloseRoom(this.com);
-			this.NavigationService.Navigate(new MenuPage(com, this.username));
+			wnd.ChangeToMenu(com,username, wnd);
 		}
 
 	}

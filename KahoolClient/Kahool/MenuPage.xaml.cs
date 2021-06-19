@@ -18,11 +18,14 @@ namespace Kahool
     /// </summary>
     public partial class MenuPage : Page
     {
+        MenuWindow wnd;
         private Communicator com;
         private string username;
-        public MenuPage(Communicator com, string username)
+
+        public MenuPage(Communicator com, string username, MenuWindow wnd)
         {
             InitializeComponent();
+            this.wnd = wnd;
             this.com = com;
             this.username = username;
         }
@@ -38,7 +41,7 @@ namespace Kahool
             CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
 
             if (response.status == Constants.Success)
-                this.NavigationService.Navigate(new LobbyRoom(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com));
+                wnd.ChangeToLobby(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com,wnd);
             else
                 MessageLabelCreate.Content = "Couldn't create room, please try again later";
         }
@@ -49,11 +52,10 @@ namespace Kahool
             request.roomId = Convert.ToUInt32(RoomIdBox.Text);
 
             JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
-
             if (response.status == Constants.Success)
-                this.NavigationService.Navigate(new LobbyRoom(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com));
+                wnd.ChangeToLobby(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com,wnd);
             else
-              MessageLabelJoin.Content = "Invalid room id";
+                MessageLabelJoin.Content = "Invalid room id";
 
         }
 

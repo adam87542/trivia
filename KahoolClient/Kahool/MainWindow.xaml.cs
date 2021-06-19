@@ -83,9 +83,14 @@ namespace Kahool
 			request.password = PasswordBox.Password;
 			bool isSucceed = LoginResponeHandler.CheckLogin(com, request);
 			if (isSucceed)
-				this.Content = new MenuPage(this.com, UserNameBox.Text);
-            else
-			   MessageLabelMain.Content = "Username or Password Incorrect";
+			{
+				App.Current.MainWindow.Hide();
+				MenuWindow wnd = new MenuWindow(this.com,UserNameBox.Text);
+				wnd.ShowDialog();
+			
+			}
+			else
+				MessageLabelMain.Content = "Username or Password Incorrect";
             
 		}
     }

@@ -1,6 +1,6 @@
 #include "Communicator.h"
 #define PORT 25667
-#define CODE_LENGTH 1
+#define CODE_LENGTH 2
 #define MSG_LENGTH 4
 
 Communicator* Communicator::m_ptr = nullptr;
@@ -62,7 +62,6 @@ RequestResult Communicator::PraseData(RequestInfo recived , RequestResult res)
 {
 	if (!res.newhandler->isRequestRelevant(recived))
 		throw std::exception("Invalid request , server is disconecting...");
-	else
 	res = res.newhandler->handleRequest(recived);
 	return res;
 }

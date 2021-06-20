@@ -85,13 +85,13 @@ namespace Kahool
 			if (isSucceed)
 			{
 				App.Current.MainWindow.Hide();
-				MenuWindow wnd = new MenuWindow(com, request.username);
+				MenuWindow wnd = new MenuWindow(this.com,UserNameBox.Text);
 				wnd.ShowDialog();
+			
 			}
-            else
-            {
+			else
 				MessageLabelMain.Content = "Username or Password Incorrect";
-            }
+            
 		}
     }
 }

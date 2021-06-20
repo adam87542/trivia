@@ -16,6 +16,7 @@ private:
 	LoggedUser* m_user;
 	static StatisticManager* m_statisticManager;
 	static RoomManager* m_roomManager;
+	static LoginManager* m_loginManager;
 	RequestResult logout(RequestInfo info);
 	RequestResult getRooms(RequestInfo info);
 	RequestResult getPlayersInRoom(RequestInfo);
@@ -24,6 +25,7 @@ private:
 	RequestResult joinRoom(RequestInfo info);
 	RequestResult createRoom(RequestInfo info);
 
+	bool IsIdExists(int id);
 	string FromVecToString(std::vector<std::pair<string, int>> vec);
 	string FromUserStatisticsToString(UserStatistics statistics);
 };

@@ -38,7 +38,9 @@ struct PlayerResults
 struct RoomData
 {
 	unsigned int id;
+	string roomAdmin;
 	string name;
+	string difficulty;
 	unsigned int maxPlayers;
 	unsigned int numOfQuestionsInGame;
 	unsigned int timePerQuestion;
@@ -91,11 +93,17 @@ struct GetPersonalStatsResponse
 struct JoinRoomResponse
 {
 	unsigned int status;
+	string roomName;
+	string difficulty;
+	unsigned int questionCount;
+	unsigned int answerTimeOut;
+	unsigned int roomId;
 };
 
 struct CreateRoomResponse
 {
 	unsigned int status;
+	unsigned int roomId;
 };
 
 struct CloseRoomResponse
@@ -112,9 +120,6 @@ struct GetRoomStateResponse
 {
 	unsigned int status;
 	bool hasGameBegun;
-	std::vector<string> players;
-	unsigned int questionCount;
-	unsigned int answerTimeOut;
 };
 
 struct LeaveRoomResponse
@@ -187,6 +192,7 @@ struct JoinRoomRequest
 struct CreateRoomRequest
 {
 	string roomName;
+	string difficulty;
 	unsigned int maxUsers;
 	unsigned int questionCount;
 	unsigned int answerTimeOut;

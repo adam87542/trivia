@@ -13,7 +13,12 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
         }
-         public static string  serializeRequest(SignupRequest request)
+        public static string serializeRequest(CloseRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.CLOSE_ROOM_REQUEST, json);
+        }
+        public static string  serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.SIGNUP_REQUEST, json);
@@ -23,10 +28,21 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request , Formatting.None);
             return serializeMsg((int)Constants.requests.LOGOUT_REQUEST, json);
         }
+        public static string serializeRequest(LeaveRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.LEAVE_ROOM_REQUEST, json);
+        }
         public static string serializeRequest(JoinRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.JOIN_ROOM_REQUEST, json);
+
+        }
+        public static string serializeRequest(GetPlayersInRoomRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.GET_PLAYERS_REQUEST, json);
 
         }
         public static string serializeRequest(CreateRoomRequest request)
@@ -70,6 +86,12 @@ namespace Kahool
         {
             string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
             JoinRoomResponse response = JsonConvert.DeserializeObject<JoinRoomResponse>(JsonMsg);
+            return response;
+        }
+        public static GetPlayersInRoomResponse deserializeGetPlayersInRoomRespone(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetPlayersInRoomResponse response = JsonConvert.DeserializeObject<GetPlayersInRoomResponse>(JsonMsg);
             return response;
         }
         public static CreateRoomResponse deserializeCreateRoomResponse(string Buffer)

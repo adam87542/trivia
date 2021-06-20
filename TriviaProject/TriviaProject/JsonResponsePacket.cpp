@@ -72,14 +72,22 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomR
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
-	string msg = creatingStatusResponse(response.status);
-
-	return seralizingMsg(JOIN_ROOM_RESPONSE, msg);
+	json j;
+	j[STATUS] = response.status;
+	j[ID] = response.roomId;
+	j[ROOMNAME] = response.roomName;
+	j[NUM_Q] = response.questionCount;
+	j[ANSWER_TIME] = response.answerTimeOut;
+	j[DIFFICULTY] = response.difficulty;
+	return seralizingMsg(JOIN_ROOM_RESPONSE, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
 {
-	string msg = creatingStatusResponse(response.status);
+	json j;
+	j[STATUS] = response.status;
+	j[ID] = response.roomId;
+	string msg = j.dump();
 
 	return seralizingMsg(CREATE_ROOM_RESPONSE, msg);
 }
@@ -112,9 +120,6 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomStateRespo
 	json j;
 	j[STATUS] = response.status;
 	j[GAME_BEGUN] = response.hasGameBegun;
-	j[PLAYERS_IN_ROOM] = vectorToList(response.players);
-	j[NUM_Q] = response.questionCount;
-	j[ANSWER_TIME] = response.answerTimeOut;
 
 	return seralizingMsg(STATE_ROOM_RESPONSE, j.dump());
 }
@@ -138,11 +143,11 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsRes
 		{
 			// creating string with all info
 			temp = result.username;
-			temp += ",";
+			temp +=	COMMA;
 			temp += result.correctAnswerCount;
-			temp += ",";
+			temp += COMMA;
 			temp += result.wrongAnswerCount;
-			temp += ",";
+			temp += COMMA;
 			temp += result.averageAnswerTime;
 
 			myResults.push_back(temp);
@@ -201,10 +206,11 @@ unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, stri
 
 	string length = Helper::getPaddedNumber(msg.length(), LENGTH_BYTES);
 
-	buffer[0] = responseNum + '0'; // adding code
+	buffer[0] = responseNum % 10 + '0'; // adding code
+	buffer[1] = responseNum / 10 + '0'; // adding code
 
 	for (unsigned int i = 0; i < LENGTH_BYTES; i++) // adding length
-		buffer[i + 1] = length[i];
+		buffer[i + 2] = length[i];
 
 	for (unsigned int i = 0; i < msg.length(); i++) // adding data
 		buffer[i + BUFFER_START_LEN] = msg[i];
@@ -293,8 +299,8 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(un
 {
 	CreateRoomRequest request;
 	json data = deseralizingMsg(buffer);
-
-	request.roomName = data[NAME];
+	request.difficulty = data[DIFFICULTY];
+	request.roomName = data[ROOMNAME];
 	request.maxUsers = data[MAX_USERS];
 	request.questionCount = data[NUM_Q];
 	request.answerTimeOut = data[ANSWER_TIME];
@@ -315,5 +321,6 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 json JsonRequestPacketDeserializer::deseralizingMsg(unsigned char* buffer)
 {
 	json data = json::parse((char*)buffer);
+	string msg = data.dump();
 	return data;
 }

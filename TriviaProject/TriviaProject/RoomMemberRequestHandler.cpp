@@ -42,7 +42,7 @@ RequestResult RoomMemberRequestHandler::StartGame()
 
 RequestResult RoomMemberRequestHandler::GetRoomState()
 {
-	return RoomAdminRequestHandler::GetRoomState();
+	return RoomAdminRequestHandler::GetRoomState(m_user->getUsername() , *m_room);
 }
 
 

@@ -13,6 +13,6 @@ private:
 	static RoomManager* m_roomManager;
 	RequestResult CloseRoom();
 	static RequestResult StartGame();
-	static RequestResult GetRoomState();
+	static RequestResult GetRoomState(string username , Room room);
 	friend class RoomMemberRequestHandler;
 };

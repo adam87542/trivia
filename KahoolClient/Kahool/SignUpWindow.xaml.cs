@@ -65,11 +65,11 @@ namespace Kahool
 				try
 				{
 					//Sign up was a success
-					if(LoginResponeHandler.CheckSignUp(com, request))
+					if (LoginResponeHandler.CheckSignUp(com, request))
 					{
-						this.Close();
-						MenuWindow menu = new MenuWindow(com,request.username);
-						menu.ShowDialog();
+						this.Hide();
+						MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
+						wnd.ShowDialog();
 					}
 				}
 				catch (Exception ex)

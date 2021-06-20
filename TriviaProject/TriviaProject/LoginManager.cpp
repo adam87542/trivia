@@ -18,7 +18,16 @@ void LoginManager::reset_instance()
 
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
-	if (!m_database->doesUserExist(username))
+	if (!CheckEmail(email))
+		throw std::exception("Invaild email");
+
+	else if (!CheckPassword(password))
+		throw std::exception("Invalid password...");
+
+	else if (!CheckUserName(username))
+		throw std::exception("Invalid username...");
+
+	else if (!m_database->doesUserExist(username))
 	{
 		m_database->addNewUser(username, password, email);
 		m_loggedUsers.push_back(LoggedUser(username));
@@ -54,4 +63,31 @@ LoginManager::~LoginManager()
 {
 	SqliteDataBase::reset_instance();
 	this->m_loggedUsers.clear();
+}
+
+bool LoginManager::CheckEmail(string email)
+{
+	const std::regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+	return std::regex_match(email, pattern);
+}
+
+bool LoginManager::CheckPassword(string password)
+{
+	const std::regex upperCaseExpression{ "[A-Z]+" }; //here is the very simple expression for upper_case search
+	const std::regex lowerCaseExpression{ "[a-z]+" }; //for lower-case
+	const std::regex numberExpression{ "[0-9]+" }; //for checking number from zero to nine
+	const std::regex specialCharExpression{ "[@!?]+" }; //for the special character
+	const bool hasUpperCase = std::regex_search(password, upperCaseExpression);
+	const bool haslowerCase = std::regex_search(password, lowerCaseExpression);
+	const bool hasNumberCase = std::regex_search(password, numberExpression);
+	const bool hasSpecialChar = std::regex_search(password, specialCharExpression);
+	const int IsValid = hasUpperCase + haslowerCase + hasNumberCase + hasSpecialChar;
+	const bool IsValidLength = MIN_PASSWORD_LENGTH && password.length() < MAX_PASSWORD_LENGTH;
+	return IsValid == 4 && IsValidLength;
+}
+
+bool LoginManager::CheckUserName(string username)
+{
+	bool IsValidLength = username.length() > MIN_USERNAME_LENGTH && username.length() < MAX_USERNAME_LENGTH;
+	return IsValidLength;
 }

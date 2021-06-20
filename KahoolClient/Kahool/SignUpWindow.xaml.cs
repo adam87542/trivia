@@ -34,48 +34,33 @@ namespace Kahool
 				this.DragMove();
 		}
 
-		public string CheckSignUpContent(string username, string email, string password, string confirmPassword)
+		public string CheckIfPasswordsAreMatching(string password, string confirmPassword)
 		{
 			if (password != confirmPassword)
 				return "Password's Are not Matching!";
-			else if (password.Length < Constants.MIN_PASSWORD_LENGTH || password.Length > Constants.MAX_PASSWORD_LENGTH)
-				return "Password length is 8-20!";
-			else if (username.Length < Constants.MIN_USERNAME_LENGTH || username.Length > Constants.MAX_USERNAME_LENGTH)
-				return "Username length is 6-15";
-			try
-			{
-				var addr = new System.Net.Mail.MailAddress(email);
-			}
-			catch
-			{
-				return "Email not valid!";
-			}
 
 			return null;
 		}
 
 		private void VerifySignUp(object sender, RoutedEventArgs e)
 		{
-			string signupResult = CheckSignUpContent(UserNameBox.Text, EmailBox.Text, PasswordBox.Password, PasswordBox_Copy.Password);
+			string signupResult = CheckIfPasswordsAreMatching(PasswordBox.Password, PasswordBox_Copy.Password);
 			if (signupResult != null)
 				MessageLabelSignup.Content = signupResult;
 			else
 			{
 				SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password , EmailBox.Text);
-				try
-				{
 					//Sign up was a success
-					if (LoginResponeHandler.CheckSignUp(com, request))
-					{
-						this.Hide();
-						MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
-						wnd.ShowDialog();
-					}
-				}
-				catch (Exception ex)
+				    string responeMsg = LoginResponeHandler.CheckSignUp(com, request);
+				if (responeMsg == null)
 				{
-					MessageLabelSignup.Content = ex.Message + " press F5 to Retry";
+					this.Hide();
+					MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
+					wnd.ShowDialog();
 				}
+				else
+					MessageLabelSignup.Content = responeMsg;
+
 			}
 		}
     }

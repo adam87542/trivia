@@ -70,6 +70,12 @@ namespace Kahool
             LoginResponse response = JsonConvert.DeserializeObject<LoginResponse>(JsonMsg);
             return response;
         }
+        public static ErrorResponse deserializeErrorRespone(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            ErrorResponse response = JsonConvert.DeserializeObject<ErrorResponse>(JsonMsg);
+            return response;
+        }
         public static SignUpResponse deserializeSignUpRespone(string Buffer)
         {
            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);

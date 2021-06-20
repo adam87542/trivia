@@ -31,7 +31,7 @@ enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 #define DIFFICULTY "difficulty"
 #define ANSWER_TIME "answerTimeOut"
 #define STATUS "status"
-#define ERROR "error"
+#define ERROR "message"
 #define ROOMS "rooms"
 #define GAME_BEGUN "GameBegun"
 #define PLAYERS_IN_ROOM "PlayersInRoom"

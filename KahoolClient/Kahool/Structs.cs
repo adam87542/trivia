@@ -94,7 +94,10 @@ namespace Kahool
 		public uint status;
 		public List<string> statistics;
 	};
-
+	struct ErrorResponse
+	{
+		public string message;
+	};
 	struct JoinRoomResponse
 	{
 		public uint status;

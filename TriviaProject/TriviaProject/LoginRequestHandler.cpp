@@ -58,6 +58,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 RequestResult LoginRequestHandler::signup(RequestInfo info)
 {
     RequestResult myResult;
+    ErrorResponse error;
     bool success = true;
     SignUpResponse response;
     SignupRequest myRequest = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
@@ -65,12 +66,12 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
     {
         m_loginManager->signup(myRequest.username, myRequest.password, myRequest.email);
     }
-    catch (...)
+    catch (const std::exception e)
     {
         success = false;
-        response.status = ERR_CODE;
+        error.message = e.what();
         myResult.newhandler = RequestHandlerFactory::createLoginRequestHandler();
-        myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+        myResult.response = JsonResponsePacketSerializer::serializeResponse(error);
     }
     if (success)
     {

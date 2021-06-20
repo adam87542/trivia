@@ -4,8 +4,10 @@
 #include <ctime>
 #include <map>
 #include "IRequestHandler.h"
+#include "Question.h"
 
 class IRequestHandler;
+class Question;
 using std::string;
 
 //****************************  User  *******************************//
@@ -213,4 +215,16 @@ struct QuestionAndAnswers
 	string thridAnswer;
 	string fourthAnswer;
 	string correctAnswer;
+};
+
+//**************************** GameData *******************************//
+struct GameData
+{
+	Question currentQuestion;
+
+	unsigned int correctAnswerCount;
+
+	unsigned int  wrongAnswerCount;
+
+	unsigned int averangeAnswerTime;
 };

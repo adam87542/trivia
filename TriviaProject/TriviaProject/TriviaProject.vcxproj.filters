@@ -21,6 +21,7 @@
     <ClCompile Include="WSAInitializer.cpp" />
     <ClCompile Include="RoomAdminRequestHandler.cpp" />
     <ClCompile Include="RoomMemberRequestHandler.cpp" />
+    <ClCompile Include="Question.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="WSAInitializer.h" />
     <ClInclude Include="RoomAdminRequestHandler.h" />
     <ClInclude Include="RoomMemberRequestHandler.h" />
+    <ClInclude Include="Question.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="getQuestions.py" />

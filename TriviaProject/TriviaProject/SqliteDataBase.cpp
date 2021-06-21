@@ -139,10 +139,6 @@ void SqliteDataBase::addNewUser(std::string username, std::string password, std:
 	
 }
 
-std::list<Question> SqliteDataBase::getQuestions()
-{
-	return std::list<Question>();
-}
 
 float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
 {

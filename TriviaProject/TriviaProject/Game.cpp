@@ -1,13 +1,27 @@
 #include "Game.h"
 
-void Game::getQuestionForUser(User user)
+Game::Game(string difficulty, std::vector<string> playersInRoom)
 {
+
 }
 
-void Game::submitAnswer()
+Question Game::getNextQuestion(string username)
 {
+    for (auto it = m_players.begin(); it != m_players.end(); ++it)
+        if (it->first->getUsername() == username)
+            return it->second.currentQuestion;
 }
 
-void Game::removePlayer()
+void Game::submitAnswer(string  answer)
 {
+
+}
+
+void Game::removePlayer(string username)
+{
+    for (auto it = m_players.begin(); it != m_players.end(); ++it)
+        if (it->first->getUsername() == username)
+        {
+            this->m_players.erase(it);
+        }
 }

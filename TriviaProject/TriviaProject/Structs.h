@@ -210,6 +210,7 @@ struct SubmitAnswerRequest
 struct QuestionAndAnswers
 {
 	string question;
+	string difficulty;
 	string firstAnswer;
 	string secondAnswer;
 	string thridAnswer;

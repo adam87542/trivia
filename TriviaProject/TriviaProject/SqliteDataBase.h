@@ -50,7 +50,12 @@ public:
 	 bool doesPasswordMatch(std::string password, std::string username)  override;
 	 void addNewUser(std::string username, std::string password, std::string email)  override;
 
-	 virtual std::list<Question> getQuestions();
+	 virtual std::list<Question> getQuestions(string difficulty);
+	 bool IsAnswerCorrect(string answer);
+	 void AddToCorrectAnswers();
+	 void AddToWrongAnswers();
+	 void AddToTotalAnswers();
+	 void SetPlayerAverageAnswerTime();
 	 virtual float getPlayerAverageAnswerTime(std::string username);
 	 virtual int getNumOfCorrectAnswer(std::string username);
 	 virtual int getNumOfTotalAnswers(std::string username);

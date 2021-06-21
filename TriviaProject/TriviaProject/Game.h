@@ -6,9 +6,10 @@ class Game
 {
 private:
 	std::vector<Question> m_questions;
-	std::map<LoggedUser, GameData> m_players;
+	std::map<LoggedUser* , GameData> m_players;
 public:
-	void getQuestionForUser(User user);
-	void submitAnswer();
-	void removePlayer();
+	Game(string difficulty , std::vector<string> playersInRoom);
+	Question getNextQuestion(string username);
+	void submitAnswer(string username);
+	void removePlayer(string username);
 };

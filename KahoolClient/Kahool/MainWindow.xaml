@@ -78,7 +78,7 @@
 
         <Rectangle Fill="#22223B" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="19" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Top" Width="800"/>
         <Button Name="EndRunningButton" Click="EndRunning"  FontSize="18" BorderThickness="0" Background="Transparent" Content="X" Foreground="White" Grid.Column="1"  Margin="377,-2,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="21" RenderTransformOrigin="0.49,0.333"/>
-        <Label Name="MessageLabelMain" Content="" FontSize="17" FontFamily="Resource/Fonts/QuickSand.ttf" Foreground="DarkRed" HorizontalAlignment="Left" Margin="212,300,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="388" Grid.ColumnSpan="2" Height="33" HorizontalContentAlignment="Center"/>
+        <Label Name="MessageLabelMain" Content="" FontSize="17" FontFamily="Resource/Fonts/QuickSand.ttf" Foreground="DarkRed" HorizontalAlignment="Left" Margin="212,300,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="388" Grid.ColumnSpan="2" Height="33" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         <Label Content="Username:" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="266,181,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
         <Label Content="Password:" FontFamily="Resources/Fonts/QuickSand.ttf" Foreground="white" FontSize="17" HorizontalAlignment="Left" Margin="266,240,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
 

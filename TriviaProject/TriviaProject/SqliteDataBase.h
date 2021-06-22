@@ -8,14 +8,14 @@ class SqliteDataBase : public IDatabase
 private:
 	static  SqliteDataBase* m_ptr;
 	/*
-* Function that creates a database if it doesn't exist
-* and opens it if it exists
-*/
+	* Function that creates a database if it doesn't exist
+	* and opens it if it exists
+	*/
 	SqliteDataBase();  // no one else can create one
 	~SqliteDataBase();
 	sqlite3* db;//The database
 	std::queue<User> users;//Queue to hold users
-
+	std::list<Question> questions;//List of questions
 	/*
 	* Function that sends the sql statment instead
 	* of reapting the same lines everytime, also
@@ -25,7 +25,7 @@ private:
 
 	//Clears the user queue
 	void clearUsers();
-
+	void clearQuestions();
 	/*
 	* This fucntion gets a statment 
 	* and return the sqlite3_stmt as a pointer
@@ -42,6 +42,9 @@ private:
 
 	UserStatistics userStatisticsCallBack(sqlite3_stmt* stmt);
 
+
+	void questionCallBack(sqlite3_stmt* stmt);
+
 	sqlite3_stmt* getUserStatisticsStmt(std::string username);
 public:
 	static IDatabase* get_instance();
@@ -51,11 +54,12 @@ public:
 	 void addNewUser(std::string username, std::string password, std::string email)  override;
 
 	 virtual std::list<Question> getQuestions(string difficulty);
-	 bool IsAnswerCorrect(string answer);
-	 void AddToCorrectAnswers();
-	 void AddToWrongAnswers();
-	 void AddToTotalAnswers();
-	 void SetPlayerAverageAnswerTime();
+	 bool isAnswerCorrect(string answer, string question);
+	 void addToCorrectAnswers(string username);
+	 void addToPlayerGames(string username);
+	 void addToTotalAnswers(string username);
+	 void setPlayerAverageAnswerTime(string username, float averageAnswerTime);
+
 	 virtual float getPlayerAverageAnswerTime(std::string username);
 	 virtual int getNumOfCorrectAnswer(std::string username);
 	 virtual int getNumOfTotalAnswers(std::string username);

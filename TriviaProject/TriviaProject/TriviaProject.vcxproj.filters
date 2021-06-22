@@ -21,7 +21,6 @@
     <ClCompile Include="WSAInitializer.cpp" />
     <ClCompile Include="RoomAdminRequestHandler.cpp" />
     <ClCompile Include="RoomMemberRequestHandler.cpp" />
-    <ClCompile Include="Question.cpp" />
     <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +44,6 @@
     <ClInclude Include="WSAInitializer.h" />
     <ClInclude Include="RoomAdminRequestHandler.h" />
     <ClInclude Include="RoomMemberRequestHandler.h" />
-    <ClInclude Include="Question.h" />
     <ClInclude Include="Game.h" />
   </ItemGroup>
   <ItemGroup>

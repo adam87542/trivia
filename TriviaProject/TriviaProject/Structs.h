@@ -207,13 +207,13 @@ struct SubmitAnswerRequest
 
 //**************************** Question *******************************//
 
-struct QuestionAndAnswers
+struct Question
 {
 	string question;
 	string difficulty;
 	string firstAnswer;
 	string secondAnswer;
-	string thridAnswer;
+	string thirdAnswer;
 	string fourthAnswer;
 	string correctAnswer;
 };

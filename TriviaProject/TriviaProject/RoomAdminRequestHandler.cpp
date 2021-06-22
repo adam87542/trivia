@@ -30,6 +30,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		myResult = GetRoomState(this->m_user->getUsername() ,*m_room);
 		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;
+	case GET_PLAYERS_REQUEST:
+		myResult = getPlayersInRoom(info);
+		break;
 	default:
 		myResult.newhandler = nullptr;
 		myResult.response = (unsigned char*)ERROR;
@@ -66,5 +69,14 @@ RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room room)
 	response.hasGameBegun = room.getData().isActive;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
+	return myResult;
+}
+RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info)
+{
+	RequestResult myResult;
+	GetPlayersInRoomResponse respone;
+	GetPlayersInRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
+	respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
+	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
 }

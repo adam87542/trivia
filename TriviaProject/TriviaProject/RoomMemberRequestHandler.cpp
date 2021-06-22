@@ -28,6 +28,9 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 		myResult = GetRoomState();
 		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), *m_room);
 		break;
+	case GET_PLAYERS_REQUEST:
+		myResult = RoomAdminRequestHandler::handleRequest();
+		break;
 	default:
 		myResult.newhandler = nullptr;
 		myResult.response = (unsigned char*)ERROR;

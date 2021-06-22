@@ -35,6 +35,10 @@ namespace Kahool
 			DifficultyLabel.Content += difficulty;
 
 			this.com = com;
+
+			GetPlayersInRoomResponse room = LobbyResponeHandler.GetPlayersInRoom(com);
+
+			ListOfConnected.ItemsSource = room.players;
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
@@ -66,6 +70,13 @@ namespace Kahool
 			LobbyResponeHandler.CloseRoom(this.com);
 			wnd.ChangeToMenu(com,username, wnd);
 		}
-
-	}
+    }
+	public class MyUserName
+	{
+		public string name { get; set; }
+        public override string ToString()
+        {
+            return name;
+        }
+    }
 }

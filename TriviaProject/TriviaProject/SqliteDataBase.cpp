@@ -3,7 +3,7 @@
 #include <io.h>
 #define DOES_NOT_EXSIT -1
 
-SqliteDataBase* SqliteDataBase::m_ptr = nullptr;
+SqliteDataBase* SqliteDataBase::m_ptr = new SqliteDataBase;
 
 
 SqliteDataBase::~SqliteDataBase()
@@ -83,7 +83,7 @@ void SqliteDataBase::questionCallBack(sqlite3_stmt* stmt)
 		question.thirdAnswer = std::string((char*)sqlite3_column_text(stmt, 4));
 		question.fourthAnswer = std::string((char*)sqlite3_column_text(stmt, 5));
 		question.correctAnswer = std::string((char*)sqlite3_column_text(stmt, 6));
-		questions.push_front(question);
+		questions.push_back(question);
 		result = sqlite3_step(stmt);
 	}
 }
@@ -107,13 +107,11 @@ void SqliteDataBase::clearUsers()
 void SqliteDataBase::clearQuestions()
 {
 	while (!questions.empty())
-		questions.pop_front();
+		questions.pop_back();
 }
 
 IDatabase* SqliteDataBase::get_instance()
 {
-	if (!m_ptr)
-		m_ptr = new SqliteDataBase();
 	return m_ptr;
 }
 
@@ -163,7 +161,7 @@ void SqliteDataBase::addNewUser(std::string username, std::string password, std:
 	
 }
 
-std::list<Question> SqliteDataBase::getQuestions(string difficulty)
+std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 {
 	clearQuestions();
 	sqlite3_stmt* stmt;

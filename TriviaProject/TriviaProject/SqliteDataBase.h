@@ -15,7 +15,7 @@ private:
 	~SqliteDataBase();
 	sqlite3* db;//The database
 	std::queue<User> users;//Queue to hold users
-	std::list<Question> questions;//List of questions
+	std::vector<Question> questions;//List of questions
 	/*
 	* Function that sends the sql statment instead
 	* of reapting the same lines everytime, also
@@ -52,8 +52,7 @@ public:
 	 bool doesUserExist(std::string username) override;
 	 bool doesPasswordMatch(std::string password, std::string username)  override;
 	 void addNewUser(std::string username, std::string password, std::string email)  override;
-
-	 virtual std::list<Question> getQuestions(string difficulty);
+	 virtual std::vector<Question> getQuestions(string difficulty);
 	 bool isAnswerCorrect(string answer, string question);
 	 void addToCorrectAnswers(string username);
 	 void addToPlayerGames(string username);

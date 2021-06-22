@@ -2,9 +2,10 @@
 
 IDatabase* Game::m_dataBase = SqliteDataBase::get_instance();
 
-Game::Game(string difficulty, std::vector<string> playersInRoom)
+Game::Game(string difficulty, std::vector<string> playersInRoom , unsigned int roomId)
 {
-    m_questions = m_dataBase->getQuestions(difficulty);
+    this->gameId = roomId;
+    this->m_questions = m_dataBase->getQuestions(difficulty);
     for(auto player : playersInRoom)
     {
         LoggedUser* user = new LoggedUser(player);
@@ -24,8 +25,8 @@ Question Game::getNextQuestion(string username)
 {
     Question currentQuestion = getPlayerMeta(username).currentQuestion;
     for (int i = 0; i < m_questions.size(); i++)
-        if (currentQuestion.question.compare(m_questions.at(i).question))
-            return  m_questions.at(i + 1);
+        if (currentQuestion.question.compare(m_questions.at(i).question) && i != m_questions.size() - 1)
+            return  m_questions.at(i++);
 }
 
 void Game::submitAnswer(string username, string answer)
@@ -52,4 +53,9 @@ void Game::removePlayer(string username)
             delete it->second;
             this->m_players.erase(it);
         }
+}
+
+unsigned int Game::getGameId()
+{
+    return this->gameId;
 }

@@ -4,10 +4,8 @@
 #include <ctime>
 #include <map>
 #include "IRequestHandler.h"
-#include "Question.h"
 
 class IRequestHandler;
-class Question;
 using std::string;
 
 //****************************  User  *******************************//

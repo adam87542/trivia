@@ -51,7 +51,7 @@ namespace Kahool
 	};
 	struct GetPlayersInRoomRequest
 	{
-		public uint code;
+		public uint roomId;
 	};
 
 	struct CreateRoomRequest
@@ -121,6 +121,6 @@ namespace Kahool
 	struct GetPlayersInRoomResponse
 		{
 		public uint status;
-		public List<string> players;
+		public List<string> playersInRoom;
          };
 }

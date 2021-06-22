@@ -14,6 +14,6 @@ private:
 	RequestResult CloseRoom();
 	static RequestResult StartGame();
 	static RequestResult GetRoomState(string username , Room room);
-	static RequestResult getPlayersInRoom(RequestInfo info)
+	static RequestResult getPlayersInRoom(RequestInfo info);
 	friend class RoomMemberRequestHandler;
 };

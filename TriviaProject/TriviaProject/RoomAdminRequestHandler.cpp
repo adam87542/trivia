@@ -10,7 +10,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST;
+	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST || info.requestId == GET_PLAYERS_REQUEST;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
@@ -32,6 +32,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case GET_PLAYERS_REQUEST:
 		myResult = getPlayersInRoom(info);
+		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(this->m_user->getUsername(), *this->m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -77,6 +78,7 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info)
 	GetPlayersInRoomResponse respone;
 	GetPlayersInRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
 	respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
+	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
 }

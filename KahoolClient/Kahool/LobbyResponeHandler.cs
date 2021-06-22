@@ -6,13 +6,13 @@ namespace Kahool
 {
     class LobbyResponeHandler
     {
-        public static GetPlayersInRoomResponse GetPlayersInRoom(Communicator com)
+        public static GetPlayersInRoomResponse GetPlayersInRoom(Communicator com , uint RoomId)
         {
             GetPlayersInRoomRequest getPlayersInRoom;
             GetPlayersInRoomResponse playersInRoomResponse;
-            playersInRoomResponse.players = null;
+            playersInRoomResponse.playersInRoom= null;
             playersInRoomResponse.status = 0;
-            getPlayersInRoom.code = (uint)Constants.requests.GET_PLAYERS_REQUEST;
+            getPlayersInRoom.roomId = RoomId;
             if (com != null)
             {
                 string MsgToServer = JsonRequestSerializer.serializeRequest(getPlayersInRoom);

@@ -36,9 +36,9 @@ namespace Kahool
 
 			this.com = com;
 
-			GetPlayersInRoomResponse room = LobbyResponeHandler.GetPlayersInRoom(com);
+			GetPlayersInRoomResponse room = LobbyResponeHandler.GetPlayersInRoom(com , uint.Parse(roomId));
 
-			ListOfConnected.ItemsSource = room.players;
+			ListOfConnected.ItemsSource = room.playersInRoom;
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;

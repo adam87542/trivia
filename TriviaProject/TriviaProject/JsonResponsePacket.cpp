@@ -74,7 +74,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse 
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ID] = response.roomId;
+	j[ROOM_ID] = response.roomId;
 	j[ROOMNAME] = response.roomName;
 	j[NUM_Q] = response.questionCount;
 	j[ANSWER_TIME] = response.answerTimeOut;
@@ -86,7 +86,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomRespons
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ID] = response.roomId;
+	j[ROOM_ID] = response.roomId;
 	string msg = j.dump();
 
 	return seralizingMsg(CREATE_ROOM_RESPONSE, msg);
@@ -280,7 +280,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequ
 	GetPlayersInRoomRequest request;
 	json data = deseralizingMsg(buffer);
 
-	request.roomId = data[ID];
+	request.roomId = data[ROOM_ID];
 
 	return request;
 }
@@ -290,7 +290,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(unsign
 	JoinRoomRequest request;
 	json data = deseralizingMsg(buffer);
 
-	request.roomId = data[ID];
+	request.roomId = data[ROOM_ID];
 
 	return request;
 }

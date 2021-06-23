@@ -1,7 +1,7 @@
 #include "RoomAdminRequestHandler.h"
 #include "RequestHandlerFactory.h"
 
-RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::get_instance();
+RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::getInstance();
 RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom)
 {
 		this->m_user = new LoggedUser(username);

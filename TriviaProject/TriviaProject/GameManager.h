@@ -1,6 +1,5 @@
 #pragma once
 #include "Game.h"
-#include "Room.h"
 
 
 class GameManager
@@ -11,8 +10,8 @@ private:
 	~GameManager();
 	std::vector<Game*> m_Games;
 public:
-	GameManager getInstance();
-	void resetInstance();
-	void createGame(Room room);
+	static GameManager* getInstance();
+	static void resetInstance();
+	void createGame(Game* game);
 	void deleteGame(Game* currentGame);
 };

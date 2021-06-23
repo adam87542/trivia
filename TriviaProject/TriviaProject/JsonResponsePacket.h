@@ -24,7 +24,7 @@ enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
-#define ID "roomId"
+#define ROOM_ID "roomId"
 #define ROOMNAME "roomName" 
 #define MAX_USERS "maxUsers"
 #define NUM_Q "questionCount"

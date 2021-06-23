@@ -9,20 +9,19 @@ GameManager::~GameManager()
 	this->m_Games.clear();
 }
 
-GameManager GameManager::getInstance()
+GameManager* GameManager::getInstance()
 {
-	return *this->m_ptr;
+	return m_ptr;
 }
 
 void GameManager::resetInstance()
 {
 	delete m_ptr;
-	this->m_ptr = nullptr;
+	m_ptr = nullptr;
 }
 
-void GameManager::createGame(Room room)
+void GameManager::createGame(Game* game)
 {
-	Game* game = new Game(room.getData().difficulty, room.getAllUsers() , room.getData().id);
 	this->m_Games.push_back(game);
 }
 

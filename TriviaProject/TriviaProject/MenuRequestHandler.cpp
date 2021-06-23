@@ -2,7 +2,7 @@
 #include "RequestHandlerFactory.h"
 
 StatisticManager* MenuRequestHandler::m_statisticManager = StatisticManager::get_instance();
-RoomManager* MenuRequestHandler::m_roomManager = RoomManager::get_instance();
+RoomManager* MenuRequestHandler::m_roomManager = RoomManager::getInstance();
 LoginManager* MenuRequestHandler::m_loginManager = LoginManager::get_instance();
 MenuRequestHandler::MenuRequestHandler(string username)
 {

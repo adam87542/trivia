@@ -6,10 +6,10 @@ namespace Kahool
 {
 	class MenuResponeHandler
 	{
-
 		public static JoinRoomResponse JoinRoom(Communicator com, JoinRoomRequest request)
 		{
 			JoinRoomResponse response;
+			string msgFromServer = "";
 			response.status = Constants.Fail;
 			response.roomId = 0;
 			response.roomName = null;
@@ -20,9 +20,16 @@ namespace Kahool
 
 			if (com != null)
 			{
-				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
-				string MsgFromServer = com.SendPacket(MsgToServer);
-				response = JsonResponeDeserializer.deserializeJoinRoomRespone(MsgFromServer);
+				string msgToServer = JsonRequestSerializer.serializeRequest(request);
+				try
+				{
+					msgFromServer = com.SendPacket(msgToServer);
+				}
+				catch
+				{
+					
+				}
+				response = JsonResponeDeserializer.deserializeJoinRoomRespone(msgFromServer);
 			}
 			return response;
 		}
@@ -30,14 +37,22 @@ namespace Kahool
 		public static CreateRoomResponse CreateRoom(Communicator com, CreateRoomRequest request)
 		{
 			CreateRoomResponse response;
+			string msgFromServer = "";
 			response.status = Constants.Fail;
 			response.roomId = 0;
 			response.roomName = null;
 			if (com != null)
 			{
-				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
-				string MsgFromServer = com.SendPacket(MsgToServer);
-				response = JsonResponeDeserializer.deserializeCreateRoomResponse(MsgFromServer);
+				string msgToServer = JsonRequestSerializer.serializeRequest(request);
+				try
+				{
+					msgFromServer = com.SendPacket(msgToServer);
+				}
+				catch
+				{ 
+					
+				}
+				response = JsonResponeDeserializer.deserializeCreateRoomResponse(msgFromServer);
 			}
 			return response;
 		}
@@ -47,8 +62,15 @@ namespace Kahool
 			logoutRequest.code = (uint)Constants.requests.LOGOUT_REQUEST;
 			if (com != null)
 			{
-				string MsgToServer = JsonRequestSerializer.serializeRequest(logoutRequest);
-				string MsgFromServer = com.SendPacket(MsgToServer);
+				string msgToServer = JsonRequestSerializer.serializeRequest(logoutRequest);
+				try
+				{
+					string msgFromServer = com.SendPacket(msgToServer);
+				}
+				catch
+				{
+					
+				}
 			}
 		}
 	}

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Kahool
 {
@@ -21,12 +22,18 @@ namespace Kahool
 		Communicator com;
 		private string username;
 		private bool isLeader;
+		private uint roomId;
 		MenuWindow wnd;
+		private readonly object locker = new object ();
+
 		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
 		{
+			GetPlayersInRoomResponse room;
+
 			this.wnd = wnd;
 			this.isLeader = isLeader;
 			this.username = username;
+			this.roomId = uint.Parse(roomId);
 			InitializeComponent();
 			NumberOfQuestsionLabel.Content += numOfQuestions;
 			TimeBetweenQuestionsLabel.Content += timeBetweenQuestions + " sec";
@@ -36,9 +43,14 @@ namespace Kahool
 
 			this.com = com;
 
-			GetPlayersInRoomResponse room = LobbyResponeHandler.GetPlayersInRoom(com , uint.Parse(roomId));
-
+			lock (this.locker)
+			{
+				room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+			}
 			ListOfConnected.ItemsSource = room.playersInRoom;
+
+			Thread screenRefresh = new Thread(ScreenRefresh);
+
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
@@ -51,9 +63,12 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
-			MenuResponeHandler.LogOut(com);
-			if (isLeader)
-				LobbyResponeHandler.CloseRoom(this.com);
+			lock (this.locker)
+			{
+				MenuResponeHandler.LogOut(com);
+				if (isLeader)
+					LobbyResponeHandler.CloseRoom(this.com);
+			}
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
@@ -62,21 +77,30 @@ namespace Kahool
 		}
 		private void OnExitClick(object sender, RoutedEventArgs e)
 		{
-			LobbyResponeHandler.LeaveRoom(com);
+			lock (this.locker)
+			{
+				LobbyResponeHandler.LeaveRoom(com);
+			}
 			wnd.ChangeToMenu(com, username, wnd);
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
-			LobbyResponeHandler.CloseRoom(this.com);
-			wnd.ChangeToMenu(com,username, wnd);
+			lock (this.locker)
+			{
+				LobbyResponeHandler.CloseRoom(this.com);
+			}
+			wnd.ChangeToMenu(com, username, wnd);
 		}
-    }
-	public class MyUserName
-	{
-		public string name { get; set; }
-        public override string ToString()
-        {
-            return name;
-        }
+
+		public void ScreenRefresh()
+		{
+			GetPlayersInRoomResponse room;
+			Thread.Sleep(3000);
+			lock (this.locker)
+			{
+				room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+			}
+			ListOfConnected.ItemsSource = room.playersInRoom;
+		}
     }
 }

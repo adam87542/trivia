@@ -10,14 +10,23 @@ namespace Kahool
         {
             GetPlayersInRoomRequest getPlayersInRoom;
             GetPlayersInRoomResponse playersInRoomResponse;
+            string msgFromServer = "";
             playersInRoomResponse.playersInRoom= null;
             playersInRoomResponse.status = 0;
             getPlayersInRoom.roomId = RoomId;
+
             if (com != null)
             {
-                string MsgToServer = JsonRequestSerializer.serializeRequest(getPlayersInRoom);
-                string MsgFromServer = com.SendPacket(MsgToServer);
-                playersInRoomResponse = JsonResponeDeserializer.deserializeGetPlayersInRoomRespone(MsgFromServer);
+                string msgToServer = JsonRequestSerializer.serializeRequest(getPlayersInRoom);
+                try
+                {
+                    msgFromServer = com.SendPacket(msgToServer);
+                }
+                catch 
+                {
+                    
+                }
+                playersInRoomResponse = JsonResponeDeserializer.deserializeGetPlayersInRoomRespone(msgFromServer);
             }
             return playersInRoomResponse;
         }
@@ -27,8 +36,15 @@ namespace Kahool
             closeRoomRequest.code = (uint)Constants.requests.CLOSE_ROOM_REQUEST;
             if (com != null)
             {
-                string MsgToServer = JsonRequestSerializer.serializeRequest(closeRoomRequest);
-                string MsgFromServer = com.SendPacket(MsgToServer);
+                string msgToServer = JsonRequestSerializer.serializeRequest(closeRoomRequest);
+                try
+                {
+                    string msgFromServer = com.SendPacket(msgToServer);
+                }
+                catch
+                {
+                    
+                }
             }
         }
         public static void LeaveRoom(Communicator com)
@@ -37,8 +53,15 @@ namespace Kahool
             request.code = (uint)Constants.requests.LEAVE_ROOM_REQUEST;
             if (com != null)
             {
-                string MsgToServer = JsonRequestSerializer.serializeRequest(request);
-                string MsgFromServer = com.SendPacket(MsgToServer);
+                string msgToServer = JsonRequestSerializer.serializeRequest(request);
+                try
+                {
+                    string msgFromServer = com.SendPacket(msgToServer);
+                }
+                catch
+                {
+                    
+                }
             }
         }
     }

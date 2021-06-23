@@ -119,8 +119,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		respone.difficulty = roomToJoin.getData().difficulty;
 		respone.questionCount = roomToJoin.getData().numOfQuestionsInGame;
 		respone.roomId = roomToJoin.getData().id;
-		Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId, m_user->getUsername());
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), userRoomToJoin);
+		m_roomManager->addPlayerToRoom(roomToJoin.getData().id , m_user->getUsername());
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(),roomToJoin);
 		respone.status = SUCCESS_CODE;
 	}
 	catch (std::exception e)

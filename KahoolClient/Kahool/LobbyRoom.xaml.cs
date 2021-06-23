@@ -83,6 +83,7 @@ namespace Kahool
 			lock (this.locker)
 			{
 				LobbyResponeHandler.LeaveRoom(com);
+				MenuResponeHandler.LogOut(com);
 			}
 			inLobby = false;
 			wnd.ChangeToMenu(com, username, wnd);

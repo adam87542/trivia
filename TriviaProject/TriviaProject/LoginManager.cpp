@@ -39,7 +39,16 @@ void LoginManager::signup(std::string username, std::string password, std::strin
 void LoginManager::login(std::string username, std::string password)
 {
 	if (m_database->doesPasswordMatch(password, username))
+	{
+		auto loggedUserItr = m_loggedUsers.begin();
+		while (loggedUserItr != m_loggedUsers.end())
+		{
+			if (loggedUserItr->getUsername() == username)
+				throw std::exception("User already logged in");
+			loggedUserItr++;
+		}
 		m_loggedUsers.push_back(LoggedUser(username));
+	}
 	else
 		throw std::exception("Couldn't find user or password doesn't match");
 }

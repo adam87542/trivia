@@ -1,6 +1,7 @@
 #include "RoomMemberRequestHandler.h"
 #include "RequestHandlerFactory.h"
 
+RoomManager* RoomMemberRequestHandler::m_roomManager = RoomManager::get_instance();
 RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room UserRoom)
 {
 	this->m_user = new LoggedUser(username);
@@ -54,9 +55,9 @@ RequestResult RoomMemberRequestHandler::LeaveGame()
 {
 	RequestResult myResult;
 	LeaveRoomResponse response;
-	response.status = SUCCESS_CODE;
+	m_roomManager->removePlayerFromRoom(this->m_room->getData().id, this->m_user->getUsername());
 	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
+	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	m_room->removeUser(*m_user);
 	return myResult;
 }

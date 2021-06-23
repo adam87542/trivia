@@ -36,6 +36,18 @@ void RoomManager::addPlayerToRoom(int room_id , string username)
 	throw std::exception("Room Doesn't exists");
 }
 
+void RoomManager::removePlayerFromRoom(int room_id, string username)
+{
+	for (int i = 0; i < this->m_rooms.size(); i++)
+	{
+		if (m_rooms[i].getData().id == room_id)
+		{
+			this->m_rooms[i].removeUser(username);
+			return;
+		}
+	}
+}
+
 Room RoomManager::GetRoomPlayerIsOn(string usrename)
 {
 	for (auto room : m_rooms)

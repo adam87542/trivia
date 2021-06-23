@@ -68,9 +68,11 @@ namespace Kahool
 		{
 			lock (this.locker)
 			{
-				MenuResponeHandler.LogOut(com);
 				if (isLeader)
 					LobbyResponeHandler.CloseRoom(this.com);
+				else
+					LobbyResponeHandler.LeaveRoom(this.com);
+				MenuResponeHandler.LogOut(com);
 			}
 			System.Windows.Application.Current.Shutdown();
 		}
@@ -83,7 +85,6 @@ namespace Kahool
 			lock (this.locker)
 			{
 				LobbyResponeHandler.LeaveRoom(com);
-				MenuResponeHandler.LogOut(com);
 			}
 			inLobby = false;
 			wnd.ChangeToMenu(com, username, wnd);

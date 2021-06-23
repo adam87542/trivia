@@ -104,10 +104,13 @@ namespace Kahool
 			while (inLobby)
 			{
 				GetPlayersInRoomResponse room;
+				room.playersInRoom = null;
+				room.status = 0;
 				Thread.Sleep(3000);
 				lock (this.locker)
 				{
-					room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+					if(inLobby)
+					      room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
 				}
 				this.Dispatcher.Invoke(() =>
 				{

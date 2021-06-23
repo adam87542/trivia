@@ -53,8 +53,7 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
 	m_loginManager->logout(m_user->getUsername());
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = nullptr;
+	throw std::exception("User has disconnected");
 	return myResult;
 }
 

@@ -3,7 +3,7 @@
 #include <io.h>
 #define DOES_NOT_EXSIT -1
 
-SqliteDataBase* SqliteDataBase::m_ptr = nullptr;
+SqliteDataBase* SqliteDataBase::m_ptr = new SqliteDataBase;
 
 
 SqliteDataBase::~SqliteDataBase()
@@ -37,7 +37,7 @@ SqliteDataBase::SqliteDataBase()
 	if (res != SQLITE_OK)
 		throw std::exception("Couldn't Open DataBase");
 	if (doesFileExist == DOES_NOT_EXSIT)//If its the first time creating the database, establish the new base
-		sendSQLStatment("create table statistics(username text not null,averageAnswerTime real not null, numCorrectAnswers int not null,numOfTotalAnswers int not null, numOfPlayerGames int not null);CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);create table questions(question text not null,difficulty text not null,answer1 text not null,answer2 text not null, answer3 text not null, answer4 text not null, correcrtAnswer text not null, correctIndex int not null);", nullptr, nullptr);
+		sendSQLStatment("create table statistics(username text not null,averageAnswerTime real not null, numCorrectAnswers int not null,numOfTotalAnswers int not null, numOfPlayerGames int not null);CREATE TABLE users (username text NOT NULL,password text NOT NULL,email text NOT NULL);create table questions(question text not null,difficulty text not null,answer1 text not null,answer2 text not null, answer3 text not null, answer4 text not null, correcrtAnswer text not null);", nullptr, nullptr);
 
 }
 
@@ -70,6 +70,24 @@ UserStatistics SqliteDataBase::userStatisticsCallBack(sqlite3_stmt* stmt)
 	return userStatistics;
 }
 
+void SqliteDataBase::questionCallBack(sqlite3_stmt* stmt)
+{
+	int result = sqlite3_step(stmt);
+	while (result != SQLITE_DONE)
+	{
+		Question question;
+		question.question = std::string((char*)sqlite3_column_text(stmt, 0));
+		question.difficulty = std::string((char*)sqlite3_column_text(stmt, 1));
+		question.firstAnswer = std::string((char*)sqlite3_column_text(stmt, 2));
+		question.secondAnswer = std::string((char*)sqlite3_column_text(stmt, 3));
+		question.thirdAnswer = std::string((char*)sqlite3_column_text(stmt, 4));
+		question.fourthAnswer = std::string((char*)sqlite3_column_text(stmt, 5));
+		question.correctAnswer = std::string((char*)sqlite3_column_text(stmt, 6));
+		questions.push_back(question);
+		result = sqlite3_step(stmt);
+	}
+}
+
 sqlite3_stmt* SqliteDataBase::getUserStatisticsStmt(std::string username)
 {
 	if (!doesUserExist(username))
@@ -86,10 +104,14 @@ void SqliteDataBase::clearUsers()
 		users.pop();
 }
 
+void SqliteDataBase::clearQuestions()
+{
+	while (!questions.empty())
+		questions.pop_back();
+}
+
 IDatabase* SqliteDataBase::get_instance()
 {
-	if (!m_ptr)
-		m_ptr = new SqliteDataBase;
 	return m_ptr;
 }
 
@@ -139,10 +161,67 @@ void SqliteDataBase::addNewUser(std::string username, std::string password, std:
 	
 }
 
-std::list<Question> SqliteDataBase::getQuestions()
+std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 {
-	return std::list<Question>();
+	clearQuestions();
+	sqlite3_stmt* stmt;
+	if (difficulty == "mix")
+		stmt = getStmt("select * from questions;");
+	else
+	{
+		stmt = getStmt("select * from questions where difficulty = ?;");
+		sqlite3_bind_text(stmt,1,difficulty.c_str(),difficulty.length(),nullptr);
+	}
+	questionCallBack(stmt);
+	sqlite3_finalize(stmt);
+	return questions;
 }
+
+bool SqliteDataBase::isAnswerCorrect(string answer, string question)
+{
+	clearQuestions();
+	sqlite3_stmt* stmt = getStmt("select * from questions where questions = ? and correctAnswer = ?;");
+	sqlite3_bind_text(stmt, 1, question.c_str(), question.length(), nullptr);
+	sqlite3_bind_text(stmt, 2,answer.c_str(), answer.length(), nullptr);
+	questionCallBack(stmt);
+	sqlite3_finalize(stmt);
+	return !questions.empty();
+
+}
+
+void SqliteDataBase::addToCorrectAnswers(string username)
+{
+	sqlite3_stmt* stmt = getStmt("update statistics set numCorrectAnswers = numCorrectAnswers + 1 where username = ?;");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	sqlite3_step(stmt);
+	sqlite3_finalize(stmt);
+}
+
+void SqliteDataBase::addToPlayerGames(string username)
+{
+	sqlite3_stmt* stmt = getStmt("update statistics set numOfPlayerGames = numOfPlayerGames + 1 where username = ?;");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	sqlite3_step(stmt);
+	sqlite3_finalize(stmt);
+}
+
+void SqliteDataBase::addToTotalAnswers(string username)
+{
+	sqlite3_stmt* stmt = getStmt("update statistics set numOfTotalAnswers = numOfTotalAnswers + 1 where username = ?;");
+	sqlite3_bind_text(stmt, 1, username.c_str(), username.length(), nullptr);
+	sqlite3_step(stmt);
+	sqlite3_finalize(stmt);
+}
+
+void SqliteDataBase::setPlayerAverageAnswerTime(string username, float averageAnswerTime)
+{
+	sqlite3_stmt* stmt = getStmt("update statistics set numCorrectAnswers = ? where username = ?;");
+	sqlite3_bind_double(stmt, 1, static_cast<double>(averageAnswerTime));
+	sqlite3_bind_text(stmt, 2, username.c_str(), username.length(), nullptr);
+	sqlite3_step(stmt);
+	sqlite3_finalize(stmt);
+}
+
 
 float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
 {

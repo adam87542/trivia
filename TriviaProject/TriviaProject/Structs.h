@@ -211,8 +211,19 @@ struct Question
 	string difficulty;
 	string firstAnswer;
 	string secondAnswer;
-	string thridAnswer;
+	string thirdAnswer;
 	string fourthAnswer;
 	string correctAnswer;
-	int correctAnswerIndex;
+};
+
+//**************************** GameData *******************************//
+struct GameData
+{
+	Question currentQuestion;
+
+	unsigned int correctAnswerCount;
+
+	unsigned int  wrongAnswerCount;
+
+	unsigned int averangeAnswerTime;
 };

@@ -23,6 +23,7 @@ namespace Kahool
 		private string username;
 		private bool isLeader;
 		private uint roomId;
+		private bool inLobby;
 		MenuWindow wnd;
 		private readonly object locker = new object ();
 
@@ -49,7 +50,9 @@ namespace Kahool
 			}
 			ListOfConnected.ItemsSource = room.playersInRoom;
 
+			inLobby = true;
 			Thread screenRefresh = new Thread(ScreenRefresh);
+			screenRefresh.Start();
 
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
@@ -73,7 +76,7 @@ namespace Kahool
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
 		{
-
+			inLobby = false;
 		}
 		private void OnExitClick(object sender, RoutedEventArgs e)
 		{
@@ -81,6 +84,7 @@ namespace Kahool
 			{
 				LobbyResponeHandler.LeaveRoom(com);
 			}
+			inLobby = false;
 			wnd.ChangeToMenu(com, username, wnd);
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
@@ -89,18 +93,25 @@ namespace Kahool
 			{
 				LobbyResponeHandler.CloseRoom(this.com);
 			}
+			inLobby = false;
 			wnd.ChangeToMenu(com, username, wnd);
 		}
 
 		public void ScreenRefresh()
 		{
-			GetPlayersInRoomResponse room;
-			Thread.Sleep(3000);
-			lock (this.locker)
+			while (inLobby)
 			{
-				room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+				GetPlayersInRoomResponse room;
+				Thread.Sleep(3000);
+				lock (this.locker)
+				{
+					room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+				}
+				this.Dispatcher.Invoke(() =>
+				{
+					ListOfConnected.ItemsSource = room.playersInRoom;
+				});
 			}
-			ListOfConnected.ItemsSource = room.playersInRoom;
 		}
     }
 }

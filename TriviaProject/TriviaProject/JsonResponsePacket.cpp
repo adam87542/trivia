@@ -168,7 +168,6 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRespo
 	json j;
 	j[STATUS] = response.status;
 	j[IS_ANSWER_CORRECT] = response.isAnswerCorrect;
-
 	return seralizingMsg(SUBMIT_ANSWER_RESPONSE, j.dump());
 }
 
@@ -317,6 +316,7 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 	json j = deseralizingMsg(buffer);
 
 	request.answer = j[ANSWER];
+	request.time = j[ANSWER_TIME];
 
 	return request;
 }

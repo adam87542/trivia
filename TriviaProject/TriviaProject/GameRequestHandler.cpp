@@ -57,7 +57,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 	RequestResult myResult;
 	SubmitAnswerResponse respone;
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
-	respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer);
+	respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer ,  request.time);
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());
@@ -90,7 +90,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 
 GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
 {
-	this->m_Game = new Game(difficulty, playersInRoom, roomId);
+	this->m_Game = new Game(this->m_Game->getNumOfQuestions() , difficulty, playersInRoom, roomId);
 	this->m_user = new LoggedUser(username);
 	m_gameManager->createGame(*m_Game);
 }

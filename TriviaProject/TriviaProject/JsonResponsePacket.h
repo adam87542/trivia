@@ -43,6 +43,7 @@ enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 #define QUESTION "Question"
 #define ANSWERS "Answers"
 #define ANSWER "answer"
+#define ANSWER_TIME "answerTime"
 #define CORRECT_ANSWER "correctAnswer"
 #define COMMA ","
 

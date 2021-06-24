@@ -2,9 +2,10 @@
 
 IDatabase* Game::m_dataBase = SqliteDataBase::get_instance();
 
-Game::Game(string difficulty, std::vector<string> playersInRoom , unsigned int roomId)
+Game::Game(unsigned  int numOfQuestions , string difficulty, std::vector<string> playersInRoom , unsigned int roomId)
 {
     this->m_gameId = roomId;
+    this->m_numOfQuestions = numOfQuestions;
     this->m_questionDifficulty = difficulty;
     this->m_questions = m_dataBase->getQuestions(difficulty);
     for(auto player : playersInRoom)
@@ -30,11 +31,12 @@ Question Game::getNextQuestion(string username)
             return  m_questions.at(i++);
 }
 
-bool Game::submitAnswer(string username, string answer)
+bool Game::submitAnswer(string username, string answer , float time)
 {
     LoggedUser* user = new LoggedUser(username);
     GameData* iter = getPlayerMeta(username);
     bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer, iter->currentQuestion.question);
+    iter->totalAnswerTime += time;
     if (isAnswerCorrect)
     {
         m_dataBase->addToCorrectAnswers(username);
@@ -68,6 +70,11 @@ string Game::getQuestionsDifficulty()
     return this->m_questionDifficulty;
 }
 
+unsigned int Game::getNumOfQuestions()
+{
+    return this->m_numOfQuestions;
+}
+
 std::vector<string> Game::getPlayersInGame()
 {
     std::vector <string> players;
@@ -82,6 +89,7 @@ std::vector<GameData> Game::getGameResults()
 {
     for (auto player : this->m_players)
     {
+        player.averangeAnswerTime = player.totalAnswerTime / this->m_numOfQuestions;
         this->m_dataBase->addToPlayerGames(player.username);
         float avgAnsTime = (this->m_dataBase->getPlayerAverageAnswerTime(player.username) + player.averangeAnswerTime) / this->m_dataBase->getNumOfPlayerGames(player.username);
         m_dataBase->setPlayerAverageAnswerTime(player.username, avgAnsTime);

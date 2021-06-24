@@ -40,6 +40,7 @@ struct Question
 struct GameData
 {
 	string username;
+	float totalAnswerTime;
 
 	Question currentQuestion;
 
@@ -217,5 +218,6 @@ struct CreateRoomRequest
 
 struct SubmitAnswerRequest
 {
+	float time;
 	string answer;
 };

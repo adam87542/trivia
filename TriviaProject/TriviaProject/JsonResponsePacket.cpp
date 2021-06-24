@@ -135,7 +135,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsRes
 {
 	json j;
 	std::list<string> myResults;
-	std::string temp = "";
+	string temp = "";
 
 	if (response.status == SUCCESS_CODE)
 	{
@@ -148,7 +148,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsRes
 			temp += COMMA;
 			temp += result.wrongAnswerCount;
 			temp += COMMA;
-			temp += result.averageAnswerTime;
+			temp += result.averangeAnswerTime;
 
 			myResults.push_back(temp);
 		}
@@ -167,7 +167,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRespo
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ANSWER_ID] = response.correctAnswerId;
+	j[IS_ANSWER_CORRECT] = response.isAnswerCorrect;
 
 	return seralizingMsg(SUBMIT_ANSWER_RESPONSE, j.dump());
 }
@@ -179,11 +179,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetQuestionRespon
 	{
 		j[QUESTION] = response.question;
 		j[ANSWERS] = response.answers;
+		j[CORRECT_ANSWER] = response.correctAnswer;
+
 	}
 	else
 	{
 		j[QUESTION] = "";
 		j[ANSWERS] = std::map<unsigned int, string>();
+		j[CORRECT_ANSWER] = "";
 
 	}
 	j[STATUS] = response.status;
@@ -313,7 +316,7 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 	SubmitAnswerRequest request;
 	json j = deseralizingMsg(buffer);
 
-	request.answerId = j[ANSWER_ID];
+	request.answer = j[ANSWER];
 
 	return request;
 }

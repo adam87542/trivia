@@ -6,15 +6,20 @@
 class Game
 {
 private:
-	unsigned int gameId;
+	unsigned int m_gameId;
+	string m_questionDifficulty;
 	static IDatabase* m_dataBase;
 	std::vector<Question> m_questions;
-	std::map<LoggedUser* , GameData*> m_players;
+	std::vector<GameData> m_players;
 public:
 	Game(string difficulty , std::vector<string> playersInRoom , unsigned int roomId);
-	GameData getPlayerMeta(string username);
+	GameData* getPlayerMeta(string username);
 	Question getNextQuestion(string username);
-	void submitAnswer(string username, string answer);
+	bool submitAnswer(string username, string answer);
 	void removePlayer(string username);
 	unsigned int getGameId();
+	string getQuestionsDifficulty();
+	std::vector<string> getPlayersInGame();
+	std::vector<GameData> getGameResults();
+
 };

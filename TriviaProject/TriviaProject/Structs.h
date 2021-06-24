@@ -24,15 +24,31 @@ struct UserStatistics
 	int numTotalAnswer;
 	int numOfPlayerGames;
 };
+//**************************** Question *******************************//
 
-struct PlayerResults
+struct Question
+{
+	string question;
+	string difficulty;
+	string firstAnswer;
+	string secondAnswer;
+	string thirdAnswer;
+	string fourthAnswer;
+	string correctAnswer;
+};
+//**************************** GameData *******************************//
+struct GameData
 {
 	string username;
-	unsigned int correctAnswerCount;
-	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
-};
 
+	Question currentQuestion;
+
+	unsigned int correctAnswerCount;
+
+	unsigned int  wrongAnswerCount;
+
+	unsigned int averangeAnswerTime;
+};
 //**************************** Room  ********************************// 
 
 struct RoomData
@@ -136,19 +152,20 @@ struct GetQuestionResponse
 {
 	unsigned int status;
 	string question;
-	std::map<unsigned int, string> answers;
+	string correctAnswer;
+	std::vector<string> answers;
 };
 
 struct SubmitAnswerResponse
 {
 	unsigned int status;
-	unsigned int correctAnswerId;
+	bool isAnswerCorrect;
 };
 
 struct GetGameResultsResponse
 {
 	unsigned int status;
-	std::vector<PlayerResults> results;
+	std::vector<GameData> results;
 };
 
 //**************************** Requests *********************************//
@@ -200,30 +217,5 @@ struct CreateRoomRequest
 
 struct SubmitAnswerRequest
 {
-	unsigned int answerId;
-};
-
-//**************************** Question *******************************//
-
-struct Question
-{
-	string question;
-	string difficulty;
-	string firstAnswer;
-	string secondAnswer;
-	string thirdAnswer;
-	string fourthAnswer;
-	string correctAnswer;
-};
-
-//**************************** GameData *******************************//
-struct GameData
-{
-	Question currentQuestion;
-
-	unsigned int correctAnswerCount;
-
-	unsigned int  wrongAnswerCount;
-
-	unsigned int averangeAnswerTime;
+	string answer;
 };

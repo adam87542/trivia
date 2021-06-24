@@ -14,13 +14,13 @@ public:
 
 	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
 	virtual int getNumOfCorrectAnswer(std::string username) = 0;
-	virtual int getNumOfTotalAnswers(std::string username) = 0;
+	virtual int getNumOfWrongAnswers(std::string username) = 0;
 	virtual int getNumOfPlayerGames(std::string username) = 0;
 	virtual std::vector<Question> getQuestions(string difficulty) = 0;
 	virtual	bool isAnswerCorrect(string answer, string question) = 0;
 	virtual	void addToCorrectAnswers(string username) = 0;
 	virtual	void addToPlayerGames(string username) = 0;
-	virtual	void addToTotalAnswers(string username) = 0;
+	virtual	void addToWrongAnswers(string username) = 0;
 	virtual	void setPlayerAverageAnswerTime(string username, float averageAnswerTime) =0;
 };
 

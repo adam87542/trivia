@@ -38,11 +38,13 @@ bool Game::submitAnswer(string username, string answer)
     if (isAnswerCorrect)
     {
         m_dataBase->addToCorrectAnswers(username);
-        m_dataBase->addToTotalAnswers(username);
         iter->correctAnswerCount++;
     }
     else
-         iter->wrongAnswerCount++;
+    {
+        m_dataBase->addToWrongAnswers(username);
+        iter->wrongAnswerCount++;
+    }
     iter->currentQuestion = getNextQuestion(username);
     return isAnswerCorrect;
 }
@@ -78,5 +80,11 @@ std::vector<string> Game::getPlayersInGame()
 
 std::vector<GameData> Game::getGameResults()
 {
+    for (auto player : this->m_players)
+    {
+        this->m_dataBase->addToPlayerGames(player.username);
+        float avgAnsTime = (this->m_dataBase->getPlayerAverageAnswerTime(player.username) + player.averangeAnswerTime) / this->m_dataBase->getNumOfPlayerGames(player.username);
+        m_dataBase->setPlayerAverageAnswerTime(player.username, avgAnsTime);
+    }
     return this->m_players;
 }

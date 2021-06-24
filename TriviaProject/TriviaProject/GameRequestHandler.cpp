@@ -70,7 +70,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 	GetGameResultsResponse respone;
 	respone.results = m_Game->getGameResults();
 	respone.status = SUCCESS_CODE;
-	m_gameManager->deleteGame(this->m_Game);
+	m_gameManager->deleteGame(*m_Game);
 	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(this->m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
@@ -92,5 +92,5 @@ GameRequestHandler::GameRequestHandler(string username, string difficulty, std::
 {
 	this->m_Game = new Game(difficulty, playersInRoom, roomId);
 	this->m_user = new LoggedUser(username);
-	m_gameManager->createGame(this->m_Game);
+	m_gameManager->createGame(*m_Game);
 }

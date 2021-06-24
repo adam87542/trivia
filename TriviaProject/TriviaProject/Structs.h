@@ -19,9 +19,9 @@ struct User
 struct UserStatistics
 {
 	string username;
-	float avrageAnswerTime;
-	int numCorrectAnswers;
-	int numTotalAnswer;
+	unsigned int totalCorrectAnswerCount;
+	unsigned int  totalWrongAnswerCount;
+	unsigned int averangeAnswerTime;
 	int numOfPlayerGames;
 };
 //**************************** Question *******************************//

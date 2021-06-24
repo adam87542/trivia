@@ -185,10 +185,10 @@ string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> v
 string MenuRequestHandler::FromUserStatisticsToString(UserStatistics statistics)
 {
 	string ans;
-	ans += std::to_string(statistics.avrageAnswerTime) + COMMA;
-	ans += std::to_string(statistics.numCorrectAnswers) + COMMA;
+	ans += std::to_string(statistics.averangeAnswerTime) + COMMA;
+	ans += std::to_string(statistics.totalCorrectAnswerCount) + COMMA;
 	ans += std::to_string(statistics.numOfPlayerGames) + COMMA;
-	ans += std::to_string(statistics.numTotalAnswer) + COMMA;
+	ans += std::to_string(statistics.totalWrongAnswerCount) + COMMA;
 	ans += statistics.username;
 	return ans;
 }

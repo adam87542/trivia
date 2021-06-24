@@ -56,12 +56,12 @@ public:
 	 bool isAnswerCorrect(string answer, string question);
 	 void addToCorrectAnswers(string username);
 	 void addToPlayerGames(string username);
-	 void addToTotalAnswers(string username);
+	 void addToWrongAnswers(string username);
 	 void setPlayerAverageAnswerTime(string username, float averageAnswerTime);
 
 	 virtual float getPlayerAverageAnswerTime(std::string username);
 	 virtual int getNumOfCorrectAnswer(std::string username);
-	 virtual int getNumOfTotalAnswers(std::string username);
+	 virtual int getNumOfWrongAnswers(std::string username);
 	 virtual int getNumOfPlayerGames(std::string username);
 
 };

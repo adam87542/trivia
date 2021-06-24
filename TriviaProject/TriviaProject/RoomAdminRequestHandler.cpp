@@ -77,8 +77,16 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info)
 	RequestResult myResult;
 	GetPlayersInRoomResponse respone;
 	GetPlayersInRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
-	respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
-	respone.status = SUCCESS_CODE;
+	try
+	{
+		respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
+		respone.status = SUCCESS_CODE;
+	}
+	catch (...)
+	{
+		respone.players = std::vector<string>();
+		respone.status = ERR_CODE;
+	}
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
 }

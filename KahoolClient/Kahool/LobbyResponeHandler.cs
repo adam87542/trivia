@@ -27,6 +27,7 @@ namespace Kahool
                     
                 }
                 playersInRoomResponse = JsonResponeDeserializer.deserializeGetPlayersInRoomRespone(msgFromServer);
+
             }
             return playersInRoomResponse;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,11 +27,13 @@ namespace Kahool
 		private bool inLobby;
 		MenuWindow wnd;
 		private readonly object locker = new object ();
+		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 
 		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
 		{
 			GetPlayersInRoomResponse room;
-
+			backgroundWorker.WorkerSupportsCancellation = true;
+			backgroundWorker.WorkerReportsProgress = true;
 			this.wnd = wnd;
 			this.isLeader = isLeader;
 			this.username = username;
@@ -116,6 +119,11 @@ namespace Kahool
 				{
 					ListOfConnected.ItemsSource = room.playersInRoom;
 				});
+
+				if (room.status == Constants.Fail && !this.isLeader)//Means that the room was closed!
+				{
+					inLobby = false;
+				}
 			}
 		}
     }

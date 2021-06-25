@@ -69,6 +69,7 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
+			inLobby = false;
 			lock (this.locker)
 			{
 				if (isLeader)

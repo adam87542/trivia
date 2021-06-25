@@ -41,7 +41,7 @@ namespace Kahool
             CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
 
             if (response.status == Constants.Success)
-                wnd.ChangeToLobby(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com,wnd);
+                wnd.ChangeToLobby(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com, wnd);
             else
                 MessageLabelCreate.Content = "Couldn't create room, please try again later";
         }
@@ -53,7 +53,7 @@ namespace Kahool
 
             JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
             if (response.status == Constants.Success)
-                wnd.ChangeToLobby(false, this.username, response.roomId.ToString(), RoomNameBox.Text, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com,wnd);
+                wnd.ChangeToLobby(false, this.username, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com, wnd);
             else
                 MessageLabelJoin.Content = "Invalid room id";
 

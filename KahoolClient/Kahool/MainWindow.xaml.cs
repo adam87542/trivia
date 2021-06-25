@@ -32,7 +32,7 @@ namespace Kahool
 
 		private void retryCommunication(object sender, KeyEventArgs e)
 		{
-			if(e.Key == Key.F5 && com == null)
+			if (e.Key == Key.F5 && com == null)
 			{
 				Thread comThread = new Thread(initiateCommunication);
 				comThread.Start();
@@ -76,8 +76,8 @@ namespace Kahool
 				this.DragMove();
 		}
 
-        private void OnLoginClick(object sender, RoutedEventArgs e)
-        {
+		private void OnLoginClick(object sender, RoutedEventArgs e)
+		{
 			LoginRequest request;
 			request.username = UserNameBox.Text;
 			request.password = PasswordBox.Password;
@@ -85,13 +85,13 @@ namespace Kahool
 			if (isSucceed)
 			{
 				App.Current.MainWindow.Hide();
-				MenuWindow wnd = new MenuWindow(this.com,UserNameBox.Text);
+				MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
 				wnd.ShowDialog();
-			
+
 			}
 			else
 				MessageLabelMain.Content = "Username or Password Incorrect";
-            
+
 		}
-    }
+	}
 }

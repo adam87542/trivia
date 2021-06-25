@@ -12,7 +12,8 @@ private:
 	LoggedUser* m_user;
 	static RoomManager* m_roomManager;
 	RequestResult CloseRoom();
-	static RequestResult StartGame(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId);
+	static RequestResult StartGame();
 	static RequestResult GetRoomState(string username , Room room);
+	static RequestResult getPlayersInRoom(RequestInfo info, bool isMember, string username, Room room);
 	friend class RoomMemberRequestHandler;
 };

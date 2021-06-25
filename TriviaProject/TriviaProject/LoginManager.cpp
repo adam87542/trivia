@@ -18,16 +18,17 @@ void LoginManager::reset_instance()
 
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
+	/*
 	if (!CheckEmail(email))
 		throw std::exception("Invaild email");
 
-	else if (!CheckPassword(password))
+	if (!CheckPassword(password))
 		throw std::exception("Invalid password");
 
-	else if (!CheckUserName(username))
+	 if (!CheckUserName(username))
 		throw std::exception("Invalid username");
-
-	else if (!m_database->doesUserExist(username))
+	 */
+	 if (!m_database->doesUserExist(username))
 	{
 		m_database->addNewUser(username, password, email);
 		m_loggedUsers.push_back(LoggedUser(username));
@@ -39,7 +40,16 @@ void LoginManager::signup(std::string username, std::string password, std::strin
 void LoginManager::login(std::string username, std::string password)
 {
 	if (m_database->doesPasswordMatch(password, username))
+	{
+		auto loggedUserItr = m_loggedUsers.begin();
+		while (loggedUserItr != m_loggedUsers.end())
+		{
+			if (loggedUserItr->getUsername() == username)
+				throw std::exception("User already logged in");
+			loggedUserItr++;
+		}
 		m_loggedUsers.push_back(LoggedUser(username));
+	}
 	else
 		throw std::exception("Couldn't find user or password doesn't match");
 }

@@ -19,37 +19,20 @@ struct User
 struct UserStatistics
 {
 	string username;
-	unsigned int totalCorrectAnswerCount;
-	unsigned int  totalWrongAnswerCount;
-	unsigned int averangeAnswerTime;
+	float avrageAnswerTime;
+	int numCorrectAnswers;
+	int numTotalAnswer;
 	int numOfPlayerGames;
 };
-//**************************** Question *******************************//
 
-struct Question
-{
-	string question;
-	string difficulty;
-	string firstAnswer;
-	string secondAnswer;
-	string thirdAnswer;
-	string fourthAnswer;
-	string correctAnswer;
-};
-//**************************** GameData *******************************//
-struct GameData
+struct PlayerResults
 {
 	string username;
-	float totalAnswerTime;
-
-	Question currentQuestion;
-
 	unsigned int correctAnswerCount;
-
-	unsigned int  wrongAnswerCount;
-
-	unsigned int averangeAnswerTime;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
 };
+
 //**************************** Room  ********************************// 
 
 struct RoomData
@@ -93,6 +76,7 @@ struct GetRoomsResponse
 
 struct GetPlayersInRoomResponse
 {
+	unsigned int status;
 	std::vector<string> players;
 };
 
@@ -153,20 +137,19 @@ struct GetQuestionResponse
 {
 	unsigned int status;
 	string question;
-	string correctAnswer;
-	std::vector<string> answers;
+	std::map<unsigned int, string> answers;
 };
 
 struct SubmitAnswerResponse
 {
 	unsigned int status;
-	bool isAnswerCorrect;
+	unsigned int correctAnswerId;
 };
 
 struct GetGameResultsResponse
 {
 	unsigned int status;
-	std::vector<GameData> results;
+	std::vector<PlayerResults> results;
 };
 
 //**************************** Requests *********************************//
@@ -218,6 +201,19 @@ struct CreateRoomRequest
 
 struct SubmitAnswerRequest
 {
-	float time;
-	string answer;
+	unsigned int answerId;
+};
+
+//**************************** Question *******************************//
+
+struct Question
+{
+	string question;
+	string difficulty;
+	string firstAnswer;
+	string secondAnswer;
+	string thridAnswer;
+	string fourthAnswer;
+	string correctAnswer;
+	int correctAnswerIndex;
 };

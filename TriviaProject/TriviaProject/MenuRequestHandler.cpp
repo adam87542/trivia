@@ -1,8 +1,9 @@
 #include "MenuRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#include <random>
 
 StatisticManager* MenuRequestHandler::m_statisticManager = StatisticManager::get_instance();
-RoomManager* MenuRequestHandler::m_roomManager = RoomManager::getInstance();
+RoomManager* MenuRequestHandler::m_roomManager = RoomManager::get_instance();
 LoginManager* MenuRequestHandler::m_loginManager = LoginManager::get_instance();
 MenuRequestHandler::MenuRequestHandler(string username)
 {
@@ -52,8 +53,7 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
 	m_loginManager->logout(m_user->getUsername());
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = nullptr;
+	throw std::exception("User has disconnected");
 	return myResult;
 }
 
@@ -118,8 +118,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		respone.difficulty = roomToJoin.getData().difficulty;
 		respone.questionCount = roomToJoin.getData().numOfQuestionsInGame;
 		respone.roomId = roomToJoin.getData().id;
-		Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId, m_user->getUsername());
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), userRoomToJoin);
+		m_roomManager->addPlayerToRoom(roomToJoin.getData().id , m_user->getUsername());
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(),roomToJoin);
 		respone.status = SUCCESS_CODE;
 	}
 	catch (std::exception e)
@@ -139,13 +139,19 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	CreateRoomResponse respone;
 	CreateRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	RoomData roomData;
-	int givenRoomId = rand() % 100 + 1;
-	while (IsIdExists(givenRoomId))
+	// Random seed
+	std::random_device rd;
+	int givenId = 0;
+	// Initialize Mersenne Twister pseudo-random number generator
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 100);
+	do
 	{
-        givenRoomId = rand() % 100 + 1;
-	}
+		givenId = dis(gen);
+
+	}while(IsIdExists(givenId));
 	roomData.roomAdmin = this->m_user->getUsername();
-	roomData.id = givenRoomId;
+	roomData.id = givenId;
 	roomData.isActive = true;
 	roomData.maxPlayers = myRequest.maxUsers;
 	roomData.name = myRequest.roomName;
@@ -185,10 +191,10 @@ string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> v
 string MenuRequestHandler::FromUserStatisticsToString(UserStatistics statistics)
 {
 	string ans;
-	ans += std::to_string(statistics.averangeAnswerTime) + COMMA;
-	ans += std::to_string(statistics.totalCorrectAnswerCount) + COMMA;
+	ans += std::to_string(statistics.avrageAnswerTime) + COMMA;
+	ans += std::to_string(statistics.numCorrectAnswers) + COMMA;
 	ans += std::to_string(statistics.numOfPlayerGames) + COMMA;
-	ans += std::to_string(statistics.totalWrongAnswerCount) + COMMA;
+	ans += std::to_string(statistics.numTotalAnswer) + COMMA;
 	ans += statistics.username;
 	return ans;
 }

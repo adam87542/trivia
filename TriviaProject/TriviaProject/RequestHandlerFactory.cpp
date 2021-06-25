@@ -27,12 +27,6 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 	return roomMemberRequestHandler;
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
-{
-	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId);
-	return gameRequestHandler;
-}
-
 RequestHandlerFactory* RequestHandlerFactory::get_instance()
 {
 	if (!m_ptr)

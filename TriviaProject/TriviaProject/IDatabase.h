@@ -23,3 +23,4 @@ public:
 	virtual	void addToWrongAnswers(string username) = 0;
 	virtual	void setPlayerAverageAnswerTime(string username, float averageAnswerTime) = 0;
 };
+

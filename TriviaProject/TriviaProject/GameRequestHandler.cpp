@@ -2,7 +2,7 @@
 #include "RequestHandlerFactory.h"
 
 GameManager* GameRequestHandler::m_gameManager = GameManager::getInstance();
-RoomManager* GameRequestHandler::m_roomManager = RoomManager::getInstance();
+RoomManager* GameRequestHandler::m_roomManager = RoomManager::get_instance();
 bool GameRequestHandler::isRequestRelevant(RequestInfo info)
 {
 	return info.requestId == GET_Q_REQUEST || info.requestId == SUBMIT_ANSWER_REQUEST || info.requestId == GET_GAME_RESULT_REQUEST || info.requestId == LEAVE_GAME_REQUEST;

@@ -64,7 +64,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse 
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
 {
 	json j;
-	j[STATUS] = response.status;
+
 	j[PLAYERS_IN_ROOM] = vectorToList(response.players);
 
 	return seralizingMsg(GET_PLAYERS_RESPONSE, j.dump());

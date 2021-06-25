@@ -10,7 +10,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST || info.requestId == GET_PLAYERS_REQUEST;
+	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
@@ -29,9 +29,6 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 	case STATE_ROOM_REQUEST:
 		myResult = GetRoomState(this->m_user->getUsername() ,*m_room);
 		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
-		break;
-	case GET_PLAYERS_REQUEST:
-		myResult = getPlayersInRoom(info,  false, this->m_user->getUsername(), *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -70,28 +67,5 @@ RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room room)
 	response.hasGameBegun = room.getData().isActive;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
-	return myResult;
-}
-RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool isMember , string username , Room room)
-{
-	RequestResult myResult;
-	GetPlayersInRoomResponse respone;
-	GetPlayersInRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
-	try
-	{
-		respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
-		respone.status = SUCCESS_CODE;
-		if(isMember)
-			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(username, room);
-		else
-			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
-	}
-	catch (...)
-	{
-		respone.players = std::vector<string>();
-		respone.status = ERR_CODE;
-		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(username);
-	}
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
 }

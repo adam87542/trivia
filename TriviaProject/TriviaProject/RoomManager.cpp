@@ -23,11 +23,29 @@ std::vector<string> RoomManager::getPlayersInRoom(int room_id)
 	return room.getAllUsers();
 }
 
-Room RoomManager::addPlayerToRoom(int room_id , string username)
+void RoomManager::addPlayerToRoom(int room_id , string username)
 {
-	Room itr = GetRoomById(room_id);
-	itr.addUser(LoggedUser(username));
-	return itr;
+	for (int i = 0; i < this->m_rooms.size(); i++)
+	{
+		if (m_rooms[i].getData().id == room_id)
+		{
+			this->m_rooms[i].addUser(username);
+			return;
+		}
+	}
+	throw std::exception("Room Doesn't exists");
+}
+
+void RoomManager::removePlayerFromRoom(int room_id, string username)
+{
+	for (int i = 0; i < this->m_rooms.size(); i++)
+	{
+		if (m_rooms[i].getData().id == room_id)
+		{
+			this->m_rooms[i].removeUser(username);
+			return;
+		}
+	}
 }
 
 Room RoomManager::GetRoomPlayerIsOn(string usrename)

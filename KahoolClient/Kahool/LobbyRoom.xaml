@@ -18,7 +18,7 @@
 
         <Rectangle Fill="#FF32324B" HorizontalAlignment="Left" Height="206" Margin="337,185,0,0" Stroke="Black" VerticalAlignment="Top" Width="430"/>
         <Label Content="Users Connected to Lobby:" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Left" Margin="337,185,0,0" VerticalAlignment="Top" Foreground="White" FontSize="30" Height="48" Width="365"/>
-        <Label Name="LabelOfConnected" Content="" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Left" Margin="337,233,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" Height="158" Width="430"/>
+        <ListBox Name="ListOfConnected" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Left" Margin="337,233,0,0" VerticalAlignment="Top" Background="Transparent" Foreground="white" FontSize="20" Height="158" Width="430"/>
         <Label Name="GuestLabel" Content="" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="center" Margin="340,399,0,0" VerticalAlignment="Top" Foreground="White" FontSize="30" Height="48" Width="430"/>
 
         <Button Name="StartButton" HorizontalAlignment="Left" Margin="403,418,0,0" VerticalAlignment="Top" Height="22" Width="79" Click="OnStartClick">

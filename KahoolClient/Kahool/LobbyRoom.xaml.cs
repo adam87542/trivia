@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -11,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading;
 
 namespace Kahool
 {
@@ -20,21 +18,15 @@ namespace Kahool
 	/// </summary>
 	public partial class LobbyRoom : Page
 	{
-		private Communicator com;
+		Communicator com;
 		private string username;
 		private bool isLeader;
-		private uint roomId;
-		private bool inLobby;
-		private MenuWindow wnd; 
-		private readonly object locker = new object ();
-
+		MenuWindow wnd;
 		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
 		{
-			GetPlayersInRoomResponse room;
 			this.wnd = wnd;
 			this.isLeader = isLeader;
 			this.username = username;
-			this.roomId = uint.Parse(roomId);
 			InitializeComponent();
 			NumberOfQuestsionLabel.Content += numOfQuestions;
 			TimeBetweenQuestionsLabel.Content += timeBetweenQuestions + " sec";
@@ -43,17 +35,6 @@ namespace Kahool
 			DifficultyLabel.Content += difficulty;
 
 			this.com = com;
-
-			lock (this.locker)
-			{
-				room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
-			}
-			ListOfConnected.ItemsSource = room.playersInRoom;
-
-			inLobby = true;
-			Thread screenRefresh = new Thread(ScreenRefresh);
-			screenRefresh.Start();
-
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
@@ -66,67 +47,25 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
-			lock (this.locker)
-			{
-				if (isLeader)
-					LobbyResponeHandler.CloseRoom(this.com);
-				else
-					LobbyResponeHandler.LeaveRoom(this.com);
-				MenuResponeHandler.LogOut(com);
-			}
+			MenuResponeHandler.LogOut(com);
+			if (isLeader)
+				LobbyResponeHandler.CloseRoom(this.com);
 			System.Windows.Application.Current.Shutdown();
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
 		{
-			inLobby = false;
+
 		}
 		private void OnExitClick(object sender, RoutedEventArgs e)
 		{
-			lock (this.locker)
-			{
-				LobbyResponeHandler.LeaveRoom(com);
-			}
-			inLobby = false;
+			LobbyResponeHandler.LeaveRoom(com);
 			wnd.ChangeToMenu(com, username, wnd);
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
-			lock (this.locker)
-			{
-				LobbyResponeHandler.CloseRoom(this.com);
-			}
-			inLobby = false;
-			wnd.ChangeToMenu(com, username, wnd);
+			LobbyResponeHandler.CloseRoom(this.com);
+			wnd.ChangeToMenu(com,username, wnd);
 		}
 
-		public void ScreenRefresh()
-		{
-			while (inLobby)
-			{
-				GetPlayersInRoomResponse room;
-				room.playersInRoom = null;
-				room.status = 0;
-				Thread.Sleep(3000);
-				lock (this.locker)
-				{
-					if (inLobby)
-						room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
-				}
-				this.Dispatcher.Invoke(() =>
-				{
-					if (inLobby)
-						ListOfConnected.ItemsSource = room.playersInRoom;
-				});
-				if (room.status == Constants.Fail && !this.isLeader)//Means that the room was closed!
-				{
-					this.Dispatcher.Invoke(() =>
-					{
-						if (inLobby)
-							wnd.ChangeToMenu(com, username, wnd);
-					});
-					inLobby = false;
-				}
-			}
-		}
-    }
+	}
 }

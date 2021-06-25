@@ -1,6 +1,5 @@
 #include "MenuRequestHandler.h"
 #include "RequestHandlerFactory.h"
-#include <random>
 
 StatisticManager* MenuRequestHandler::m_statisticManager = StatisticManager::get_instance();
 RoomManager* MenuRequestHandler::m_roomManager = RoomManager::getInstance();
@@ -53,7 +52,8 @@ RequestResult MenuRequestHandler::logout(RequestInfo info)
 	LogoutResponse response;
 	response.status = SUCCESS_CODE;
 	m_loginManager->logout(m_user->getUsername());
-	throw std::exception("User has disconnected");
+	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	myResult.newhandler = nullptr;
 	return myResult;
 }
 
@@ -118,8 +118,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		respone.difficulty = roomToJoin.getData().difficulty;
 		respone.questionCount = roomToJoin.getData().numOfQuestionsInGame;
 		respone.roomId = roomToJoin.getData().id;
-		m_roomManager->addPlayerToRoom(roomToJoin.getData().id , m_user->getUsername());
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(),roomToJoin);
+		Room userRoomToJoin = m_roomManager->addPlayerToRoom(myRequest.roomId, m_user->getUsername());
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), userRoomToJoin);
 		respone.status = SUCCESS_CODE;
 	}
 	catch (std::exception e)
@@ -139,19 +139,13 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	CreateRoomResponse respone;
 	CreateRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	RoomData roomData;
-	// Random seed
-	std::random_device rd;
-	int givenId = 0;
-	// Initialize Mersenne Twister pseudo-random number generator
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, 100);
-	do
+	int givenRoomId = rand() % 100 + 1;
+	while (IsIdExists(givenRoomId))
 	{
-		givenId = dis(gen);
-
-	}while(IsIdExists(givenId));
+        givenRoomId = rand() % 100 + 1;
+	}
 	roomData.roomAdmin = this->m_user->getUsername();
-	roomData.id = givenId;
+	roomData.id = givenRoomId;
 	roomData.isActive = true;
 	roomData.maxPlayers = myRequest.maxUsers;
 	roomData.name = myRequest.roomName;

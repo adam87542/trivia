@@ -11,22 +11,14 @@ namespace Kahool
 		{
 			if (com != null)
 			{
-				string msgFromServer = "";
-				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
+				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
+                string MsgFromServer = com.SendPacket(MsgToServer);
+				if (MsgFromServer[0].ToString() == Constants.Fail.ToString())
 				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-					
-				}
-				if (msgFromServer[0].ToString() == Constants.Fail.ToString())
-				{
-					ErrorResponse response = JsonResponeDeserializer.deserializeErrorRespone(msgFromServer);
+					ErrorResponse response = JsonResponeDeserializer.deserializeErrorRespone(MsgFromServer);
 					return response.message;
 				}
-				SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(msgFromServer);
+				SignUpResponse respone = JsonResponeDeserializer.deserializeSignUpRespone(MsgFromServer);
 				if (respone.status == Constants.Success)
 					return null;
 			}
@@ -37,17 +29,9 @@ namespace Kahool
 		{
 			if (com != null)
 			{
-				string msgFromServer = "";
-				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
-				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-					
-				}
-				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(msgFromServer);
+				string MsgToServer = JsonRequestSerializer.serializeRequest(request);
+				string MsgFromServer = com.SendPacket(MsgToServer);
+				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(MsgFromServer);
 				return respone.status == Constants.Success;
 			}
 			return false;

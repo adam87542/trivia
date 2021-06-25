@@ -1,11 +1,11 @@
 #include "RoomAdminRequestHandler.h"
 #include "RequestHandlerFactory.h"
 
-RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::get_instance();
-RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom)
+RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::getInstance();
+RoomAdminRequestHandler::RoomAdminRequestHandler(string username, Room UserRoom)
 {
-		this->m_user = new LoggedUser(username);
-		this->m_room = new Room(UserRoom);
+	this->m_user = new LoggedUser(username);
+	this->m_room = new Room(UserRoom);
 
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
@@ -27,11 +27,11 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 		break;
 	case STATE_ROOM_REQUEST:
-		myResult = GetRoomState(this->m_user->getUsername() ,*m_room);
-		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
+		myResult = GetRoomState(this->m_user->getUsername(), *m_room);
+		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername(), *m_room);
 		break;
 	case GET_PLAYERS_REQUEST:
-		myResult = getPlayersInRoom(info,  false, this->m_user->getUsername(), *m_room);
+		myResult = getPlayersInRoom(info, false, this->m_user->getUsername(), *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -61,7 +61,7 @@ RequestResult RoomAdminRequestHandler::StartGame()
 	return myResult;
 }
 
-RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room room)
+RequestResult RoomAdminRequestHandler::GetRoomState(string username, Room room)
 {
 	RequestResult myResult;
 	GetRoomStateResponse response;
@@ -71,7 +71,7 @@ RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room room)
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
 	return myResult;
 }
-RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool isMember , string username , Room room)
+RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info, bool isMember, string username, Room room)
 {
 	RequestResult myResult;
 	GetPlayersInRoomResponse respone;
@@ -80,7 +80,7 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool 
 	{
 		respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
 		respone.status = SUCCESS_CODE;
-		if(isMember)
+		if (isMember)
 			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(username, room);
 		else
 			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);

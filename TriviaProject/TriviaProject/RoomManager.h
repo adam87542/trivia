@@ -12,7 +12,7 @@ private:
 	static RoomManager* m_ptr;
 	std::vector<Room> m_rooms; // all open roomes
 public:
-	static RoomManager* get_instance();
+	static RoomManager* getInstance();
 	static void reset_instance();
 	std::vector<string> getPlayersInRoom(int room_id);
 	void addPlayerToRoom(int room_id , string username);

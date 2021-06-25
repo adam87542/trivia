@@ -17,7 +17,7 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(string username, Room UserRoom)
 {
-	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username , UserRoom);
+	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username, UserRoom);
 	return roomAdminRequestHandler;
 }
 
@@ -25,6 +25,12 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 {
 	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, UserRoom);
 	return roomMemberRequestHandler;
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
+{
+	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId);
+	return gameRequestHandler;
 }
 
 RequestHandlerFactory* RequestHandlerFactory::get_instance()

@@ -3,7 +3,7 @@
 #include <random>
 
 StatisticManager* MenuRequestHandler::m_statisticManager = StatisticManager::get_instance();
-RoomManager* MenuRequestHandler::m_roomManager = RoomManager::get_instance();
+RoomManager* MenuRequestHandler::m_roomManager = RoomManager::getInstance();
 LoginManager* MenuRequestHandler::m_loginManager = LoginManager::get_instance();
 MenuRequestHandler::MenuRequestHandler(string username)
 {
@@ -12,7 +12,7 @@ MenuRequestHandler::MenuRequestHandler(string username)
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return (info.requestId == LOGOUT_REQUEST|| info.requestId == GET_ROOMS_REQUEST || info.requestId == GET_PLAYERS_REQUEST || info.requestId == JOIN_ROOM_REQUEST || info.requestId == CREATE_ROOM_REQUEST || info.requestId == GET_HIGH_SCORES_REQUEST);
+	return (info.requestId == LOGOUT_REQUEST || info.requestId == GET_ROOMS_REQUEST || info.requestId == GET_PLAYERS_REQUEST || info.requestId == JOIN_ROOM_REQUEST || info.requestId == CREATE_ROOM_REQUEST || info.requestId == GET_HIGH_SCORES_REQUEST);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
@@ -86,7 +86,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	{
 		PlayersRoom = m_roomManager->GetRoomPlayerIsOn(m_user->getUsername());
 	}
-	catch(const std::exception e)
+	catch (const std::exception e)
 	{
 		ErrorResponse respone;
 		respone.message = e.what();
@@ -98,7 +98,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	UserStatistics statisticsOfUser = m_statisticManager->getUserStatistics(m_user->getUsername());
 	string personalStats = FromUserStatisticsToString(statisticsOfUser);
 	respone.statistics[0] = personalStats;
-	std::vector<std::pair<string , int>> vecOfHighScores = m_statisticManager->getHighScore(PlayersRoom);
+	std::vector<std::pair<string, int>> vecOfHighScores = m_statisticManager->getHighScore(PlayersRoom);
 	string HighScores = FromVecToString(vecOfHighScores);
 	respone.statistics[1] = HighScores;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
@@ -118,8 +118,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		respone.difficulty = roomToJoin.getData().difficulty;
 		respone.questionCount = roomToJoin.getData().numOfQuestionsInGame;
 		respone.roomId = roomToJoin.getData().id;
-		m_roomManager->addPlayerToRoom(roomToJoin.getData().id , m_user->getUsername());
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(),roomToJoin);
+		m_roomManager->addPlayerToRoom(roomToJoin.getData().id, m_user->getUsername());
+		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), roomToJoin);
 		respone.status = SUCCESS_CODE;
 	}
 	catch (std::exception e)
@@ -149,7 +149,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	{
 		givenId = dis(gen);
 
-	}while(IsIdExists(givenId));
+	} while (IsIdExists(givenId));
 	roomData.roomAdmin = this->m_user->getUsername();
 	roomData.id = givenId;
 	roomData.isActive = true;
@@ -161,9 +161,9 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	respone.roomId = roomData.id;
 
 	respone.status = SUCCESS_CODE;
-	Room UserRoom = m_roomManager->createRoom(m_user->getUsername() , roomData);
+	Room UserRoom = m_roomManager->createRoom(m_user->getUsername(), roomData);
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , UserRoom);
+	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername(), UserRoom);
 	return myResult;
 }
 
@@ -191,10 +191,10 @@ string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> v
 string MenuRequestHandler::FromUserStatisticsToString(UserStatistics statistics)
 {
 	string ans;
-	ans += std::to_string(statistics.avrageAnswerTime) + COMMA;
-	ans += std::to_string(statistics.numCorrectAnswers) + COMMA;
+	ans += std::to_string(statistics.averangeAnswerTime) + COMMA;
+	ans += std::to_string(statistics.totalCorrectAnswerCount) + COMMA;
 	ans += std::to_string(statistics.numOfPlayerGames) + COMMA;
-	ans += std::to_string(statistics.numTotalAnswer) + COMMA;
+	ans += std::to_string(statistics.totalWrongAnswerCount) + COMMA;
 	ans += statistics.username;
 	return ans;
 }

@@ -30,14 +30,14 @@ vector<std::pair<string, int>> StatisticManager::getHighScore(Room room)
 	std::map<string, int> HighScores;
 	vector<string> users = room.getAllUsers();
 	for (const auto user : users)
-	{  
+	{
 		user_statistic = getUserStatistics(user);
-		float score = user_statistic.numCorrectAnswers / user_statistic.avrageAnswerTime;
+		float score = user_statistic.totalCorrectAnswerCount / user_statistic.averangeAnswerTime;
 		HighScores.insert(std::pair<string, int>(user, score));
 	}
 
 	vector<std::pair<string, int>> High_score_vec;
-	std::map<string, int> :: iterator iter;
+	std::map<string, int> ::iterator iter;
 	for (iter = HighScores.begin(); iter != HighScores.end(); iter++)
 	{
 		High_score_vec.push_back(make_pair(iter->first, iter->second));
@@ -51,9 +51,9 @@ vector<std::pair<string, int>> StatisticManager::getHighScore(Room room)
 UserStatistics StatisticManager::getUserStatistics(string username)
 {
 	UserStatistics user_statistic;
-	user_statistic.numCorrectAnswers = m_database->getNumOfCorrectAnswer(username);
-	user_statistic.avrageAnswerTime = m_database->getPlayerAverageAnswerTime(username);
+	user_statistic.totalWrongAnswerCount = m_database->getNumOfWrongAnswers(username);
+	user_statistic.totalCorrectAnswerCount = m_database->getNumOfCorrectAnswer(username);
 	user_statistic.numOfPlayerGames = m_database->getNumOfPlayerGames(username);
-	user_statistic.numTotalAnswer = m_database->getNumOfTotalAnswers(username);
+	user_statistic.averangeAnswerTime = m_database->getPlayerAverageAnswerTime(username);
 	return user_statistic;
 }

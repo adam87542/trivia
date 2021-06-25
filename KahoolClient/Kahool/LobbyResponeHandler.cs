@@ -6,12 +6,12 @@ namespace Kahool
 {
     class LobbyResponeHandler
     {
-        public static GetPlayersInRoomResponse GetPlayersInRoom(Communicator com , uint RoomId)
+        public static GetPlayersInRoomResponse GetPlayersInRoom(Communicator com, uint RoomId)
         {
             GetPlayersInRoomRequest getPlayersInRoom;
             GetPlayersInRoomResponse playersInRoomResponse;
             string msgFromServer = "";
-            playersInRoomResponse.playersInRoom= null;
+            playersInRoomResponse.playersInRoom = null;
             playersInRoomResponse.status = 0;
             getPlayersInRoom.roomId = RoomId;
 
@@ -22,9 +22,9 @@ namespace Kahool
                 {
                     msgFromServer = com.SendPacket(msgToServer);
                 }
-                catch 
+                catch
                 {
-                    
+
                 }
                 playersInRoomResponse = JsonResponeDeserializer.deserializeGetPlayersInRoomRespone(msgFromServer);
 
@@ -44,7 +44,7 @@ namespace Kahool
                 }
                 catch
                 {
-                    
+
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace Kahool
                 }
                 catch
                 {
-                    
+
                 }
             }
         }

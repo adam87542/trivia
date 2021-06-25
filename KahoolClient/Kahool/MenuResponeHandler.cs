@@ -27,7 +27,7 @@ namespace Kahool
 				}
 				catch
 				{
-					
+
 				}
 				response = JsonResponeDeserializer.deserializeJoinRoomRespone(msgFromServer);
 			}
@@ -49,8 +49,8 @@ namespace Kahool
 					msgFromServer = com.SendPacket(msgToServer);
 				}
 				catch
-				{ 
-					
+				{
+
 				}
 				response = JsonResponeDeserializer.deserializeCreateRoomResponse(msgFromServer);
 			}
@@ -69,7 +69,7 @@ namespace Kahool
 				}
 				catch
 				{
-					
+
 				}
 			}
 		}

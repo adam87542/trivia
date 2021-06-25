@@ -71,7 +71,7 @@ namespace Kahool
 		public uint code;
 	};
 	struct CloseRoomRequest
-    {
+	{
 		public uint code;
 	};
 	struct LeaveRoomRequest
@@ -119,8 +119,8 @@ namespace Kahool
 		public bool IsGameBegan;
 	}
 	struct GetPlayersInRoomResponse
-		{
+	{
 		public uint status;
 		public List<string> playersInRoom;
-         };
+	};
 }

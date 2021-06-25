@@ -23,12 +23,12 @@ namespace Kahool
 		public MenuWindow(Communicator com, string username)
 		{
 			InitializeComponent();
-			this.Content = new MenuPage(com,username, this);
+			this.Content = new MenuPage(com, username, this);
 			this.com = com;
 			this.username = username;
 		}
 
-		public void ChangeToLobby(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
+		public void ChangeToLobby(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com, MenuWindow wnd)
 		{
 			this.Content = new LobbyRoom(isLeader, username, roomId, roomName, timeBetweenQuestions, difficulty, numOfQuestions, com, wnd);
 		}

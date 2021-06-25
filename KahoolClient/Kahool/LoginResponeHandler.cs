@@ -7,7 +7,7 @@ namespace Kahool
 	class LoginResponeHandler
 	{
 
-		public static string CheckSignUp(Communicator com,SignupRequest request)
+		public static string CheckSignUp(Communicator com, SignupRequest request)
 		{
 			if (com != null)
 			{
@@ -19,7 +19,7 @@ namespace Kahool
 				}
 				catch
 				{
-					
+
 				}
 				if (msgFromServer[0].ToString() == Constants.Fail.ToString())
 				{
@@ -45,7 +45,7 @@ namespace Kahool
 				}
 				catch
 				{
-					
+
 				}
 				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(msgFromServer);
 				return respone.status == Constants.Success;

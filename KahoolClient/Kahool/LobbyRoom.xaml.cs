@@ -25,11 +25,11 @@ namespace Kahool
 		private bool isLeader;
 		private uint roomId;
 		private bool inLobby;
-		private MenuWindow wnd; 
-		private readonly object locker = new object ();
+		private MenuWindow wnd;
+		private readonly object locker = new object();
 		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 
-		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com,MenuWindow wnd)
+		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com, MenuWindow wnd)
 		{
 			GetPlayersInRoomResponse room;
 			backgroundWorker.WorkerSupportsCancellation = true;
@@ -132,5 +132,5 @@ namespace Kahool
 				}
 			}
 		}
-    }
+	}
 }

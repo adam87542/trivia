@@ -15,7 +15,7 @@ namespace Kahool
 	/// <summary>
 	/// Interaction logic for Window1.xaml
 	/// </summary>
-	public partial class SignUpWindow: Window
+	public partial class SignUpWindow : Window
 	{
 		private Communicator com;
 		public SignUpWindow(Communicator com)
@@ -49,9 +49,9 @@ namespace Kahool
 				MessageLabelSignup.Content = signupResult;
 			else
 			{
-				SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password , EmailBox.Text);
-					//Sign up was a success
-				    string responeMsg = LoginResponeHandler.CheckSignUp(com, request);
+				SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password, EmailBox.Text);
+				//Sign up was a success
+				string responeMsg = LoginResponeHandler.CheckSignUp(com, request);
 				if (responeMsg == null)
 				{
 					this.Hide();
@@ -63,5 +63,5 @@ namespace Kahool
 
 			}
 		}
-    }
+	}
 }

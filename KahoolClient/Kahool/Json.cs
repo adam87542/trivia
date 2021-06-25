@@ -8,7 +8,7 @@ namespace Kahool
 
     class JsonRequestSerializer
     {
-      public static string serializeRequest(LoginRequest request)
+        public static string serializeRequest(LoginRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
@@ -18,14 +18,14 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.CLOSE_ROOM_REQUEST, json);
         }
-        public static string  serializeRequest(SignupRequest request)
+        public static string serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.SIGNUP_REQUEST, json);
         }
         public static string serializeRequest(LogoutRequest request)
         {
-            string json = JsonConvert.SerializeObject(request , Formatting.None);
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGOUT_REQUEST, json);
         }
         public static string serializeRequest(LeaveRoomRequest request)
@@ -55,7 +55,7 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.GET_HIGH_SCORES_REQUEST, json);
         }
-        private static string serializeMsg(int RequestId , string msg)
+        private static string serializeMsg(int RequestId, string msg)
         {
             string length = msg.Length.ToString().PadLeft(4, '0');
             string MsgToServer = RequestId.ToString() + length + msg;
@@ -78,7 +78,7 @@ namespace Kahool
         }
         public static SignUpResponse deserializeSignUpRespone(string Buffer)
         {
-           string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
             SignUpResponse response = JsonConvert.DeserializeObject<SignUpResponse>(JsonMsg);
             return response;
         }

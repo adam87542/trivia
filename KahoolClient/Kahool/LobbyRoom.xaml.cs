@@ -20,12 +20,12 @@ namespace Kahool
 	/// </summary>
 	public partial class LobbyRoom : Page
 	{
-		Communicator com;
+		private Communicator com;
 		private string username;
 		private bool isLeader;
 		private uint roomId;
 		private bool inLobby;
-		MenuWindow wnd;
+		private MenuWindow wnd; 
 		private readonly object locker = new object ();
 		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 
@@ -112,16 +112,21 @@ namespace Kahool
 				Thread.Sleep(3000);
 				lock (this.locker)
 				{
-					if(inLobby)
-					      room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+					if (inLobby)
+						room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
 				}
 				this.Dispatcher.Invoke(() =>
 				{
-					ListOfConnected.ItemsSource = room.playersInRoom;
+					if (inLobby)
+						ListOfConnected.ItemsSource = room.playersInRoom;
 				});
-
 				if (room.status == Constants.Fail && !this.isLeader)//Means that the room was closed!
 				{
+					this.Dispatcher.Invoke(() =>
+					{
+						if (inLobby)
+							wnd.ChangeToMenu(com, username, wnd);
+					});
 					inLobby = false;
 				}
 			}

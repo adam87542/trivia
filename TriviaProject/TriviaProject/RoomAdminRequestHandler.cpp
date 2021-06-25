@@ -31,8 +31,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;
 	case GET_PLAYERS_REQUEST:
-		myResult = getPlayersInRoom(info);
-		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(this->m_user->getUsername(), *this->m_room);
+		myResult = getPlayersInRoom(info,  false, this->m_user->getUsername(), *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;
@@ -72,7 +71,7 @@ RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room room)
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
 	return myResult;
 }
-RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info)
+RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool isMember , string username , Room room)
 {
 	RequestResult myResult;
 	GetPlayersInRoomResponse respone;
@@ -81,11 +80,16 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info)
 	{
 		respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
 		respone.status = SUCCESS_CODE;
+		if(isMember)
+			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(username, room);
+		else
+			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
 	}
 	catch (...)
 	{
 		respone.players = std::vector<string>();
 		respone.status = ERR_CODE;
+		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(username);
 	}
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;

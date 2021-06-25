@@ -30,8 +30,7 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), *m_room);
 		break;
 	case GET_PLAYERS_REQUEST:
-		myResult = RoomAdminRequestHandler::getPlayersInRoom(info);
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(this->m_user->getUsername() , *this->m_room);
+		myResult = RoomAdminRequestHandler::getPlayersInRoom(info , true , this->m_user->getUsername() , *m_room);
 		break;
 	default:
 		myResult.newhandler = nullptr;

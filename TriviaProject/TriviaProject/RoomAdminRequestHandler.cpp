@@ -1,7 +1,7 @@
 #include "RoomAdminRequestHandler.h"
 #include "RequestHandlerFactory.h"
 
-RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::get_instance();
+RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::getInstance();
 RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom)
 {
 		this->m_user = new LoggedUser(username);
@@ -23,7 +23,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		myResult = CloseRoom();
 		break;
 	case  START_GAME_REQUEST:
-		myResult = StartGame();
+		myResult = StartGame(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id);
 		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(m_user->getUsername());
 		break;
 	case STATE_ROOM_REQUEST:
@@ -49,11 +49,12 @@ RequestResult RoomAdminRequestHandler::CloseRoom()
 	return myResult;
 }
 
-RequestResult RoomAdminRequestHandler::StartGame()
+RequestResult RoomAdminRequestHandler::StartGame(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
 {
 	RequestResult myResult;
 	StartGameResponse response;
 	response.status = SUCCESS_CODE;
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(username, difficulty, playersInRoom, roomId);
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return myResult;
 }

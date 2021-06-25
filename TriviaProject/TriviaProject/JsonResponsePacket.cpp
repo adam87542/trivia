@@ -74,7 +74,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse 
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ID] = response.roomId;
+	j[ROOM_ID] = response.roomId;
 	j[ROOMNAME] = response.roomName;
 	j[NUM_Q] = response.questionCount;
 	j[ANSWER_TIME] = response.answerTimeOut;
@@ -86,7 +86,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomRespons
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ID] = response.roomId;
+	j[ROOM_ID] = response.roomId;
 	string msg = j.dump();
 
 	return seralizingMsg(CREATE_ROOM_RESPONSE, msg);
@@ -135,7 +135,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsRes
 {
 	json j;
 	std::list<string> myResults;
-	std::string temp = "";
+	string temp = "";
 
 	if (response.status == SUCCESS_CODE)
 	{
@@ -148,7 +148,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetGameResultsRes
 			temp += COMMA;
 			temp += result.wrongAnswerCount;
 			temp += COMMA;
-			temp += result.averageAnswerTime;
+			temp += result.averangeAnswerTime;
 
 			myResults.push_back(temp);
 		}
@@ -167,8 +167,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRespo
 {
 	json j;
 	j[STATUS] = response.status;
-	j[ANSWER_ID] = response.correctAnswerId;
-
+	j[IS_ANSWER_CORRECT] = response.isAnswerCorrect;
 	return seralizingMsg(SUBMIT_ANSWER_RESPONSE, j.dump());
 }
 
@@ -179,11 +178,14 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(GetQuestionRespon
 	{
 		j[QUESTION] = response.question;
 		j[ANSWERS] = response.answers;
+		j[CORRECT_ANSWER] = response.correctAnswer;
+
 	}
 	else
 	{
 		j[QUESTION] = "";
 		j[ANSWERS] = std::map<unsigned int, string>();
+		j[CORRECT_ANSWER] = "";
 
 	}
 	j[STATUS] = response.status;
@@ -280,7 +282,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequ
 	GetPlayersInRoomRequest request;
 	json data = deseralizingMsg(buffer);
 
-	request.roomId = data[ID];
+	request.roomId = data[ROOM_ID];
 
 	return request;
 }
@@ -290,7 +292,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(unsign
 	JoinRoomRequest request;
 	json data = deseralizingMsg(buffer);
 
-	request.roomId = data[ID];
+	request.roomId = data[ROOM_ID];
 
 	return request;
 }
@@ -313,7 +315,8 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 	SubmitAnswerRequest request;
 	json j = deseralizingMsg(buffer);
 
-	request.answerId = j[ANSWER_ID];
+	request.answer = j[ANSWER];
+	request.time = j[ANSWER_TIME];
 
 	return request;
 }

@@ -2,39 +2,29 @@
 
 GameManager* GameManager::m_ptr = new GameManager;
 
-GameManager::~GameManager()
+GameManager* GameManager::getInstance()
 {
-	for (auto game : this->m_Games)
-		delete game;
-	this->m_Games.clear();
-}
-
-GameManager GameManager::getInstance()
-{
-	return *this->m_ptr;
+	return m_ptr;
 }
 
 void GameManager::resetInstance()
 {
 	delete m_ptr;
-	this->m_ptr = nullptr;
+	m_ptr = nullptr;
 }
 
-void GameManager::createGame(Room room)
+void GameManager::createGame(Game game)
 {
-	Game* game = new Game(room.getData().difficulty, room.getAllUsers() , room.getData().id);
 	this->m_Games.push_back(game);
 }
 
-void GameManager::deleteGame(Game* currentGame)
+void GameManager::deleteGame(Game currentGame)
 {
-	for (std::vector<Game*>::iterator it = m_Games.begin(); it != m_Games.end(); it++)
+	for (std::vector<Game>::iterator iter = m_Games.begin(); iter != m_Games.end(); iter++)
 	{
-		Game* game = *it;
-		if (game->getGameId() == currentGame->getGameId())
+		if (iter->getGameId() == currentGame.getGameId())
 		{
-			delete *it;
-			m_Games.erase(it);
+			m_Games.erase(iter);
 			return;
 		}
 	}

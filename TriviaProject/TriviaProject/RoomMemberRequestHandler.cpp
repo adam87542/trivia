@@ -37,7 +37,7 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 }
 RequestResult RoomMemberRequestHandler::StartGame()
 {
-	return RoomAdminRequestHandler::StartGame();
+	return RoomAdminRequestHandler::StartGame(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id);
 }
 
 RequestResult RoomMemberRequestHandler::GetRoomState()

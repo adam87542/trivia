@@ -10,7 +10,8 @@ using json = nlohmann::json;
 
 enum requests {LOGIN_REQUEST = 20, SIGNUP_REQUEST = 30, LOGOUT_REQUEST,
 	GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
-	CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST };
+	CLOSE_ROOM_REQUEST, GET_Q_REQUEST , SUBMIT_ANSWER_REQUEST , GET_GAME_RESULT_REQUEST ,
+	LEAVE_GAME_REQUEST , START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST };
 
 enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 	GET_ROOMS_RESPONSE, GET_PLAYERS_RESPONSE, JOIN_ROOM_RESPONSE, CREATE_ROOM_RESPONSE, GET_HIGH_SCORES_RESPONSE,
@@ -24,7 +25,7 @@ enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 #define PASSWORD "password"
 #define EMAIL "email"
 #define USERNAME "username"
-#define ID "roomId"
+#define ROOM_ID "roomId"
 #define ROOMNAME "roomName" 
 #define MAX_USERS "maxUsers"
 #define NUM_Q "questionCount"
@@ -38,9 +39,12 @@ enum responses { LOGIN_RESPONSE = 20, SIGNUP_RESPONSE = 30 , LOGOUT_RESPONSE,
 #define USER_STATISTICS "UserStatistics"
 #define HIGH_SCORES "HighScores"
 #define RESULTS "Results"
-#define ANSWER_ID "AnswerId" 
+#define IS_ANSWER_CORRECT "isAnswerCorrect" 
 #define QUESTION "Question"
 #define ANSWERS "Answers"
+#define ANSWER "answer"
+#define ANSWER_TIME "answerTime"
+#define CORRECT_ANSWER "correctAnswer"
 #define COMMA ","
 
 static class JsonResponsePacketSerializer

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <list>
 #include <ctime>
 #include <map>
 #include "IRequestHandler.h"
@@ -43,6 +44,16 @@ struct GameData
 	float totalAnswerTime;
 
 	Question currentQuestion;
+
+	unsigned int correctAnswerCount;
+
+	unsigned int  wrongAnswerCount;
+
+	unsigned int averangeAnswerTime;
+};
+struct playerResult
+{
+	string username;
 
 	unsigned int correctAnswerCount;
 
@@ -154,7 +165,6 @@ struct GetQuestionResponse
 {
 	unsigned int status;
 	string question;
-	string correctAnswer;
 	std::vector<string> answers;
 };
 
@@ -167,7 +177,7 @@ struct SubmitAnswerResponse
 struct GetGameResultsResponse
 {
 	unsigned int status;
-	std::vector<GameData> results;
+	std::list<playerResult> results;
 };
 
 //**************************** Requests *********************************//

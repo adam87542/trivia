@@ -22,6 +22,6 @@ public:
 	string getQuestionsDifficulty();
 	unsigned int getNumOfQuestions();
 	std::vector<string> getPlayersInGame();
-	std::vector<GameData> getGameResults();
+	std::list<playerResult> getGameResults();
 
 };

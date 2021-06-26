@@ -18,6 +18,21 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.CLOSE_ROOM_REQUEST, json);
         }
+        public static string serializeRequest(GetQuestionRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.GET_Q_REQUEST, json);
+        }
+        public static string serializeRequest(SubmitAnswerRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.SUBMIT_ANSWER_REQUEST, json);
+        }
+        public static string serializeRequest(GetGameResultsRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.GET_GAME_RESULT_REQUEST, json);
+        }
         public static string serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
@@ -106,5 +121,24 @@ namespace Kahool
             CreateRoomResponse response = JsonConvert.DeserializeObject<CreateRoomResponse>(JsonMsg);
             return response;
         }
+        public static GetGameResultsResponse deserializeGetGameResultsResponse(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetGameResultsResponse response = JsonConvert.DeserializeObject<GetGameResultsResponse>(JsonMsg);
+            return response;
+        }
+        public static GetQuestionResponse deserializeGetNexrQuestionResponse(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetQuestionResponse response = JsonConvert.DeserializeObject<GetQuestionResponse>(JsonMsg);
+            return response;
+        }
+        public static SubmitAnswerResponse deserializeSubmitAnswerResponse(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            SubmitAnswerResponse response = JsonConvert.DeserializeObject<SubmitAnswerResponse>(JsonMsg);
+            return response;
+        }
+
     }
 }

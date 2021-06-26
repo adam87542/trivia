@@ -21,14 +21,7 @@ namespace Kahool
 			if (com != null)
 			{
 				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
-				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-
-				}
+				msgFromServer = com.SendPacket(msgToServer);
 				response = JsonResponeDeserializer.deserializeJoinRoomRespone(msgFromServer);
 			}
 			return response;
@@ -44,14 +37,7 @@ namespace Kahool
 			if (com != null)
 			{
 				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
-				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-
-				}
+				msgFromServer = com.SendPacket(msgToServer);
 				response = JsonResponeDeserializer.deserializeCreateRoomResponse(msgFromServer);
 			}
 			return response;
@@ -63,14 +49,7 @@ namespace Kahool
 			if (com != null)
 			{
 				string msgToServer = JsonRequestSerializer.serializeRequest(logoutRequest);
-				try
-				{
-					string msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-
-				}
+				string msgFromServer = com.SendPacket(msgToServer);
 			}
 		}
 	}

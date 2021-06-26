@@ -18,14 +18,7 @@ namespace Kahool
             if (com != null)
             {
                 string msgToServer = JsonRequestSerializer.serializeRequest(getPlayersInRoom);
-                try
-                {
-                    msgFromServer = com.SendPacket(msgToServer);
-                }
-                catch
-                {
-
-                }
+                msgFromServer = com.SendPacket(msgToServer);
                 playersInRoomResponse = JsonResponeDeserializer.deserializeGetPlayersInRoomRespone(msgFromServer);
 
             }
@@ -38,14 +31,7 @@ namespace Kahool
             if (com != null)
             {
                 string msgToServer = JsonRequestSerializer.serializeRequest(closeRoomRequest);
-                try
-                {
-                    string msgFromServer = com.SendPacket(msgToServer);
-                }
-                catch
-                {
-
-                }
+                string msgFromServer = com.SendPacket(msgToServer);
             }
         }
         public static void LeaveRoom(Communicator com)
@@ -55,14 +41,7 @@ namespace Kahool
             if (com != null)
             {
                 string msgToServer = JsonRequestSerializer.serializeRequest(request);
-                try
-                {
-                    string msgFromServer = com.SendPacket(msgToServer);
-                }
-                catch
-                {
-
-                }
+                string msgFromServer = com.SendPacket(msgToServer);
             }
         }
     }

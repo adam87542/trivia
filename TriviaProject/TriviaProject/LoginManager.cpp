@@ -45,7 +45,7 @@ void LoginManager::login(std::string username, std::string password)
 		while (loggedUserItr != m_loggedUsers.end())
 		{
 			if (loggedUserItr->getUsername() == username)
-				throw std::exception("User already logged in");
+				return;
 			loggedUserItr++;
 		}
 		m_loggedUsers.push_back(LoggedUser(username));

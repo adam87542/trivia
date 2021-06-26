@@ -31,38 +31,75 @@ namespace Kahool
         }
         private void OnCreateRoomClick(object sender, RoutedEventArgs e)
         {
-            CreateRoomRequest createRoomRequest;
-            createRoomRequest.roomName = RoomNameBox.Text;
-            createRoomRequest.difficulty = this.DifficultyBox.Text;
-            createRoomRequest.answerTimeOut = uint.Parse(TimerBox.Text);
-            createRoomRequest.maxUsers = uint.Parse(MaxPlayersBox.Text);
-            createRoomRequest.questionCount = uint.Parse(NumberOfQuestionsBox.Text);
+            try
+            {
+                if(RoomNameBox.Text =="")
+				{
+                    MessageLabelCreate.Content = "Please enter room name";
+                    return;
+				}   
 
-            CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
+                CreateRoomRequest createRoomRequest;
+                createRoomRequest.roomName = RoomNameBox.Text;
+                createRoomRequest.difficulty = this.DifficultyBox.Text;
+                createRoomRequest.answerTimeOut = uint.Parse(TimerBox.Text);
+                createRoomRequest.maxUsers = uint.Parse(MaxPlayersBox.Text);
+                createRoomRequest.questionCount = uint.Parse(NumberOfQuestionsBox.Text);
 
-            if (response.status == Constants.Success)
-                wnd.ChangeToLobby(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com, wnd);
-            else
-                MessageLabelCreate.Content = "Couldn't create room, please try again later";
+                CreateRoomResponse response = MenuResponeHandler.CreateRoom(com, createRoomRequest);
+
+                if (response.status == Constants.Success)
+                    wnd.ChangeToLobby(true, this.username, response.roomId.ToString(), RoomNameBox.Text, createRoomRequest.answerTimeOut.ToString(), createRoomRequest.difficulty, createRoomRequest.questionCount.ToString(), com, wnd);
+                else
+                    MessageLabelCreate.Content = "Couldn't create room, please try again later";
+
+            }
+            catch
+			{
+                wnd.ChangeToError(wnd);
+			}
         }
 
         private void OnJoinRoomClick(object sender, RoutedEventArgs e)
         {
-            JoinRoomRequest request;
-            request.roomId = Convert.ToUInt32(RoomIdBox.Text);
+            try
+            {
+                if (RoomIdBox.Text == "")
+                {
+                    MessageLabelJoin.Content = "Please Enter ID";
+                    return;
+                }
+                else if (!Microsoft.VisualBasic.Information.IsNumeric(RoomIdBox.Text))
+                {
+                    MessageLabelJoin.Content = "Room ID Must be number";
+                    return;
+                }
+                JoinRoomRequest request;
+                request.roomId = Convert.ToUInt32(RoomIdBox.Text);
 
-            JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
-            if (response.status == Constants.Success)
-                wnd.ChangeToLobby(false, this.username, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com, wnd);
-            else
-                MessageLabelJoin.Content = "Invalid room id";
-
+                JoinRoomResponse response = MenuResponeHandler.JoinRoom(com, request);
+                if (response.status == Constants.Success)
+                    wnd.ChangeToLobby(false, this.username, response.roomId.ToString(), response.roomName, response.answerTimeOut.ToString(), response.difficulty, response.questionCount.ToString(), com, wnd);
+                else
+                    MessageLabelJoin.Content = "Invalid room id";
+            }
+            catch
+			{
+                wnd.ChangeToError(wnd);
+			}
         }
 
         public void EndRunning(object sender, RoutedEventArgs e)
         {
-            MenuResponeHandler.LogOut(com);
-            System.Windows.Application.Current.Shutdown();
+            try
+            {
+                MenuResponeHandler.LogOut(com);
+                System.Windows.Application.Current.Shutdown();
+            }
+            catch
+			{
+                System.Windows.Application.Current.Shutdown();
+            }
         }
     }
 }

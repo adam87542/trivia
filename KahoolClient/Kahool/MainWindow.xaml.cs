@@ -61,7 +61,7 @@ namespace Kahool
 
 		public void Signup_Click(object sender, RoutedEventArgs e)
 		{
-			App.Current.MainWindow.Hide();
+			this.Visibility = Visibility.Collapsed;
 			SignUpWindow wnd = new SignUpWindow(com);
 			wnd.ShowDialog();
 		}
@@ -78,20 +78,27 @@ namespace Kahool
 
 		private void OnLoginClick(object sender, RoutedEventArgs e)
 		{
-			LoginRequest request;
-			request.username = UserNameBox.Text;
-			request.password = PasswordBox.Password;
-			bool isSucceed = LoginResponeHandler.CheckLogin(com, request);
-			if (isSucceed)
+			try
 			{
-				App.Current.MainWindow.Hide();
-				MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
-				wnd.ShowDialog();
+				LoginRequest request;
+				request.username = UserNameBox.Text;
+				request.password = PasswordBox.Password;
+				bool isSucceed = LoginResponeHandler.CheckLogin(com, request);
+				if (isSucceed)
+				{
+					this.Visibility = Visibility.Collapsed;
+					MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
+					wnd.ShowDialog();
 
+				}
+				else
+					MessageLabelMain.Content = "Username or Password Incorrect";
 			}
-			else
-				MessageLabelMain.Content = "Username or Password Incorrect";
-
+			catch
+			{
+				com = null;
+				MessageLabelMain.Content = "Couldn't reach server - Press F5 to retry";
+			}
 		}
 	}
 }

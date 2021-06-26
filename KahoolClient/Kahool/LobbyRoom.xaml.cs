@@ -27,13 +27,10 @@ namespace Kahool
 		private bool inLobby;
 		private MenuWindow wnd;
 		private readonly object locker = new object();
-		private BackgroundWorker backgroundWorker = new BackgroundWorker();
 
 		public LobbyRoom(bool isLeader, string username, string roomId, string roomName, string timeBetweenQuestions, string difficulty, string numOfQuestions, Communicator com, MenuWindow wnd)
 		{
 			GetPlayersInRoomResponse room;
-			backgroundWorker.WorkerSupportsCancellation = true;
-			backgroundWorker.WorkerReportsProgress = true;
 			this.wnd = wnd;
 			this.isLeader = isLeader;
 			this.username = username;
@@ -47,11 +44,18 @@ namespace Kahool
 
 			this.com = com;
 
-			lock (this.locker)
+			try
 			{
-				room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+				lock (this.locker)
+				{
+					room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+				}
+				ListOfConnected.ItemsSource = room.playersInRoom;
 			}
-			ListOfConnected.ItemsSource = room.playersInRoom;
+			catch
+			{
+				wnd.ChangeToError(wnd);
+			}
 
 			inLobby = true;
 			Thread screenRefresh = new Thread(ScreenRefresh);
@@ -69,16 +73,24 @@ namespace Kahool
 
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{
-			inLobby = false;
-			lock (this.locker)
+			try
 			{
-				if (isLeader)
-					LobbyResponeHandler.CloseRoom(this.com);
-				else
-					LobbyResponeHandler.LeaveRoom(this.com);
-				MenuResponeHandler.LogOut(com);
+				inLobby = false;
+				lock (this.locker)
+				{
+					if (isLeader)
+						LobbyResponeHandler.CloseRoom(this.com);
+					else
+						LobbyResponeHandler.LeaveRoom(this.com);
+					MenuResponeHandler.LogOut(com);
+				}
+				System.Windows.Application.Current.Shutdown();
+
 			}
-			System.Windows.Application.Current.Shutdown();
+			catch
+			{
+				wnd.ChangeToError(wnd);
+			}
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
 		{
@@ -86,50 +98,77 @@ namespace Kahool
 		}
 		private void OnExitClick(object sender, RoutedEventArgs e)
 		{
-			lock (this.locker)
+			try
 			{
-				LobbyResponeHandler.LeaveRoom(com);
+				lock (this.locker)
+				{
+					LobbyResponeHandler.LeaveRoom(com);
+				}
+				inLobby = false;
+				wnd.ChangeToMenu(com, username, wnd);
+
 			}
-			inLobby = false;
-			wnd.ChangeToMenu(com, username, wnd);
+			catch
+			{
+				wnd.ChangeToError(wnd);
+			}
 		}
 		private void OnCloseClick(object sender, RoutedEventArgs e)
 		{
-			lock (this.locker)
+			try
 			{
-				LobbyResponeHandler.CloseRoom(this.com);
+				lock (this.locker)
+				{
+					LobbyResponeHandler.CloseRoom(this.com);
+				}
+				inLobby = false;
+				wnd.ChangeToMenu(com, username, wnd);
+
 			}
-			inLobby = false;
-			wnd.ChangeToMenu(com, username, wnd);
+			catch
+			{
+				wnd.ChangeToError(wnd);
+			}
 		}
+
 
 		public void ScreenRefresh()
 		{
-			while (inLobby)
+			try
 			{
-				GetPlayersInRoomResponse room;
-				room.playersInRoom = null;
-				room.status = 0;
-				Thread.Sleep(3000);
-				lock (this.locker)
+				while (inLobby)
 				{
-					if (inLobby)
-						room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
-				}
-				this.Dispatcher.Invoke(() =>
-				{
-					if (inLobby)
-						ListOfConnected.ItemsSource = room.playersInRoom;
-				});
-				if (room.status == Constants.Fail && !this.isLeader)//Means that the room was closed!
-				{
+					GetPlayersInRoomResponse room;
+					room.playersInRoom = null;
+					room.status = 0;
+					Thread.Sleep(3000);
+					lock (this.locker)
+					{
+						if (inLobby)
+							room = LobbyResponeHandler.GetPlayersInRoom(com, this.roomId);
+					}
 					this.Dispatcher.Invoke(() =>
 					{
 						if (inLobby)
-							wnd.ChangeToMenu(com, username, wnd);
+							ListOfConnected.ItemsSource = room.playersInRoom;
 					});
-					inLobby = false;
+					if (room.status == Constants.Fail && !this.isLeader)//Means that the room was closed!
+					{
+						this.Dispatcher.Invoke(() =>
+						{
+							if (inLobby)
+								wnd.ChangeToMenu(com, username, wnd);
+						});
+						inLobby = false;
+					}
 				}
+			}
+			catch
+			{
+				this.Dispatcher.Invoke(() =>
+				{
+					wnd.ChangeToError(wnd);
+				});
 			}
 		}
 	}

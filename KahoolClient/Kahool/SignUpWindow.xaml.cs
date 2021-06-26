@@ -44,23 +44,34 @@ namespace Kahool
 
 		private void VerifySignUp(object sender, RoutedEventArgs e)
 		{
-			string signupResult = CheckIfPasswordsAreMatching(PasswordBox.Password, PasswordBox_Copy.Password);
-			if (signupResult != null)
-				MessageLabelSignup.Content = signupResult;
-			else
+			try
 			{
-				SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password, EmailBox.Text);
-				//Sign up was a success
-				string responeMsg = LoginResponeHandler.CheckSignUp(com, request);
-				if (responeMsg == null)
-				{
-					this.Hide();
-					MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
-					wnd.ShowDialog();
-				}
+				string signupResult = CheckIfPasswordsAreMatching(PasswordBox.Password, PasswordBox_Copy.Password);
+				if (signupResult != null)
+					MessageLabelSignup.Content = signupResult;
 				else
-					MessageLabelSignup.Content = responeMsg;
+				{
+					SignupRequest request = new SignupRequest(UserNameBox.Text, PasswordBox.Password, EmailBox.Text);
+					//Sign up was a success
+					string responeMsg = LoginResponeHandler.CheckSignUp(com, request);
+					if (responeMsg == null)
+					{
+						this.Visibility = Visibility.Collapsed;	
+						MenuWindow wnd = new MenuWindow(this.com, UserNameBox.Text);
+						wnd.ShowDialog();
+					}
+					else
+						MessageLabelSignup.Content = responeMsg;
 
+				}
+			}
+			catch
+			{
+				MessageLabelSignup.Content = "Can't reach server, returning in 5 seconds to login";
+				System.Threading.Thread.Sleep(5000);
+				this.Visibility = Visibility.Collapsed;
+				MainWindow wnd = new MainWindow();
+				wnd.ShowDialog();
 			}
 		}
 	}

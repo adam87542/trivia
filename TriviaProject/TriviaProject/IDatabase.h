@@ -4,6 +4,8 @@
 #include "sqlite3.h"
 #include "Structs.h"
 #include <vector>
+#include <exception>
+#include <io.h>
 
 class IDatabase
 {

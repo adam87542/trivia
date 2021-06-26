@@ -161,6 +161,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	respone.roomId = roomData.id;
 
 	respone.status = SUCCESS_CODE;
+
 	Room UserRoom = m_roomManager->createRoom(m_user->getUsername() , roomData);
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , UserRoom);

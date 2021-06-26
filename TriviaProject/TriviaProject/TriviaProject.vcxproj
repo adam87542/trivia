@@ -169,8 +169,6 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameRequestHandler.cpp" />
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="IDatabase.cpp" />
-    <ClCompile Include="IRequestHandler.cpp" />
     <ClCompile Include="JsonResponsePacket.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
     <ClCompile Include="LoginManager.cpp" />

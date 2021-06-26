@@ -29,6 +29,14 @@ namespace Kahool
             timer.Start();
         }
 
+        public void OnSubmitClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+            public void EndRunning(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
         public void TimeCounter()
         {
             for (int i = time; i >= 0; i--)

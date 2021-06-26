@@ -55,7 +55,6 @@ namespace Kahool
         public void leaveGame(Communicator com)
         {
             LeaveGameRequest request;
-            response.status = 0;
             request.code = (uint)Constants.requests.LEAVE_GAME_REQUEST;
             if (com != null)
             {

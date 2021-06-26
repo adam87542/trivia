@@ -33,7 +33,7 @@ namespace Kahool
         {
         }
 
-            public void EndRunning(object sender, RoutedEventArgs e)
+        public void EndRunning(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }

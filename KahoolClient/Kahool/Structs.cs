@@ -18,10 +18,21 @@ namespace Kahool
 		{
 			LOGIN_REQUEST = 20, SIGNUP_REQUEST = 21, LOGOUT_REQUEST,
 			GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
-			CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST
+			CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST,
+			GET_Q_REQUEST, SUBMIT_ANSWER_REQUEST, GET_GAME_RESULT_REQUEST,
+			LEAVE_GAME_REQUEST
 		};
 	}
+	struct playerResult
+	{
+		public string username;
 
+		public uint correctAnswerCount;
+
+		public uint wrongAnswerCount;
+
+		public uint averangeAnswerTime;
+	};
 	//**************************** Requests *********************************//
 	struct LoginRequest
 	{
@@ -78,7 +89,19 @@ namespace Kahool
 	{
 		public uint code;
 	};
-
+	struct GetQuestionRequest
+	{
+		public uint code;
+	};
+	struct SubmitAnswerRequest
+	{
+		public float time;
+		public string answer;
+	};
+	struct GetGameResultsRequest
+    {
+		public uint code;
+	};
 	//**************************** Responses  *********************************//
 	struct LoginResponse
 	{
@@ -123,4 +146,22 @@ namespace Kahool
 		public uint status;
 		public List<string> playersInRoom;
 	};
+	struct GetQuestionResponse
+	{
+		public uint status;
+		public string question;
+		public List<string> answers;
+	};
+	struct SubmitAnswerResponse
+	{
+		public uint status;
+		public bool isAnswerCorrect;
+	};
+	struct GetGameResultsResponse
+	{
+		public uint status;
+		public List<playerResult> results;
+	};
+
+
 }

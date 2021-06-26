@@ -85,14 +85,21 @@ std::vector<string> Game::getPlayersInGame()
     return players;
 }
 
-std::vector<GameData> Game::getGameResults()
+std::list<playerResult> Game::getGameResults()
 {
+    playerResult result;
+    std::list<playerResult> results;
     for (auto player : this->m_players)
     {
         player.averangeAnswerTime = player.totalAnswerTime / this->m_numOfQuestions;
         this->m_dataBase->addToPlayerGames(player.username);
         float avgAnsTime = (this->m_dataBase->getPlayerAverageAnswerTime(player.username) + player.averangeAnswerTime) / this->m_dataBase->getNumOfPlayerGames(player.username);
         m_dataBase->setPlayerAverageAnswerTime(player.username, avgAnsTime);
+        result.averangeAnswerTime = player.averangeAnswerTime;
+        result.correctAnswerCount = player.correctAnswerCount;
+        result.wrongAnswerCount = player.wrongAnswerCount;
+        result.username = player.username;
+        results.push_back(result);
     }
-    return this->m_players;
+    return results;
 }

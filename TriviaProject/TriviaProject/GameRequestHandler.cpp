@@ -45,7 +45,6 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 	respone.answers.push_back(nextQuestion.secondAnswer);
 	respone.answers.push_back(nextQuestion.thirdAnswer);
 	respone.answers.push_back(nextQuestion.fourthAnswer);
-	respone.correctAnswer = nextQuestion.correctAnswer;
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());

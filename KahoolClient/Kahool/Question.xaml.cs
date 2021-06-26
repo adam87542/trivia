@@ -43,7 +43,7 @@ namespace Kahool
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    Timer.Content = "Time: " + i;
+                    Timer.Content = "Time: " + i.ToString();
                 });
                 Thread.Sleep(1000);
             }

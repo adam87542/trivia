@@ -20,12 +20,20 @@ namespace Kahool
 			GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
 			CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST,
 			GET_Q_REQUEST, SUBMIT_ANSWER_REQUEST, GET_GAME_RESULT_REQUEST,
-			LEAVE_GAME_REQUEST
+			LEAVE_GAME_REQUEST, GET_PLAYER_STATISTICS_REQUEST
 		};
 	}
-	struct playerResult
+
+	struct StatisticsRequest
+	{
+		public uint code;
+	};
+
+	struct StatisticsResponse
 	{
 		public string username;
+
+		public uint numPlayedGames;
 
 		public uint correctAnswerCount;
 
@@ -77,10 +85,7 @@ namespace Kahool
 	{
 		public uint code;
 	};
-	struct GetStatisticsRequest
-	{
-		public uint code;
-	};
+
 	struct CloseRoomRequest
 	{
 		public uint code;

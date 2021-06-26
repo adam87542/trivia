@@ -102,6 +102,11 @@ namespace Kahool
     {
 		public uint code;
 	};
+	struct LeaveGameRequest
+	{
+		public uint code;
+	};
+
 	//**************************** Responses  *********************************//
 	struct LoginResponse
 	{
@@ -162,6 +167,5 @@ namespace Kahool
 		public uint status;
 		public List<playerResult> results;
 	};
-
 
 }

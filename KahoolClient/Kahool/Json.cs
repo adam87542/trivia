@@ -33,6 +33,11 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.GET_GAME_RESULT_REQUEST, json);
         }
+        public static string serializeRequest(LeaveGameRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.LEAVE_GAME_REQUEST, json);
+        }
         public static string serializeRequest(SignupRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);

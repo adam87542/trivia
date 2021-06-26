@@ -22,7 +22,7 @@ namespace Kahool
             }
             return questionResponse;
         }
-        public SubmitAnswerResponse SubmitAnswer(SubmitAnswerRequest request , Communicator com)
+        public SubmitAnswerResponse SubmitAnswer(SubmitAnswerRequest request, Communicator com)
         {
             SubmitAnswerResponse response;
             response.isAnswerCorrect = false;
@@ -51,6 +51,17 @@ namespace Kahool
 
             }
             return response;
+        }
+        public void leaveGame(Communicator com)
+        {
+            LeaveGameRequest request;
+            response.status = 0;
+            request.code = (uint)Constants.requests.LEAVE_GAME_REQUEST;
+            if (com != null)
+            {
+                string msgToServer = JsonRequestSerializer.serializeRequest(request);
+                string msgFromServer = com.SendPacket(msgToServer);
+            }
         }
     }
 }

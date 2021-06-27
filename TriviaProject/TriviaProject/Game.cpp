@@ -7,16 +7,15 @@ Game::Game(unsigned  int numOfQuestions , string difficulty, std::vector<string>
     this->m_gameId = roomId;
     this->m_numOfQuestions = numOfQuestions;
     this->m_questionDifficulty = difficulty;
-    for (auto question : questions)
-    {
-        m_questions.push_back(question);
-    }
+    this->m_questions = questions;
     for(auto player : playersInRoom)
     {
         GameData playerData;
         playerData.username = player;
+        playerData.currentQuestion = m_questions.back();
         this->m_players.push_back(playerData);
     }
+    m_questions.pop_back();
 }
 
 GameData* Game::getPlayerMeta(string username)
@@ -29,18 +28,29 @@ GameData* Game::getPlayerMeta(string username)
 Question Game::getNextQuestion(string username)
 {
     Question myQuestion;
-    std::cout << this->m_questions.size() << std::endl;
     myQuestion = this->m_questions.back();
     this->m_questions.pop_back();
-    std::cout << this->m_questions.size() << std::endl;
     return myQuestion;
+}
+
+std::vector<Question> Game::getQuestions()
+{
+    return this->m_questions;
 }
 
 bool Game::submitAnswer(string username, string answer , float time)
 {
     LoggedUser* user = new LoggedUser(username);
     GameData* iter = getPlayerMeta(username);
-    string question = iter->currentQuestion.question;
+    string question;
+    try
+    {
+        string question = iter->currentQuestion.question;
+    }
+    catch(...)
+    {
+        return false;
+    }
     bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer,question);
     iter->totalAnswerTime += time;
     if (isAnswerCorrect)

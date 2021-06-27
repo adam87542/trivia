@@ -29,7 +29,7 @@ namespace Kahool
             GetRoomStateRequest request;
             GetRoomStateRespone respone;
             request.code = 0;
-            respone.IsGameBegan = false;
+            respone.GameBegun = false;
             respone.status = 0;
 
             if (com != null)
@@ -39,7 +39,7 @@ namespace Kahool
                 respone = JsonResponeDeserializer.deserializeRoomStateResponse(msgFromServer);
 
             }
-            return respone.IsGameBegan;
+            return respone.GameBegun;
         }
         public static void CloseRoom(Communicator com)
         {

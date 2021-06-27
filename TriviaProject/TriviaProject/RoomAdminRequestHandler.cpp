@@ -11,7 +11,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST || info.requestId == STATE_ROOM_REQUEST || info.requestId == GET_PLAYERS_REQUEST;
+	return info.requestId == CLOSE_ROOM_REQUEST || info.requestId == START_GAME_REQUEST  || info.requestId == GET_PLAYERS_REQUEST;
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
@@ -25,10 +25,6 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case  START_GAME_REQUEST:
 		myResult = StartGame();
-		break;
-	case STATE_ROOM_REQUEST:
-		myResult = GetRoomState(this->m_user->getUsername() ,m_room);
-		myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(m_user->getUsername() , *m_room);
 		break;
 	case GET_PLAYERS_REQUEST:
 		myResult = getPlayersInRoom(info,  false, this->m_user->getUsername(), *m_room);
@@ -62,17 +58,6 @@ RequestResult RoomAdminRequestHandler::StartGame()
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	std::vector<Question> questions = this->m_dataBase->getQuestions(roomdata.difficulty);
 	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), roomdata.difficulty, this->m_room->getAllUsers(), roomdata.id , roomdata.numOfQuestionsInGame , questions);
-	return myResult;
-}
-
-RequestResult RoomAdminRequestHandler::GetRoomState(string username , Room* room)
-{
-	RequestResult myResult;
-	GetRoomStateResponse response;
-	response.status = SUCCESS_CODE;
-	response.hasGameBegun = room->getData().isGameBegan;
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, *room);
 	return myResult;
 }
 RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool isMember , string username , Room room)

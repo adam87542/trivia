@@ -14,7 +14,6 @@ private:
 	static IDatabase* m_dataBase;
 	RequestResult CloseRoom();
 	 RequestResult StartGame();
-	static RequestResult GetRoomState(string username , Room* room);
 	static RequestResult getPlayersInRoom(RequestInfo info, bool isMember, string username, Room room);
 	friend class RoomMemberRequestHandler;
 };

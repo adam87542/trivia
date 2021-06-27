@@ -170,13 +170,14 @@ namespace Kahool
 								this.Dispatcher.Invoke(() =>
 								{
 									inLobby = false;
+									LobbyResponeHandler.StartGame(com);
 									GetQuestionResponse response = GameResponeHandler.getNextQuestion(com);
 									wnd.ChangeToQuestion(this.questionTime, response.question, response.Answers, com, wnd, 1, this.numOfQuestions);
 								});
 							}
 						
 					}
-					Thread.Sleep(1000);
+					Thread.Sleep(70);
 				}
 			}
 			catch

@@ -144,7 +144,7 @@ namespace Kahool
 	struct GetRoomStateRespone
 	{
 		public uint status;
-		public bool IsGameBegan;
+		public bool GameBegun;
 	}
 	struct StatisticsResponse
 	{

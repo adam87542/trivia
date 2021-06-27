@@ -20,6 +20,7 @@ struct User
 struct UserStatistics
 {
 	string username;
+
 	unsigned int totalCorrectAnswerCount;
 	unsigned int  totalWrongAnswerCount;
 	unsigned int averangeAnswerTime;
@@ -111,12 +112,13 @@ struct GetPlayersInRoomResponse
 struct GetHighScoreResponse
 {
 	unsigned int status;
-	std::vector<string> statistics;
+	std::map<int , string> highScores;
 };
 
 struct GetPersonalStatsResponse
 {
 	unsigned int status;
+	UserStatistics personalStatistics;
 };
 
 struct JoinRoomResponse

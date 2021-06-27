@@ -12,7 +12,7 @@ MenuRequestHandler::MenuRequestHandler(string username)
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return (info.requestId == LOGOUT_REQUEST|| info.requestId == GET_ROOMS_REQUEST || info.requestId == GET_PLAYERS_REQUEST || info.requestId == JOIN_ROOM_REQUEST || info.requestId == CREATE_ROOM_REQUEST || info.requestId == GET_HIGH_SCORES_REQUEST);
+	return (info.requestId == LOGOUT_REQUEST|| info.requestId == GET_ROOMS_REQUEST  || info.requestId == JOIN_ROOM_REQUEST || info.requestId == CREATE_ROOM_REQUEST || info.requestId == GET_PERSONAL_STATISTICS);
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
@@ -27,11 +27,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	case GET_ROOMS_REQUEST:
 		myResult = getRooms(info);
 		break;
-	case GET_PLAYERS_REQUEST:
-		myResult = getPlayersInRoom(info);
-		break;
-	case GET_HIGH_SCORES_REQUEST:
-		myResult = getHighScore(info);
+	case GET_PERSONAL_STATISTICS:
+		myResult = getPersonalStats(info);
 		break;
 	case JOIN_ROOM_REQUEST:
 		myResult = joinRoom(info);
@@ -67,41 +64,14 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	return  myResult;
 }
 
-RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
+RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 {
 	RequestResult myResult;
-	GetPlayersInRoomResponse respone;
-	GetPlayersInRoomRequest myRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
-	respone.players = m_roomManager->getPlayersInRoom(myRequest.roomId);
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	return myResult;
-}
-
-RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
-{
-	RequestResult myResult;
-	GetHighScoreResponse respone;
-	Room PlayersRoom;
-	try
-	{
-		PlayersRoom = m_roomManager->GetRoomPlayerIsOn(m_user->getUsername());
-	}
-	catch(const std::exception e)
-	{
-		ErrorResponse respone;
-		respone.message = e.what();
-		myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-		myResult.newhandler = nullptr;
-		return myResult;
-	}
-	respone.status = SUCCESS_CODE;
-	UserStatistics statisticsOfUser = m_statisticManager->getUserStatistics(m_user->getUsername());
-	string personalStats = FromUserStatisticsToString(statisticsOfUser);
-	respone.statistics[0] = personalStats;
-	std::vector<std::pair<string , int>> vecOfHighScores = m_statisticManager->getHighScore(PlayersRoom);
-	string HighScores = FromVecToString(vecOfHighScores);
-	respone.statistics[1] = HighScores;
-	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
+	GetPersonalStatsResponse response;
+	response.personalStatistics = m_statisticManager->getUserStatistics(m_user->getUsername());
+	response.status = SUCCESS_CODE;
+	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(this->m_user->getUsername());
 	return myResult;
 }
 
@@ -176,26 +146,4 @@ bool MenuRequestHandler::IsIdExists(int Id)
 			return true;
 	}
 	return false;
-}
-
-string MenuRequestHandler::FromVecToString(std::vector<std::pair<string, int>> vec)
-{
-	string TheVec;
-	for (auto elemnet : vec)
-	{
-		TheVec += elemnet.first + ':' + std::to_string(elemnet.second);
-		TheVec += COMMA;
-	}
-	return TheVec;
-}
-
-string MenuRequestHandler::FromUserStatisticsToString(UserStatistics statistics)
-{
-	string ans;
-	ans += std::to_string(statistics.totalCorrectAnswerCount) + COMMA;
-	ans += std::to_string(statistics.totalWrongAnswerCount) + COMMA;
-	ans += std::to_string(statistics.numOfPlayerGames) + COMMA;
-	ans += std::to_string(statistics.averangeAnswerTime) + COMMA;
-	ans += statistics.username;
-	return ans;
 }

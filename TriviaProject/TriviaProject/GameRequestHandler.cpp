@@ -3,9 +3,11 @@
 
 GameManager* GameRequestHandler::m_gameManager = GameManager::getInstance();
 RoomManager* GameRequestHandler::m_roomManager = RoomManager::get_instance();
+StatisticManager* GameRequestHandler::m_statisticManager = StatisticManager::get_instance();
+
 bool GameRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.requestId == GET_Q_REQUEST || info.requestId == SUBMIT_ANSWER_REQUEST || info.requestId == GET_GAME_RESULT_REQUEST || info.requestId == LEAVE_GAME_REQUEST;
+	return info.requestId == GET_Q_REQUEST  || info.requestId == info.requestId == GET_HIGH_SCORES_REQUEST || info.requestId == SUBMIT_ANSWER_REQUEST || info.requestId == GET_GAME_RESULT_REQUEST || info.requestId == LEAVE_GAME_REQUEST;
 }
 
 RequestResult GameRequestHandler::handleRequest(RequestInfo info)
@@ -22,6 +24,9 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case  GET_GAME_RESULT_REQUEST:
 		myResult = getGameResults(info);
+		break;
+	case GET_HIGH_SCORES_REQUEST:
+		myResult = GetHighScores(info);
 		break;
 	case  LEAVE_GAME_REQUEST:
 		myResult = leaveGame(info);
@@ -85,6 +90,26 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
 
+}
+
+RequestResult GameRequestHandler::GetHighScores(RequestInfo info)
+{
+	RequestResult myResult;
+	GetHighScoreResponse respone;
+	try
+	{
+		respone.highScores = m_statisticManager->getHighScore(*this->m_Game);
+		respone.status = SUCCESS_CODE;
+		myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
+	}
+	catch (const std::exception e)
+	{
+		ErrorResponse respone;
+		respone.message = e.what();
+		myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
+		myResult.newhandler = nullptr;
+	}
+	return myResult;
 }
 
 GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)

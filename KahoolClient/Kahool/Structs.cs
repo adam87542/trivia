@@ -23,24 +23,6 @@ namespace Kahool
 			LEAVE_GAME_REQUEST, GET_PLAYER_STATISTICS_REQUEST
 		};
 	}
-
-	struct StatisticsRequest
-	{
-		public uint code;
-	};
-
-	struct StatisticsResponse
-	{
-		public string username;
-
-		public uint numPlayedGames;
-
-		public uint correctAnswerCount;
-
-		public uint wrongAnswerCount;
-
-		public uint averangeAnswerTime;
-	};
 	//**************************** Requests *********************************//
 	struct LoginRequest
 	{
@@ -98,6 +80,11 @@ namespace Kahool
 	{
 		public uint code;
 	};
+	struct StatisticsRequest
+	{
+		public uint code;
+	};
+
 	struct SubmitAnswerRequest
 	{
 		public float time;
@@ -125,7 +112,7 @@ namespace Kahool
 	struct GetHighScoreResponse
 	{
 		public uint status;
-		public List<string> statistics;
+		public Dictionary<int , string> highScores;
 	};
 	struct ErrorResponse
 	{
@@ -151,6 +138,18 @@ namespace Kahool
 		public uint status;
 		public bool IsGameBegan;
 	}
+	struct StatisticsResponse
+	{
+		public string username;
+
+		public uint numPlayedGames;
+
+		public uint correctAnswerCount;
+
+		public uint wrongAnswerCount;
+
+		public uint averangeAnswerTime;
+	};
 	struct GetPlayersInRoomResponse
 	{
 		public uint status;
@@ -170,7 +169,7 @@ namespace Kahool
 	struct GetGameResultsResponse
 	{
 		public uint status;
-		public List<playerResult> results;
+		public List<StatisticsResponse> results;
 	};
 
 }

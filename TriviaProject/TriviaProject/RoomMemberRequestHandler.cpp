@@ -2,6 +2,7 @@
 #include "RequestHandlerFactory.h"
 
 RoomManager* RoomMemberRequestHandler::m_roomManager = RoomManager::get_instance();
+IDatabase* RoomMemberRequestHandler::m_dataBase = SqliteDataBase::get_instance();
 RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room UserRoom)
 {
 	this->m_user = new LoggedUser(username);
@@ -45,7 +46,8 @@ RequestResult RoomMemberRequestHandler::StartGame()
 	StartGameResponse response;
 	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id, this->m_room->getData().numOfQuestionsInGame);
+	std::vector<Question> questions = this->m_dataBase->getQuestions(this->m_room->getData().difficulty);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id, this->m_room->getData().numOfQuestionsInGame ,  questions);
 	return myResult;
 }
 

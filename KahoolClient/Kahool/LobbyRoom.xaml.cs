@@ -110,7 +110,7 @@ namespace Kahool
 				}
 				inLobby = false;
 				GetQuestionResponse response = GameResponeHandler.getNextQuestion(com);
-				wnd.ChangeToQuestion(this.questionTime, response.question, response.answers, com, wnd, 1, this.numOfQuestions);
+				wnd.ChangeToQuestion(this.questionTime, response.question, response.Answers, com, wnd, 1, this.numOfQuestions);
 
 			}
 			catch
@@ -171,7 +171,7 @@ namespace Kahool
 								{
 									inLobby = false;
 									GetQuestionResponse response = GameResponeHandler.getNextQuestion(com);
-									wnd.ChangeToQuestion(this.questionTime, response.question, response.answers, com, wnd, 1, this.numOfQuestions);
+									wnd.ChangeToQuestion(this.questionTime, response.question, response.Answers, com, wnd, 1, this.numOfQuestions);
 								});
 							}
 						

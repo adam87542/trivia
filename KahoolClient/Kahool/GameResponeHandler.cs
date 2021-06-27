@@ -10,7 +10,7 @@ namespace Kahool
         {
             GetQuestionRequest request;
             GetQuestionResponse questionResponse;
-            questionResponse.answers = null;
+            questionResponse.Answers = null;
             questionResponse.question = null;
             questionResponse.status = 0;
             request.code = (uint)Constants.requests.GET_Q_REQUEST;

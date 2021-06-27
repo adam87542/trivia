@@ -167,7 +167,7 @@ namespace Kahool
 	{
 		public uint status;
 		public string question;
-		public List<string> answers;
+		public List<string> Answers;
 	};
 	struct SubmitAnswerResponse
 	{

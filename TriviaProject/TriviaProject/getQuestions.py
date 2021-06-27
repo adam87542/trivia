@@ -28,7 +28,7 @@ def main():
 def enter_questions_to_db(questions,con,dif):
 	for question in questions:
 		cursor = con.cursor()
-		statment = "insert into questions values('"+ question.question.replace("'","") +"', + '" + dif + "','" + question.choices[0].replace("'","") +"','" + question.choices[1].replace("'","") +"','" + question.choices[2].replace("'","") +"','" + question.choices[3].replace("'","") +"','" + question.answer.replace("'","") +"'," + str(question.answer_index) +");"
+		statment = "insert into questions values('"+ question.question.replace("'","") +"', + '" + dif + "','" + question.choices[0].replace("'","") +"','" + question.choices[1].replace("'","") +"','" + question.choices[2].replace("'","") +"','" + question.choices[3].replace("'","") +"','" + question.answer.replace("'","") +"');"
 		print(statment)
 		cursor.execute(statment)
 		con.commit()

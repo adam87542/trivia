@@ -167,7 +167,7 @@ std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 {
 	clearQuestions();
 	sqlite3_stmt* stmt;
-	if (difficulty == "mix")
+	if (difficulty == "Mix")
 		stmt = getStmt("select * from questions;");
 	else
 	{
@@ -182,7 +182,7 @@ std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 bool SqliteDataBase::isAnswerCorrect(string answer, string question)
 {
 	clearQuestions();
-	sqlite3_stmt* stmt = getStmt("select * from questions where questions = ? and correctAnswer = ?;");
+	sqlite3_stmt* stmt = getStmt("select * from questions where question = ? and correcrtAnswer = ?;");
 	sqlite3_bind_text(stmt, 1, question.c_str(), question.length(), nullptr);
 	sqlite3_bind_text(stmt, 2, answer.c_str(), answer.length(), nullptr);
 	questionCallBack(stmt);

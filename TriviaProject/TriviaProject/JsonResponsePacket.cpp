@@ -322,8 +322,8 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 {
 	SubmitAnswerRequest request;
 	json j = deseralizingMsg(buffer);
-
-	request.answer = j[CORRECT_ANSWER];
+	request.answer = j[ANSWER];
+	request.time = j[TIME];
 
 	return request;
 }

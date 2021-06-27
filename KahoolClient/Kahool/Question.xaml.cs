@@ -32,6 +32,7 @@ namespace Kahool
         private readonly object locker = new object();
         public Question(Communicator com, MenuWindow wnd, int time, string question, List<string> answers, int questionId, int num)
         {
+            InitializeComponent();
             this.questionId = questionId;
             this.numberOfQuestions = num;
             this.time = time;
@@ -46,10 +47,9 @@ namespace Kahool
             MyQuestion.Content = this.question;
             First.Content = this.answers[0];
             Second.Content = this.answers[1];
-            Second.Content = this.answers[2];
-            Second.Content = this.answers[3];
+            Third.Content = this.answers[2];
+            Fourth.Content = this.answers[3];
 
-            InitializeComponent();
 
             Thread timer = new Thread(TimeCounter);
             timer.Start();
@@ -175,11 +175,17 @@ namespace Kahool
                     {
                         questionResp = GameResponeHandler.getNextQuestion(com);
                     }
-                    wnd.ChangeToQuestion(time, questionResp.question, questionResp.answers, com, wnd, questionId++, numberOfQuestions);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                          wnd.ChangeToQuestion(time, questionResp.question, questionResp.Answers, com, wnd, questionId++, numberOfQuestions);
+                    });
                 }
                 catch
                 {
-                    wnd.ChangeToError(wnd);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        wnd.ChangeToError(wnd);
+                    });
                 }
             }
             else

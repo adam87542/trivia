@@ -47,7 +47,17 @@ void RoomManager::removePlayerFromRoom(int room_id, string username)
 		}
 	}
 }
-
+void RoomManager::setGameToBeActive(int room_id)
+{
+	for (int i = 0; i < this->m_rooms.size(); i++)
+	{
+		if (m_rooms[i].getData().id == room_id)
+		{
+			this->m_rooms[i].SetGame();
+			return;
+		}
+	}
+}
 Room RoomManager::GetRoomPlayerIsOn(string usrename)
 {
 	for (auto room : m_rooms)

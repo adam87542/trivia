@@ -27,9 +27,9 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 	return roomMemberRequestHandler;
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions , std::vector<Question> questions)
 {
-	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId , numOfQuestions);
+	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId , numOfQuestions , questions);
 	return gameRequestHandler;
 }
 

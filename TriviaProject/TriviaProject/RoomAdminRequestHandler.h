@@ -11,6 +11,7 @@ private:
 	Room* m_room;
 	LoggedUser* m_user;
 	static RoomManager* m_roomManager;
+	static IDatabase* m_dataBase;
 	RequestResult CloseRoom();
 	 RequestResult StartGame();
 	static RequestResult GetRoomState(string username , Room* room);

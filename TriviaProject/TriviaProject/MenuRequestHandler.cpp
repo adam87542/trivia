@@ -122,7 +122,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	}while(IsIdExists(givenId));
 	roomData.roomAdmin = this->m_user->getUsername();
 	roomData.id = givenId;
-	roomData.isActive = true;
+	roomData.isGameBegan = true;
 	roomData.maxPlayers = myRequest.maxUsers;
 	roomData.name = myRequest.roomName;
 	roomData.numOfQuestionsInGame = myRequest.questionCount;

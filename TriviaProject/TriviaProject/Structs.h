@@ -73,7 +73,7 @@ struct RoomData
 	unsigned int maxPlayers;
 	unsigned int numOfQuestionsInGame;
 	unsigned int timePerQuestion;
-	unsigned int isActive;
+	unsigned int isGameBegan;
 };
 //**************************** Responses  *********************************//
 

@@ -12,6 +12,7 @@ private:
 public:
 	Room() = default;
 	Room(RoomData data);
+	void SetGame();
 	void addUser(LoggedUser user);
 	void removeUser(LoggedUser user);
 	// getters

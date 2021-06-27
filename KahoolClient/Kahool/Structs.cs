@@ -30,7 +30,10 @@ namespace Kahool
 		public string username;
 		public string password;
 	};
-
+	struct StartGameRequest
+    {
+		public uint code;
+    };
 	struct SignupRequest
 	{
 		public string username;

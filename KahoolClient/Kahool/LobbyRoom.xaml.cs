@@ -22,6 +22,8 @@ namespace Kahool
 	{
 		private Communicator com;
 		private string username;
+		private int questionTime;
+		private int numOfQuestions;
 		private bool isLeader;
 		private uint roomId;
 		private bool inLobby;
@@ -32,7 +34,9 @@ namespace Kahool
 		{
 			GetPlayersInRoomResponse room;
 			this.wnd = wnd;
+			this.questionTime = int.Parse(timeBetweenQuestions);
 			this.isLeader = isLeader;
+			this.numOfQuestions = int.Parse(numOfQuestions);
 			this.username = username;
 			this.roomId = uint.Parse(roomId);
 			InitializeComponent();
@@ -60,7 +64,11 @@ namespace Kahool
 			inLobby = true;
 			Thread screenRefresh = new Thread(ScreenRefresh);
 			screenRefresh.Start();
-
+			if (!this.isLeader)
+			{
+				Thread Checker = new Thread(CheckIfGameHasStarted);
+				Checker.Start();
+			}
 			if (!isLeader)//If its a guest, disable the ability to start a game, and inform them to wait
 			{
 				StartButton.Visibility = Visibility.Collapsed;
@@ -94,7 +102,21 @@ namespace Kahool
 		}
 		private void OnStartClick(object sender, RoutedEventArgs e)
 		{
-			inLobby = false;
+			try
+			{
+				lock (this.locker)
+				{
+					LobbyResponeHandler.StartGame(com);
+				}
+				inLobby = false;
+				GetQuestionResponse response = GameResponeHandler.getNextQuestion(com);
+				wnd.ChangeToQuestion(this.questionTime, response.question, response.answers, com, wnd, 1, this.numOfQuestions);
+
+			}
+			catch
+			{
+				wnd.ChangeToError(wnd);
+			}
 		}
 		private void OnExitClick(object sender, RoutedEventArgs e)
 		{
@@ -130,9 +152,43 @@ namespace Kahool
 				wnd.ChangeToError(wnd);
 			}
 		}
+		public void CheckIfGameHasStarted()
+		{
+			bool hasGameStarted;
+			hasGameStarted = false;
+			try
+			{
+				while (inLobby)
+				{
+					lock (this.locker)
+					{
+						if (inLobby)
+						{
+							hasGameStarted = LobbyResponeHandler.checkIfGameHasStarted(com);
+							if (hasGameStarted)
+							{
+								this.Dispatcher.Invoke(() =>
+								{
+									inLobby = false;
+									GetQuestionResponse response = GameResponeHandler.getNextQuestion(com);
+									wnd.ChangeToQuestion(this.questionTime, response.question, response.answers, com, wnd, 1, this.numOfQuestions);
+								});
+							}
+						}
+					}
+					Thread.Sleep(1000);
+				}
+			}
+			catch
+            {
+				this.Dispatcher.Invoke(() =>
+				{
+					wnd.ChangeToError(wnd);
+				});
+			}
 
-
-		public void ScreenRefresh()
+		}
+			public void ScreenRefresh()
 		{
 			try
 			{

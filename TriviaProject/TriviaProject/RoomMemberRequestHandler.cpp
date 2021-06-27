@@ -41,12 +41,17 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 }
 RequestResult RoomMemberRequestHandler::StartGame()
 {
-	return RoomAdminRequestHandler::StartGame();
+	RequestResult myResult;
+	StartGameResponse response;
+	response.status = SUCCESS_CODE;
+	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id);
+	return myResult;
 }
 
 RequestResult RoomMemberRequestHandler::GetRoomState()
 {
-	return RoomAdminRequestHandler::GetRoomState(m_user->getUsername() , *m_room);
+	return RoomAdminRequestHandler::GetRoomState(m_user->getUsername() , m_room);
 }
 
 

@@ -4,7 +4,7 @@
 class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
-	RoomAdminRequestHandler(string username, Room UserRoom);
+	RoomAdminRequestHandler(string username, Room* UserRoom);
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 private:
@@ -12,8 +12,8 @@ private:
 	LoggedUser* m_user;
 	static RoomManager* m_roomManager;
 	RequestResult CloseRoom();
-	static RequestResult StartGame();
-	static RequestResult GetRoomState(string username , Room room);
+	 RequestResult StartGame();
+	static RequestResult GetRoomState(string username , Room* room);
 	static RequestResult getPlayersInRoom(RequestInfo info, bool isMember, string username, Room room);
 	friend class RoomMemberRequestHandler;
 };

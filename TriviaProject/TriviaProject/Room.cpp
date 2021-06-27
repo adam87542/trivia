@@ -24,6 +24,10 @@ void Room::removeUser(LoggedUser user)
 		}
 	}
 }
+void Room::SetGame()
+{
+	this->m_metadata.isGameBegan = true;
+}
 
 std::vector<std::string> Room::getAllUsers()
 {

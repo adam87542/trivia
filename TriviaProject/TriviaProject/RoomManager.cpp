@@ -95,7 +95,7 @@ void RoomManager::deleteRoom(int id)
 unsigned int RoomManager::getRoomState(int id)
 {
 	Room itr = GetRoomById(id);
-	return itr.getData().isActive;
+	return itr.getData().isGameBegan;
 }
 
 std::vector<RoomData> RoomManager::getRooms()

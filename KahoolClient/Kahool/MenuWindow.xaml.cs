@@ -37,6 +37,12 @@ namespace Kahool
 		{
 			this.Content = new MenuPage(com, username, wnd);
 		}
+
+		public void ChangeToError( MenuWindow wnd)
+		{
+			this.Content = new ErrorPage(wnd);
+		}
+
 		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.ChangedButton == MouseButton.Left)

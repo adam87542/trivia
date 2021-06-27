@@ -13,14 +13,7 @@ namespace Kahool
 			{
 				string msgFromServer = "";
 				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
-				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-
-				}
+				msgFromServer = com.SendPacket(msgToServer);
 				if (msgFromServer[0].ToString() == Constants.Fail.ToString())
 				{
 					ErrorResponse response = JsonResponeDeserializer.deserializeErrorRespone(msgFromServer);
@@ -39,14 +32,7 @@ namespace Kahool
 			{
 				string msgFromServer = "";
 				string msgToServer = JsonRequestSerializer.serializeRequest(request);
-				try
-				{
-					msgFromServer = com.SendPacket(msgToServer);
-				}
-				catch
-				{
-
-				}
+				msgFromServer = com.SendPacket(msgToServer);
 				LoginResponse respone = JsonResponeDeserializer.deserializeLoginRespone(msgFromServer);
 				return respone.status == Constants.Success;
 			}

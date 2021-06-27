@@ -20,9 +20,10 @@ struct User
 struct UserStatistics
 {
 	string username;
+
 	unsigned int totalCorrectAnswerCount;
 	unsigned int  totalWrongAnswerCount;
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 	int numOfPlayerGames;
 };
 //**************************** Question *******************************//
@@ -49,7 +50,7 @@ struct GameData
 
 	unsigned int  wrongAnswerCount;
 
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 };
 struct playerResult
 {
@@ -59,7 +60,7 @@ struct playerResult
 
 	unsigned int  wrongAnswerCount;
 
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 };
 //**************************** Room  ********************************// 
 
@@ -111,12 +112,13 @@ struct GetPlayersInRoomResponse
 struct GetHighScoreResponse
 {
 	unsigned int status;
-	std::vector<string> statistics;
+	std::map<int , string> highScores;
 };
 
 struct GetPersonalStatsResponse
 {
 	unsigned int status;
+	UserStatistics personalStatistics;
 };
 
 struct JoinRoomResponse

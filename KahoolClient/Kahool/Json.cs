@@ -70,10 +70,10 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.CREATE_ROOM_REQUEST, json);
         }
-        public static string GetStatisticsRequest(GetStatisticsRequest request)
+        public static string GetStatisticsRequest(StatisticsRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
-            return serializeMsg((int)Constants.requests.GET_HIGH_SCORES_REQUEST, json);
+            return serializeMsg((int)Constants.requests.GET_PLAYER_STATISTICS_REQUEST, json);
         }
         private static string serializeMsg(int RequestId, string msg)
         {
@@ -102,10 +102,10 @@ namespace Kahool
             SignUpResponse response = JsonConvert.DeserializeObject<SignUpResponse>(JsonMsg);
             return response;
         }
-        public static GetHighScoreResponse deserializeGetStatisticsRespone(string Buffer)
+        public static StatisticsResponse deserializeGetStatisticsRespone(string Buffer)
         {
             string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
-            GetHighScoreResponse response = JsonConvert.DeserializeObject<GetHighScoreResponse>(Buffer);
+            StatisticsResponse response = JsonConvert.DeserializeObject<StatisticsResponse>(Buffer);
             return response;
         }
         public static JoinRoomResponse deserializeJoinRoomRespone(string Buffer)

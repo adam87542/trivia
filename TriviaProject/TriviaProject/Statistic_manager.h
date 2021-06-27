@@ -1,9 +1,8 @@
 #pragma once
 #include "IDatabase.h"
 #include "SqliteDataBase.h"
-#include "Room.h"
+#include "Game.h"
 #include <map>
-using std::vector;
 using std::string;
 
 
@@ -14,7 +13,7 @@ public:
 	StatisticManager() = default;
 	static StatisticManager* get_instance();
 	static void reset_instance();
-	vector<std::pair<string, int>> getHighScore(Room room);
+	std::map<int, string>  getHighScore(Game game);
 	UserStatistics getUserStatistics(string username);
 
 private:

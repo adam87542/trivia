@@ -1,11 +1,11 @@
 #include "Statistic_manager.h"
 
 IDatabase* StatisticManager::m_database = SqliteDataBase::get_instance();
-StatisticManager* StatisticManager::m_ptr = StatisticManager::get_instance();
+StatisticManager* StatisticManager::m_ptr = nullptr;
 
-bool sortByVal(const std::pair<string, int>& a, const std::pair<string, int>& b)
+bool sortByVal(const std::pair<int , string>& a, const std::pair<int , string>& b)
 {
-	return (a.second < b.second);
+	return (a.first < b.first);
 }
 
 
@@ -24,33 +24,29 @@ void StatisticManager::reset_instance()
 	m_ptr = nullptr;
 }
 
-vector<std::pair<string, int>> StatisticManager::getHighScore(Room room)
+std::map<int , string>  StatisticManager::getHighScore(Game game)
 {
 	UserStatistics user_statistic;
-	std::map<string, int> HighScores;
-	vector<string> users = room.getAllUsers();
-	for (const auto user : users)
+	std::map<int, string>  HighScores;
+	std::vector<std::pair<int, string>> vecOfHighScores;
+	std::list<playerResult> results = game.getGameResults();
+	for (const auto result : results)
 	{  
-		user_statistic = getUserStatistics(user);
-		float score = user_statistic.totalCorrectAnswerCount / user_statistic.averangeAnswerTime;
-		HighScores.insert(std::pair<string, int>(user, score));
+		float score =  result.correctAnswerCount / result.averangeAnswerTime;
+		vecOfHighScores.push_back(std::pair<int , string>(score ,result.username));
 	}
-
-	vector<std::pair<string, int>> High_score_vec;
-	std::map<string, int> :: iterator iter;
-	for (iter = HighScores.begin(); iter != HighScores.end(); iter++)
+	std::sort(vecOfHighScores.begin(), vecOfHighScores.end(), sortByVal);
+	for (const auto pair : vecOfHighScores)
 	{
-		High_score_vec.push_back(make_pair(iter->first, iter->second));
+		HighScores.insert(pair);
 	}
-	std::sort(High_score_vec.begin(), High_score_vec.end(), sortByVal);
-
-
-	return High_score_vec;
+	return HighScores;
 }
 
 UserStatistics StatisticManager::getUserStatistics(string username)
 {
 	UserStatistics user_statistic;
+	user_statistic.username = username;
 	user_statistic.totalCorrectAnswerCount = m_database->getNumOfCorrectAnswer(username);
 	user_statistic.averangeAnswerTime = m_database->getPlayerAverageAnswerTime(username);
 	user_statistic.numOfPlayerGames = m_database->getNumOfPlayerGames(username);

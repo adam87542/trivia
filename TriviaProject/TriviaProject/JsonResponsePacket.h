@@ -14,7 +14,7 @@ enum requests {
 	GET_ROOMS_REQUEST, GET_PLAYERS_REQUEST, JOIN_ROOM_REQUEST, CREATE_ROOM_REQUEST, GET_HIGH_SCORES_REQUEST,
 	CLOSE_ROOM_REQUEST, START_GAME_REQUEST, STATE_ROOM_REQUEST, LEAVE_ROOM_REQUEST, 
 	GET_Q_REQUEST, SUBMIT_ANSWER_REQUEST, GET_GAME_RESULT_REQUEST,
-	LEAVE_GAME_REQUEST
+	LEAVE_GAME_REQUEST , GET_PERSONAL_STATISTICS
 };
 
 enum responses {
@@ -36,20 +36,24 @@ enum responses {
 #define MAX_USERS "maxUsers"
 #define NUM_Q "questionCount"
 #define DIFFICULTY "difficulty"
-#define ANSWER_TIME "answerTimeOut"
+#define TOTAL_ANSWER_TIME "answerTimeOut"
+#define TOTAL_CORRECT_ANSWERS "totalCorrectAnswerCount"
+#define AVREGE_ANSWER_TIME "averangeAnswerTime"
+#define TOTAL_WRONG_ANSWERS "totalWrongAnswerCount"
+#define NUM_OF_PLAYED_GAMES "numOfPlayerGames"
 #define STATUS "status"
 #define ERROR "message"
 #define ROOMS "rooms"
 #define GAME_BEGUN "GameBegun"
 #define PLAYERS_IN_ROOM "PlayersInRoom"
-#define USER_STATISTICS "UserStatistics"
-#define HIGH_SCORES "HighScores"
+#define USER_STATISTICS "personalStatistics"
+#define HIGH_SCORES "highScores"
 #define RESULTS "Results"
 #define IS_ANSWER_CORRECT "isAnswerCorrect" 
 #define QUESTION "Question"
 #define ANSWERS "Answers"
 #define ANSWER "answer"
-#define ANSWER_TIME "answerTimeOut"
+#define ANSWER_TIME_OUT "answerTimeOut"
 #define CORRECT_ANSWER "correctAnswer"
 #define COMMA ","
 
@@ -75,6 +79,7 @@ public:
 	static unsigned char* serializeResponse(SubmitAnswerResponse response);
 	static unsigned char* serializeResponse(GetQuestionResponse response);
 	static unsigned char* serializeResponse(LeaveGameResponse response);
+	static unsigned char* serializeResponse(GetPersonalStatsResponse response);
 
 private:
 	static JsonResponsePacketSerializer* m_ptr;

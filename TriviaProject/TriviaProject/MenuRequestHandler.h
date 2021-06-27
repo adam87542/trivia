@@ -19,13 +19,9 @@ private:
 	static LoginManager* m_loginManager;
 	RequestResult logout(RequestInfo info);
 	RequestResult getRooms(RequestInfo info);
-	RequestResult getPlayersInRoom(RequestInfo);
-	//RequestResult getPersonalStats(RequestInfo info);
-	RequestResult getHighScore(RequestInfo info);
+	RequestResult getPersonalStats(RequestInfo info);
 	RequestResult joinRoom(RequestInfo info);
 	RequestResult createRoom(RequestInfo info);
 
 	bool IsIdExists(int id);
-	string FromVecToString(std::vector<std::pair<string, int>> vec);
-	string FromUserStatisticsToString(UserStatistics statistics);
 };

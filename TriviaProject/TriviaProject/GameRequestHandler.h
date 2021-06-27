@@ -2,6 +2,7 @@
 #include "IRequestHandler.h"
 #include "GameManager.h"
 #include "RoomManager.h"
+#include "Statistic_manager.h"
 #include "LoggedUser.h"
 #include "JsonResponsePacket.h"
 
@@ -12,10 +13,12 @@ private:
 	LoggedUser* m_user;
 	static GameManager* m_gameManager;
 	static RoomManager* m_roomManager;
+	static StatisticManager* m_statisticManager;
 	RequestResult getQuestion(RequestInfo info);
 	RequestResult submitAnswer(RequestInfo info);
 	RequestResult getGameResults(RequestInfo info);
 	RequestResult leaveGame(RequestInfo info);
+	RequestResult GetHighScores(RequestInfo info);
 public:
 	GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId);
 	bool isRequestRelevant(RequestInfo info) override;

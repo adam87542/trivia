@@ -77,7 +77,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse 
 	j[ROOM_ID] = response.roomId;
 	j[ROOMNAME] = response.roomName;
 	j[NUM_Q] = response.questionCount;
-	j[ANSWER_TIME] = response.answerTimeOut;
+	j[ANSWER_TIME_OUT] = response.answerTimeOut;
 	j[DIFFICULTY] = response.difficulty;
 	return seralizingMsg(JOIN_ROOM_RESPONSE, j.dump());
 }
@@ -95,8 +95,7 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(CreateRoomRespons
 unsigned char* JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
 {
 	json j;
-	j[USER_STATISTICS] = response.statistics[0];
-	j[HIGH_SCORES] = response.statistics[1];
+	j[HIGH_SCORES] = response.highScores;
 
 	return seralizingMsg(GET_HIGH_SCORES_RESPONSE, j.dump());
 }
@@ -196,6 +195,17 @@ unsigned char* JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse
 	string msg = creatingStatusResponse(response.status);
 
 	return seralizingMsg(LEAVE_GAME_RESPONSE, msg);
+}
+
+unsigned char* JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
+{
+	json j;
+	j[USERNAME] = response.personalStatistics.username;
+	j[AVREGE_ANSWER_TIME] = response.personalStatistics.averangeAnswerTime;
+	j[TOTAL_CORRECT_ANSWERS] = response.personalStatistics.totalCorrectAnswerCount;
+	j[TOTAL_WRONG_ANSWERS] = response.personalStatistics.totalWrongAnswerCount;
+	j[NUM_OF_PLAYED_GAMES] = response.personalStatistics.numOfPlayerGames;
+	return seralizingMsg(GET_PERSONAL_STATISTICS, j.dump());
 }
 
 unsigned char* JsonResponsePacketSerializer::seralizingMsg(int responseNum, string msg)
@@ -303,7 +313,7 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(un
 	request.roomName = data[ROOMNAME];
 	request.maxUsers = data[MAX_USERS];
 	request.questionCount = data[NUM_Q];
-	request.answerTimeOut = data[ANSWER_TIME];
+	request.answerTimeOut = data[ANSWER_TIME_OUT];
 
 	return request;
 }

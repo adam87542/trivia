@@ -18,7 +18,6 @@ void LoginManager::reset_instance()
 
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
-	/*
 	if (!CheckEmail(email))
 		throw std::exception("Invaild email");
 
@@ -27,7 +26,6 @@ void LoginManager::signup(std::string username, std::string password, std::strin
 
 	 if (!CheckUserName(username))
 		throw std::exception("Invalid username");
-	 */
 	 if (!m_database->doesUserExist(username))
 	{
 		m_database->addNewUser(username, password, email);

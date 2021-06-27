@@ -19,7 +19,7 @@
         <Label x:Name="Feedback" Content="" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Center" Margin="250,390,0,0" VerticalAlignment="Top" Foreground="white" FontSize="26" Height="44" Width="300"/>
 
         <StackPanel>
-            <Label x:Name="MyQuestion" Content="wwwww" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Center" Margin="130,80,0,0" VerticalAlignment="Top" Foreground="#C9AdA7" FontSize="26" Height="44" Width="500"/>
+            <Label x:Name="MyQuestion" Content="wwwww" HorizontalAlignment="Left" FontFamily="Resources/Fonts/QuickSand.ttf" HorizontalContentAlignment="Center" Margin="130,80,0,0" VerticalAlignment="Top" Foreground="#C9AdA7" FontSize="14" Height="44" Width="500"/>
             <RadioButton x:Name="First" GroupName="Answer" Margin="0,40,0,0" Content="" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="18" Foreground="White" Width="400"></RadioButton>
             <RadioButton x:Name="Second" GroupName="Answer" Margin="0,30,0,0" Content="" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="18" Foreground="White" Width="400"></RadioButton>
             <RadioButton x:Name="Third" GroupName="Answer" Margin="0,30,0,0" Content="" FontFamily="Resources/Fonts/QuickSand.ttf" FontSize="18" Foreground="White" Width="400"></RadioButton>

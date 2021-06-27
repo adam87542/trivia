@@ -29,8 +29,10 @@ GameData* Game::getPlayerMeta(string username)
 Question Game::getNextQuestion(string username)
 {
     Question myQuestion;
+    std::cout << this->m_questions.size() << std::endl;
     myQuestion = this->m_questions.back();
     this->m_questions.pop_back();
+    std::cout << this->m_questions.size() << std::endl;
     return myQuestion;
 }
 

@@ -168,10 +168,10 @@ std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 	clearQuestions();
 	sqlite3_stmt* stmt;
 	if (difficulty == "Mix")
-		stmt = getStmt("select * from questions;");
+		stmt = getStmt("select * from questions order by random();");
 	else
 	{
-		stmt = getStmt("select * from questions where difficulty = ?;");
+		stmt = getStmt("select * from questions where difficulty = ? order by random();");
 		sqlite3_bind_text(stmt, 1, difficulty.c_str(), difficulty.length(), nullptr);
 	}
 	questionCallBack(stmt);

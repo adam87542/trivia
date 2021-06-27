@@ -17,19 +17,19 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(string username, Room UserRoom)
 {
-	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username, &UserRoom);
+	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username, UserRoom);
 	return roomAdminRequestHandler;
 }
 
 RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(string username, Room UserRoom)
 {
-	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, &UserRoom);
+	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, UserRoom);
 	return roomMemberRequestHandler;
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions)
 {
-	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId);
+	GameRequestHandler* gameRequestHandler = new GameRequestHandler(username, difficulty, playersInRoom, roomId , numOfQuestions);
 	return gameRequestHandler;
 }
 

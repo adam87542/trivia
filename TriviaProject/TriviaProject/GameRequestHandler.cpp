@@ -52,7 +52,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 	respone.answers.push_back(nextQuestion.fourthAnswer);
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions());
 	return myResult;
 }
 
@@ -64,7 +64,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 	respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer ,  request.time);
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions());
 	return myResult;
 }
 
@@ -112,9 +112,9 @@ RequestResult GameRequestHandler::GetHighScores(RequestInfo info)
 	return myResult;
 }
 
-GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
+GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions)
 {
-	this->m_Game = new Game(this->m_Game->getNumOfQuestions() , difficulty, playersInRoom, roomId);
+	this->m_Game = new Game( numOfQuestions , difficulty, playersInRoom, roomId);
 	this->m_user = new LoggedUser(username);
 	m_gameManager->createGame(*m_Game);
 }

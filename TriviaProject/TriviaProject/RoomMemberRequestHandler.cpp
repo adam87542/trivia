@@ -2,10 +2,10 @@
 #include "RequestHandlerFactory.h"
 
 RoomManager* RoomMemberRequestHandler::m_roomManager = RoomManager::get_instance();
-RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room* UserRoom)
+RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room UserRoom)
 {
 	this->m_user = new LoggedUser(username);
-	this->m_room = UserRoom;
+	this->m_room = new Room(UserRoom);
 
 }
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
@@ -45,7 +45,7 @@ RequestResult RoomMemberRequestHandler::StartGame()
 	StartGameResponse response;
 	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id, this->m_room->getData().numOfQuestionsInGame);
 	return myResult;
 }
 

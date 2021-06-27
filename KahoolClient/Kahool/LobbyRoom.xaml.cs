@@ -163,8 +163,8 @@ namespace Kahool
 					lock (this.locker)
 					{
 						if (inLobby)
-						{
 							hasGameStarted = LobbyResponeHandler.checkIfGameHasStarted(com);
+
 							if (hasGameStarted)
 							{
 								this.Dispatcher.Invoke(() =>
@@ -174,7 +174,7 @@ namespace Kahool
 									wnd.ChangeToQuestion(this.questionTime, response.question, response.answers, com, wnd, 1, this.numOfQuestions);
 								});
 							}
-						}
+						
 					}
 					Thread.Sleep(1000);
 				}

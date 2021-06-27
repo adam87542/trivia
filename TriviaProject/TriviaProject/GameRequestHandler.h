@@ -20,7 +20,7 @@ private:
 	RequestResult leaveGame(RequestInfo info);
 	RequestResult GetHighScores(RequestInfo info);
 public:
-	GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId);
+	GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions);
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 

@@ -38,9 +38,14 @@ namespace Kahool
 			this.Content = new MenuPage(com, username, wnd);
 		}
 
-		public void ChangeToError( MenuWindow wnd)
+		public void ChangeToError(MenuWindow wnd)
 		{
 			this.Content = new ErrorPage(wnd);
+		}
+
+		public void ChangeToQuestion(int time, string question, List<string> answers, Communicator com, MenuWindow wnd, int questionId, int numberOfQuestions)
+		{
+			this.Content = new Question(com, wnd, time, question, answers, questionId, numberOfQuestions);
 		}
 
 		private void Window_MouseDown(object sender, MouseButtonEventArgs e)

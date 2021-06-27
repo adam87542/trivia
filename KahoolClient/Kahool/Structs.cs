@@ -14,6 +14,7 @@ namespace Kahool
 		public const int MIN_PASSWORD_LENGTH = 8;
 		public const int MAX_USERNAME_LENGTH = 15;
 		public const int MIN_USERNAME_LENGTH = 6;
+		public const int SEC_IN_MIN = 60;
 		public enum requests
 		{
 			LOGIN_REQUEST = 20, SIGNUP_REQUEST = 21, LOGOUT_REQUEST,

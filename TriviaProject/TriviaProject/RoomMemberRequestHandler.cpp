@@ -2,10 +2,10 @@
 #include "RequestHandlerFactory.h"
 
 RoomManager* RoomMemberRequestHandler::m_roomManager = RoomManager::get_instance();
-RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room UserRoom)
+RoomMemberRequestHandler::RoomMemberRequestHandler(string username, Room* UserRoom)
 {
 	this->m_user = new LoggedUser(username);
-	this->m_room = new Room(UserRoom);
+	this->m_room = UserRoom;
 
 }
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)

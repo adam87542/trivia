@@ -5,7 +5,7 @@ RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::get_instance(
 RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room* UserRoom)
 {
 		this->m_user = new LoggedUser(username);
-		this->m_room = new Room(*UserRoom);
+		this->m_room = UserRoom;
 
 }
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo info)

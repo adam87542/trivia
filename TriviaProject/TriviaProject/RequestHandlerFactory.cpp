@@ -17,13 +17,13 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(string username, Room UserRoom)
 {
-	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username, UserRoom);
+	RoomAdminRequestHandler* roomAdminRequestHandler = new RoomAdminRequestHandler(username, &UserRoom);
 	return roomAdminRequestHandler;
 }
 
 RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(string username, Room UserRoom)
 {
-	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, UserRoom);
+	RoomMemberRequestHandler* roomMemberRequestHandler = new RoomMemberRequestHandler(username, &UserRoom);
 	return roomMemberRequestHandler;
 }
 

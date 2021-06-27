@@ -8,7 +8,7 @@
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
-	RoomMemberRequestHandler(string username, Room UserRoom);
+	RoomMemberRequestHandler(string username, Room* UserRoom);
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 private:

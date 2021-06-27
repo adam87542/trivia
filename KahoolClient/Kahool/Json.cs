@@ -18,6 +18,11 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.GET_PLAYER_STATISTICS_REQUEST, json);
         }
+        public static string serializeRequest(GetRoomStateRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.STATE_ROOM_REQUEST, json);
+        }
         public static string serializeRequest(CloseRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
@@ -37,6 +42,11 @@ namespace Kahool
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.GET_GAME_RESULT_REQUEST, json);
+        }
+        public static string serializeRequest(StartGameRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.START_GAME_REQUEST, json);
         }
         public static string serializeRequest(LeaveGameRequest request)
         {
@@ -147,6 +157,13 @@ namespace Kahool
         {
             string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
             SubmitAnswerResponse response = JsonConvert.DeserializeObject<SubmitAnswerResponse>(JsonMsg);
+            return response;
+        }
+
+        public static GetRoomStateRespone deserializeRoomStateResponse(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetRoomStateRespone response = JsonConvert.DeserializeObject<GetRoomStateRespone>(JsonMsg);
             return response;
         }
         public static GetHighScoreResponse deserializeHighScoresResponse(string Buffer)

@@ -2,18 +2,20 @@
 
 IDatabase* Game::m_dataBase = SqliteDataBase::get_instance();
 
-Game::Game(unsigned  int numOfQuestions , string difficulty, std::vector<string> playersInRoom , unsigned int roomId)
+Game::Game(unsigned  int numOfQuestions , string difficulty, std::vector<string> playersInRoom , unsigned int roomId , std::vector<Question> questions)
 {
     this->m_gameId = roomId;
     this->m_numOfQuestions = numOfQuestions;
     this->m_questionDifficulty = difficulty;
-    this->m_questions = m_dataBase->getQuestions(difficulty);
+    this->m_questions = questions;
     for(auto player : playersInRoom)
     {
         GameData playerData;
         playerData.username = player;
+        playerData.currentQuestion = m_questions.back();
         this->m_players.push_back(playerData);
     }
+    m_questions.pop_back();
 }
 
 GameData* Game::getPlayerMeta(string username)
@@ -25,17 +27,31 @@ GameData* Game::getPlayerMeta(string username)
 
 Question Game::getNextQuestion(string username)
 {
-    GameData* data = getPlayerMeta(username);
-    for (int i = 0; i < m_questions.size(); i++)
-        if (data->currentQuestion.question.compare(m_questions.at(i).question) && i != m_questions.size() - 1)
-            return  m_questions.at(i++);
+    Question myQuestion;
+    myQuestion = this->m_questions.back();
+    this->m_questions.pop_back();
+    return myQuestion;
+}
+
+std::vector<Question> Game::getQuestions()
+{
+    return this->m_questions;
 }
 
 bool Game::submitAnswer(string username, string answer , float time)
 {
     LoggedUser* user = new LoggedUser(username);
     GameData* iter = getPlayerMeta(username);
-    bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer, iter->currentQuestion.question);
+    string question;
+    try
+    {
+        string question = iter->currentQuestion.question;
+    }
+    catch(...)
+    {
+        return false;
+    }
+    bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer,question);
     iter->totalAnswerTime += time;
     if (isAnswerCorrect)
     {
@@ -47,17 +63,19 @@ bool Game::submitAnswer(string username, string answer , float time)
         m_dataBase->addToWrongAnswers(username);
         iter->wrongAnswerCount++;
     }
-    iter->currentQuestion = getNextQuestion(username);
     return isAnswerCorrect;
 }
 
 void Game::removePlayer(string username)
 {
     for (auto it = m_players.begin(); it != m_players.end(); ++it)
+    {
         if (it->username == username)
         {
             this->m_players.erase(it);
+            return;
         }
+    }
 }
 
 unsigned int Game::getGameId()

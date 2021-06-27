@@ -20,6 +20,7 @@ public:
 	Room GetRoomPlayerIsOn(string usrename);
 	Room createRoom(LoggedUser user, RoomData data);
 	Room GetRoomById(int roomId);
+	void  setGameToBeActive(int room_id);
 	void deleteRoom(int id);
 	unsigned int getRoomState(int id);
 	std::vector<RoomData> getRooms();

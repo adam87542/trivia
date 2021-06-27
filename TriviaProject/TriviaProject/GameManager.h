@@ -14,4 +14,5 @@ public:
 	static void resetInstance();
 	void createGame(Game game);
 	void deleteGame(Game currentGame);
+	Game getGameById(unsigned int id);
 };

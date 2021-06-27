@@ -42,25 +42,25 @@ struct Question
 struct GameData
 {
 	string username;
-	float totalAnswerTime;
+	float totalAnswerTime = 0;
 
 	Question currentQuestion;
 
-	unsigned int correctAnswerCount;
+	unsigned int correctAnswerCount = 0;
 
-	unsigned int  wrongAnswerCount;
+	unsigned int  wrongAnswerCount = 0;
 
-	float averangeAnswerTime;
+	float averangeAnswerTime = 0;
 };
 struct playerResult
 {
 	string username;
 
-	unsigned int correctAnswerCount;
+	unsigned int correctAnswerCount = 0;
 
-	unsigned int  wrongAnswerCount;
+	unsigned int  wrongAnswerCount = 0;
 
-	float averangeAnswerTime;
+	float averangeAnswerTime = 0;
 };
 //**************************** Room  ********************************// 
 
@@ -73,7 +73,7 @@ struct RoomData
 	unsigned int maxPlayers;
 	unsigned int numOfQuestionsInGame;
 	unsigned int timePerQuestion;
-	unsigned int isActive;
+	unsigned int isGameBegan;
 };
 //**************************** Responses  *********************************//
 

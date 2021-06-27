@@ -6,11 +6,11 @@ namespace Kahool
 {
     class GameResponeHandler
     {
-        public GetQuestionResponse getNextQuestion(Communicator com)
+        public static GetQuestionResponse getNextQuestion(Communicator com)
         {
             GetQuestionRequest request;
             GetQuestionResponse questionResponse;
-            questionResponse.answers = null;
+            questionResponse.Answers = null;
             questionResponse.question = null;
             questionResponse.status = 0;
             request.code = (uint)Constants.requests.GET_Q_REQUEST;
@@ -22,7 +22,7 @@ namespace Kahool
             }
             return questionResponse;
         }
-        public SubmitAnswerResponse SubmitAnswer(SubmitAnswerRequest request, Communicator com)
+        public static SubmitAnswerResponse SubmitAnswer(SubmitAnswerRequest request, Communicator com)
         {
             SubmitAnswerResponse response;
             response.isAnswerCorrect = false;
@@ -36,7 +36,7 @@ namespace Kahool
             }
             return response;
         }
-        public GetGameResultsResponse getGameResults(Communicator com)
+        public static GetGameResultsResponse getGameResults(Communicator com)
         {
             GetGameResultsRequest request;
             GetGameResultsResponse response;
@@ -52,7 +52,7 @@ namespace Kahool
             }
             return response;
         }
-        public void leaveGame(Communicator com)
+        public static void leaveGame(Communicator com)
         {
             LeaveGameRequest request;
             request.code = (uint)Constants.requests.LEAVE_GAME_REQUEST;
@@ -62,7 +62,7 @@ namespace Kahool
                 string msgFromServer = com.SendPacket(msgToServer);
             }
         }
-        public GetHighScoreResponse getHighScores(Communicator com)
+        public static GetHighScoreResponse getHighScores(Communicator com)
         {
             GetHighScoreRequest request;
             GetHighScoreResponse response;

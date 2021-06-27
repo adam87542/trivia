@@ -14,6 +14,7 @@ namespace Kahool
 		public const int MIN_PASSWORD_LENGTH = 8;
 		public const int MAX_USERNAME_LENGTH = 15;
 		public const int MIN_USERNAME_LENGTH = 6;
+		public const int SEC_IN_MIN = 60;
 		public enum requests
 		{
 			LOGIN_REQUEST = 20, SIGNUP_REQUEST = 21, LOGOUT_REQUEST,
@@ -29,7 +30,10 @@ namespace Kahool
 		public string username;
 		public string password;
 	};
-
+	struct StartGameRequest
+    {
+		public uint code;
+    };
 	struct SignupRequest
 	{
 		public string username;
@@ -140,7 +144,7 @@ namespace Kahool
 	struct GetRoomStateRespone
 	{
 		public uint status;
-		public bool IsGameBegan;
+		public bool GameBegun;
 	}
 	struct StatisticsResponse
 	{
@@ -163,7 +167,7 @@ namespace Kahool
 	{
 		public uint status;
 		public string question;
-		public List<string> answers;
+		public List<string> Answers;
 	};
 	struct SubmitAnswerResponse
 	{

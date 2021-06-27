@@ -13,9 +13,10 @@ private:
 	std::vector<Question> m_questions;
 	std::vector<GameData> m_players;
 public:
-	Game(unsigned  int numOfQuestions ,  string difficulty , std::vector<string> playersInRoom , unsigned int roomId);
+	Game(unsigned  int numOfQuestions ,  string difficulty , std::vector<string> playersInRoom , unsigned int roomId , std::vector<Question> questions);
 	GameData* getPlayerMeta(string username);
 	Question getNextQuestion(string username);
+	std::vector<Question> getQuestions();
 	bool submitAnswer(string username, string answer , float time);
 	void removePlayer(string username);
 	unsigned int getGameId();

@@ -29,3 +29,14 @@ void GameManager::deleteGame(Game currentGame)
 		}
 	}
 }
+
+Game GameManager::getGameById(unsigned int id)
+{
+	for (std::vector<Game>::iterator iter = m_Games.begin(); iter != m_Games.end(); iter++)
+	{
+		if (iter->getGameId() == id)
+		{
+			return *iter;
+		}
+	}
+}

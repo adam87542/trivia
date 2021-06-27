@@ -45,6 +45,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 	RequestResult myResult;
 	GetQuestionResponse respone;
 	Question nextQuestion = m_Game->getNextQuestion(this->m_user->getUsername());
+	this->m_questions = m_Game->getQuestions();
 	respone.question = nextQuestion.question;
 	respone.answers.push_back(nextQuestion.firstAnswer);
 	respone.answers.push_back(nextQuestion.secondAnswer);
@@ -52,7 +53,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 	respone.answers.push_back(nextQuestion.fourthAnswer);
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions() , m_questions);
 	return myResult;
 }
 
@@ -61,10 +62,17 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 	RequestResult myResult;
 	SubmitAnswerResponse respone;
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
-	respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer ,  request.time);
+	try
+	{
+		respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer, request.time);
+	}
+	catch (...)
+	{
+		respone.isAnswerCorrect = false;
+	}
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId());
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions() , m_questions);
 	return myResult;
 }
 
@@ -112,9 +120,10 @@ RequestResult GameRequestHandler::GetHighScores(RequestInfo info)
 	return myResult;
 }
 
-GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId)
+GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions , std::vector<Question> questions)
 {
-	this->m_Game = new Game(this->m_Game->getNumOfQuestions() , difficulty, playersInRoom, roomId);
+	this->m_questions = questions;
+	this->m_Game = new Game( numOfQuestions , difficulty, playersInRoom, roomId , questions);
 	this->m_user = new LoggedUser(username);
 	m_gameManager->createGame(*m_Game);
 }

@@ -27,6 +27,7 @@ enum responses {
 #define ERR_CODE  0
 #define SUCCESS_CODE  1
 #define LENGTH_BYTES 4
+#define TIME "time"
 #define BUFFER_START_LEN 6
 #define PASSWORD "password"
 #define EMAIL "email"

@@ -36,14 +36,14 @@ namespace Kahool
 			}
 			catch
 			{
-				//Shuhman and adam add here the wnd.ChangeToError()
+				wnd.ChangeToError(this.wnd);
 			}
 		}
 
 		private void OnMenuClick(object sender, RoutedEventArgs e)
 		{
 			//Shuhman delete the username from every page, EVERY single one
-			wnd.ChangeToMenu(com, "", wnd);
+			wnd.ChangeToMenu(com, null , wnd);
 		}
 		public void EndRunning(object sender, RoutedEventArgs e)
 		{

@@ -62,5 +62,20 @@ namespace Kahool
                 string msgFromServer = com.SendPacket(msgToServer);
             }
         }
+        public GetHighScoreResponse getHighScores(Communicator com)
+        {
+            GetHighScoreRequest request;
+            GetHighScoreResponse response;
+            response.highScores = null;
+            response.status = 0;
+            request.code = (uint)Constants.requests.GET_PLAYER_STATISTICS_REQUEST;
+            if (com != null)
+            {
+                string msgToServer = JsonRequestSerializer.serializeRequest(request);
+                string msgFromServer = com.SendPacket(msgToServer);
+                response = JsonResponeDeserializer.deserializeHighScoresResponse(msgFromServer);
+            }
+            return response;
+        }
     }
 }

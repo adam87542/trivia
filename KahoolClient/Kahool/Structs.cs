@@ -98,6 +98,10 @@ namespace Kahool
 	{
 		public uint code;
 	};
+	struct GetHighScoreRequest
+    {
+		public uint code;
+	}
 
 	//**************************** Responses  *********************************//
 	struct LoginResponse

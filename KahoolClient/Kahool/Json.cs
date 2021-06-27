@@ -13,6 +13,11 @@ namespace Kahool
             string json = JsonConvert.SerializeObject(request, Formatting.None);
             return serializeMsg((int)Constants.requests.LOGIN_REQUEST, json);
         }
+        public static string serializeRequest(GetHighScoreRequest request)
+        {
+            string json = JsonConvert.SerializeObject(request, Formatting.None);
+            return serializeMsg((int)Constants.requests.GET_PLAYER_STATISTICS_REQUEST, json);
+        }
         public static string serializeRequest(CloseRoomRequest request)
         {
             string json = JsonConvert.SerializeObject(request, Formatting.None);
@@ -144,6 +149,13 @@ namespace Kahool
             SubmitAnswerResponse response = JsonConvert.DeserializeObject<SubmitAnswerResponse>(JsonMsg);
             return response;
         }
+        public static GetHighScoreResponse deserializeHighScoresResponse(string Buffer)
+        {
+            string JsonMsg = Buffer.Substring(Constants.BUFFER_START_LEN);
+            GetHighScoreResponse response = JsonConvert.DeserializeObject<GetHighScoreResponse>(JsonMsg);
+            return response;
+        }
+
 
     }
 }

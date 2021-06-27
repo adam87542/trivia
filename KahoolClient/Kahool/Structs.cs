@@ -148,7 +148,7 @@ namespace Kahool
 
 		public uint wrongAnswerCount;
 
-		public uint averangeAnswerTime;
+		public float averangeAnswerTime;
 	};
 	struct GetPlayersInRoomResponse
 	{

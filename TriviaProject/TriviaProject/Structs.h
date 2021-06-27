@@ -23,7 +23,7 @@ struct UserStatistics
 
 	unsigned int totalCorrectAnswerCount;
 	unsigned int  totalWrongAnswerCount;
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 	int numOfPlayerGames;
 };
 //**************************** Question *******************************//
@@ -50,7 +50,7 @@ struct GameData
 
 	unsigned int  wrongAnswerCount;
 
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 };
 struct playerResult
 {
@@ -60,7 +60,7 @@ struct playerResult
 
 	unsigned int  wrongAnswerCount;
 
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
 };
 //**************************** Room  ********************************// 
 

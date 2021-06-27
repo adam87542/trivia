@@ -45,5 +45,10 @@ namespace Kahool
 			//Shuhman delete the username from every page, EVERY single one
 			wnd.ChangeToMenu(com, "", wnd);
 		}
+		public void EndRunning(object sender, RoutedEventArgs e)
+		{
+			MenuResponeHandler.LogOut(com);
+			System.Windows.Application.Current.Shutdown();
+		}
 	}
 }

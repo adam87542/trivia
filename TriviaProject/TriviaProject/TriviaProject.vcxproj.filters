@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="JsonResponsePacket.cpp" />
+    <ClCompile Include="LoggedUser.cpp" />
+    <ClCompile Include="LoginManager.cpp" />
+    <ClCompile Include="LoginRequestHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuRequestHandler.cpp" />
+    <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="SqliteDataBase.cpp" />
+    <ClCompile Include="Statistic_manager.cpp" />
+    <ClCompile Include="WSAInitializer.cpp" />
+    <ClCompile Include="RoomAdminRequestHandler.cpp" />
+    <ClCompile Include="RoomMemberRequestHandler.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameRequestHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Communicator.h" />
+    <ClInclude Include="Helper.h" />
+    <ClInclude Include="IDatabase.h" />
+    <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="JsonResponsePacket.h" />
+    <ClInclude Include="LoggedUser.h" />
+    <ClInclude Include="LoginManager.h" />
+    <ClInclude Include="LoginRequestHandler.h" />
+    <ClInclude Include="MenuRequestHandler.h" />
+    <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="RoomManager.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="SqliteDataBase.h" />
+    <ClInclude Include="Statistic_manager.h" />
+    <ClInclude Include="Structs.h" />
+    <ClInclude Include="WSAInitializer.h" />
+    <ClInclude Include="RoomAdminRequestHandler.h" />
+    <ClInclude Include="RoomMemberRequestHandler.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameRequestHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="getQuestions.py" />
+  </ItemGroup>
+</Project>

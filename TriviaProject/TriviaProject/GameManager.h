@@ -1,0 +1,18 @@
+#pragma once
+#include "Game.h"
+
+
+class GameManager
+{
+private:
+	static GameManager* m_ptr;
+	GameManager() = default;
+	~GameManager() = default;
+	std::vector<Game> m_Games;
+public:
+	static GameManager* getInstance();
+	static void resetInstance();
+	void createGame(Game game);
+	void deleteGame(Game currentGame);
+	Game getGameById(unsigned int id);
+};

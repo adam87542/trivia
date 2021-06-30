@@ -9,9 +9,9 @@
 class GameRequestHandler : public IRequestHandler
 {
 private:
-	Game* m_Game;
+	unsigned int m_gameId;
+	unsigned int m_questionCounter = 0;
 	LoggedUser* m_user;
-	std::vector<Question> m_questions;
 	static GameManager* m_gameManager;
 	static RoomManager* m_roomManager;
 	static StatisticManager* m_statisticManager;
@@ -21,7 +21,7 @@ private:
 	RequestResult leaveGame(RequestInfo info);
 	RequestResult GetHighScores(RequestInfo info);
 public:
-	GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions, std::vector<Question> questions);
+	GameRequestHandler(string username,unsigned int gameId , unsigned int questionCounter);
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
 

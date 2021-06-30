@@ -29,7 +29,6 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 		break;
 	case STATE_ROOM_REQUEST:
 		myResult = GetRoomState();
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(m_user->getUsername(), *m_room);
 		break;
 	case GET_PLAYERS_REQUEST:
 		myResult = RoomAdminRequestHandler::getPlayersInRoom(info , true , this->m_user->getUsername() , *m_room);
@@ -47,8 +46,7 @@ RequestResult RoomMemberRequestHandler::StartGame()
 	StartGameResponse response;
 	response.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	std::vector<Question> questions = m_GameManager->getGameById(this->m_room->getData().id).getQuestions();
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id, this->m_room->getData().numOfQuestionsInGame ,  questions);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().id , NULL);
 	return myResult;
 }
 
@@ -57,13 +55,17 @@ RequestResult RoomMemberRequestHandler::GetRoomState()
 	RequestResult myResult;
 	GetRoomStateResponse response;
 	response.status = SUCCESS_CODE;
-	response.hasGameBegun = m_roomManager->GetRoomById(this->m_room->getData().id).getData().isGameBegan;
-	std::vector<Question> questions = this->m_dataBase->getQuestions(this->m_room->getData().difficulty);
+	try
+	{
+		response.hasGameBegun = m_roomManager->GetRoomById(this->m_room->getData().id).getData().isGameBegan;
+	}
+	catch(const std::exception e)
+	{
+		std::cout << e.what() << std::endl;
+		response.hasGameBegun = false;
+	}
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	if (response.hasGameBegun)
-		myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_room->getData().difficulty, this->m_room->getAllUsers(), this->m_room->getData().id, this->m_room->getData().numOfQuestionsInGame, questions);
-	else
-		myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(this->m_user->getUsername(), *this->m_room);
+	myResult.newhandler = RequestHandlerFactory::createRoomMemberRequestHandler(this->m_user->getUsername(), *m_room);
 	return myResult;
 }
 RequestResult RoomMemberRequestHandler::LeaveGame()

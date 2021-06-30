@@ -43,25 +43,26 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo info)
 RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 {
 	RequestResult myResult;
+	std::vector<Question>questions = std::vector<Question>();
 	GetQuestionResponse respone;
 	try
 	{
-		Question nextQuestion = m_Game->getNextQuestion(this->m_user->getUsername());
-		this->m_questions = m_Game->getQuestions();
+		Question nextQuestion = m_gameManager->getNextQuestionOfPlayer(this->m_user->getUsername(), m_gameId , &this->m_questionCounter);
+		questions = m_gameManager->getGameById(m_gameId).getQuestions();
 		respone.question = nextQuestion.question;
 		respone.answers.push_back(nextQuestion.firstAnswer);
 		respone.answers.push_back(nextQuestion.secondAnswer);
 		respone.answers.push_back(nextQuestion.thirdAnswer);
 		respone.answers.push_back(nextQuestion.fourthAnswer);
 	}
-	catch (...)
+	catch (const std::exception e)
 	{
-		respone.question = "";
+		respone.question = e.what();
 		respone.answers = std::vector<string>();
 	}
 	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions() , m_questions);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(),this->m_gameId , this->m_questionCounter);
 	return myResult;
 }
 
@@ -70,17 +71,20 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 	RequestResult myResult;
 	SubmitAnswerResponse respone;
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
+	std::vector<Question>questions = m_gameManager->getGameById(m_gameId).getQuestions();
 	try
 	{
-		respone.isAnswerCorrect = m_Game->submitAnswer(this->m_user->getUsername(), request.answer, request.time);
+		respone.isAnswerCorrect = m_gameManager->SumbitAnswerOfGame(this->m_user->getUsername(), request.answer, request.time , m_gameId);
+		respone.status = SUCCESS_CODE;
 	}
-	catch (...)
+	catch (const std::exception e)
 	{
+		std::cout << e.what() << std::endl;
 		respone.isAnswerCorrect = false;
+		respone.status = ERR_CODE;
 	}
-	respone.status = SUCCESS_CODE;
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_Game->getQuestionsDifficulty(), this->m_Game->getPlayersInGame(), this->m_Game->getGameId() , this->m_Game->getNumOfQuestions() , m_questions);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), this->m_gameId, this->m_questionCounter);
 	return myResult;
 }
 
@@ -88,9 +92,9 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
 	RequestResult myResult;
 	GetGameResultsResponse respone;
-	respone.results = m_Game->getGameResults();
+	respone.results = m_gameManager->getGameById(m_gameId).getGameResults();
 	respone.status = SUCCESS_CODE;
-	m_gameManager->deleteGame(*m_Game);
+	m_gameManager->deleteGame(m_gameId);
 	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(this->m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
@@ -100,8 +104,16 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 {
 	RequestResult myResult;
 	LeaveGameResponse respone;
-	this->m_Game->removePlayer(this->m_user->getUsername());
-	respone.status = SUCCESS_CODE;
+	try
+	{
+		this->m_gameManager->removeUserFromGame(this->m_user->getUsername(), m_gameId);
+		respone.status = SUCCESS_CODE;
+	}
+	catch (const std::exception e)
+	{
+		std::cout << e.what() << std::endl;
+		respone.status = ERR_CODE;
+	}
 	myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(this->m_user->getUsername());
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	return myResult;
@@ -114,7 +126,7 @@ RequestResult GameRequestHandler::GetHighScores(RequestInfo info)
 	GetHighScoreResponse respone;
 	try
 	{
-		respone.highScores = m_statisticManager->getHighScore(*this->m_Game);
+		respone.highScores = m_statisticManager->getHighScore(m_gameManager->getGameById(m_gameId));
 		respone.status = SUCCESS_CODE;
 		myResult.response = JsonResponsePacketSerializer::serializeResponse(respone);
 	}
@@ -128,10 +140,9 @@ RequestResult GameRequestHandler::GetHighScores(RequestInfo info)
 	return myResult;
 }
 
-GameRequestHandler::GameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions , std::vector<Question> questions)
+GameRequestHandler::GameRequestHandler(string username, unsigned int gameId , unsigned int questionCounter)
 {
-	this->m_questions = questions;
-	this->m_Game = new Game( numOfQuestions , difficulty, playersInRoom, roomId , questions);
+	this->m_questionCounter = questionCounter;
+	this->m_gameId = gameId;
 	this->m_user = new LoggedUser(username);
-	m_gameManager->createGame(*m_Game);
 }

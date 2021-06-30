@@ -13,13 +13,15 @@ private:
 	std::vector<Question> m_questions;
 	std::vector<GameData> m_players;
 public:
-	Game(unsigned  int numOfQuestions ,  string difficulty , std::vector<string> playersInRoom , unsigned int roomId , std::vector<Question> questions);
+	Game(unsigned int gameId, string questionDifficulty, unsigned  int numOfQuestions, std::vector<Question> questions, std::vector<GameData> players);
+	Game(Game* game);
 	GameData* getPlayerMeta(string username);
-	Question getNextQuestion(string username);
-	std::vector<Question> getQuestions();
+	Question getNextQuestion(string username , unsigned int* questionCounter);
 	bool submitAnswer(string username, string answer , float time);
 	void removePlayer(string username);
 	unsigned int getGameId();
+	std::vector<Question> getQuestions();
+	std::vector<GameData> getPlayersData();
 	string getQuestionsDifficulty();
 	unsigned int getNumOfQuestions();
 	std::vector<string> getPlayersInGame();

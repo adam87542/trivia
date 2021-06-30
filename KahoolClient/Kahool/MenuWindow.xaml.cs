@@ -37,6 +37,10 @@ namespace Kahool
 		{
 			this.Content = new MenuPage(com, username, wnd);
 		}
+		public void ChangeToStatistics(Communicator com, MenuWindow wnd)
+		{
+			this.Content = new Statistics(com , wnd);
+		}
 
 		public void ChangeToError(MenuWindow wnd)
 		{

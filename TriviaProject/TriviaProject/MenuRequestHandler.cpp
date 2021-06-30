@@ -36,10 +36,6 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	case CREATE_ROOM_REQUEST:
 		myResult = createRoom(info);
 		break;
-	default:
-		myResult.newhandler = nullptr;
-		myResult.response = (unsigned char*)ERROR;
-		break;
 	}
 	return myResult;
 }

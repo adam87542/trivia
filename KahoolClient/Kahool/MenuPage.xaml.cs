@@ -101,5 +101,10 @@ namespace Kahool
                 System.Windows.Application.Current.Shutdown();
             }
         }
+
+        private void OnProfileClick(object sender, RoutedEventArgs e)
+        {
+            wnd.ChangeToStatistics(com, wnd);
+        }
     }
 }

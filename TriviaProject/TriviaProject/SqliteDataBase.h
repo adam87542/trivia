@@ -52,7 +52,7 @@ public:
 	bool doesUserExist(std::string username) override;
 	bool doesPasswordMatch(std::string password, std::string username)  override;
 	void addNewUser(std::string username, std::string password, std::string email)  override;
-	virtual std::vector<Question> getQuestions(string difficulty);
+	virtual std::vector<Question> getQuestions(string difficulty, unsigned int numOfQuestuions);
 	bool isAnswerCorrect(string answer, string question);
 	void addToCorrectAnswers(string username);
 	void addToPlayerGames(string username);

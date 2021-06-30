@@ -163,10 +163,11 @@ void SqliteDataBase::addNewUser(std::string username, std::string password, std:
 
 }
 
-std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
+std::vector<Question> SqliteDataBase::getQuestions(string difficulty , unsigned int numOfQuestuions)
 {
 	clearQuestions();
 	sqlite3_stmt* stmt;
+	std::vector<Question>numOfQuestions;
 	if (difficulty == "Mix")
 		stmt = getStmt("select * from questions order by random();");
 	else
@@ -176,7 +177,11 @@ std::vector<Question> SqliteDataBase::getQuestions(string difficulty)
 	}
 	questionCallBack(stmt);
 	sqlite3_finalize(stmt);
-	return questions;
+	for (int i = 0; i < numOfQuestuions; i++)
+	{
+		numOfQuestions.push_back(questions[i]);
+	}
+	return numOfQuestions;
 }
 
 bool SqliteDataBase::isAnswerCorrect(string answer, string question)

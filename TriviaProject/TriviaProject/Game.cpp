@@ -2,20 +2,22 @@
 
 IDatabase* Game::m_dataBase = SqliteDataBase::get_instance();
 
-Game::Game(unsigned  int numOfQuestions , string difficulty, std::vector<string> playersInRoom , unsigned int roomId , std::vector<Question> questions)
+Game::Game(unsigned int gameId, string questionDifficulty, unsigned int numOfQuestions, std::vector<Question> questions, std::vector<GameData> players)
 {
-    this->m_gameId = roomId;
+    this->m_gameId = gameId;
     this->m_numOfQuestions = numOfQuestions;
-    this->m_questionDifficulty = difficulty;
+    this->m_questionDifficulty = questionDifficulty;
     this->m_questions = questions;
-    for(auto player : playersInRoom)
-    {
-        GameData playerData;
-        playerData.username = player;
-        playerData.currentQuestion = m_questions.back();
-        this->m_players.push_back(playerData);
-    }
-    m_questions.pop_back();
+    this->m_players = players;
+}
+
+Game::Game(Game* game)
+{
+    this->m_gameId = game->getGameId();
+    this->m_numOfQuestions = game->getNumOfQuestions();
+    this->m_questionDifficulty = game->getQuestionsDifficulty();
+    this->m_questions = game->getQuestions();
+    this->m_players = game->getPlayersData();
 }
 
 GameData* Game::getPlayerMeta(string username)
@@ -25,45 +27,41 @@ GameData* Game::getPlayerMeta(string username)
             return &m_players[i];
 }
 
-Question Game::getNextQuestion(string username)
+Question Game::getNextQuestion(string username , unsigned int* questionCounter)
 {
-    Question myQuestion;
-    myQuestion = this->m_questions.back();
-    this->m_questions.pop_back();
-    return myQuestion;
+    GameData* iter = getPlayerMeta(username);
+    iter->currentQuestion = this->m_questions.at(++*questionCounter);
+    return iter->currentQuestion;
 }
-
 std::vector<Question> Game::getQuestions()
 {
-    return this->m_questions;
+   return this->m_questions;
 }
-
-bool Game::submitAnswer(string username, string answer , float time)
+bool Game::submitAnswer(string username, string answer, float time)
 {
-    LoggedUser* user = new LoggedUser(username);
-    GameData* iter = getPlayerMeta(username);
-    string question;
     try
     {
+        GameData* iter = getPlayerMeta(username);
         string question = iter->currentQuestion.question;
+        bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer, question);
+        iter->totalAnswerTime += time;
+        if (isAnswerCorrect)
+        {
+            m_dataBase->addToCorrectAnswers(username);
+            iter->correctAnswerCount++;
+        }
+        else
+        {
+            m_dataBase->addToWrongAnswers(username);
+            iter->wrongAnswerCount++;
+        }
+        return isAnswerCorrect;
     }
-    catch(...)
+    catch (const std::exception e)
     {
+        std::cout << e.what() << std::endl;
         return false;
     }
-    bool  isAnswerCorrect = m_dataBase->isAnswerCorrect(answer,question);
-    iter->totalAnswerTime += time;
-    if (isAnswerCorrect)
-    {
-        m_dataBase->addToCorrectAnswers(username);
-        iter->correctAnswerCount++;
-    }
-    else
-    {
-        m_dataBase->addToWrongAnswers(username);
-        iter->wrongAnswerCount++;
-    }
-    return isAnswerCorrect;
 }
 
 void Game::removePlayer(string username)
@@ -86,6 +84,11 @@ unsigned int Game::getGameId()
 string Game::getQuestionsDifficulty()
 {
     return this->m_questionDifficulty;
+}
+
+std::vector<GameData> Game::getPlayersData()
+{
+    return this->m_players;
 }
 
 unsigned int Game::getNumOfQuestions()

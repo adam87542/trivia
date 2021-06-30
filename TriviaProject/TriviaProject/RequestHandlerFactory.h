@@ -14,7 +14,7 @@ public:
 	static MenuRequestHandler* createMenuRequestHandler(string username);
 	static RoomAdminRequestHandler* createRoomAdminRequestHandler(string username, Room UserRoom);
 	static RoomMemberRequestHandler* createRoomMemberRequestHandler(string username, Room UserRoom);
-	static GameRequestHandler* createGameRequestHandler(string username, string difficulty, std::vector<string> playersInRoom, unsigned int roomId , unsigned int numOfQuestions , std::vector<Question> questions);
+	static GameRequestHandler* createGameRequestHandler(string username, unsigned int gameId , unsigned int questionCounter);
 private:
 	static  RequestHandlerFactory* m_ptr;
 	RequestHandlerFactory() = default;

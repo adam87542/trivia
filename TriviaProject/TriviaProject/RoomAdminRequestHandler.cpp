@@ -2,6 +2,7 @@
 #include "RequestHandlerFactory.h"
 
 RoomManager* RoomAdminRequestHandler::m_roomManager = RoomManager::get_instance();
+GameManager* RoomAdminRequestHandler::m_gameManager = GameManager::getInstance();
 IDatabase* RoomAdminRequestHandler::m_dataBase = SqliteDataBase::get_instance();
 RoomAdminRequestHandler::RoomAdminRequestHandler(string username , Room UserRoom)
 {
@@ -56,8 +57,19 @@ RequestResult RoomAdminRequestHandler::StartGame()
 	m_roomManager->setGameToBeActive(m_room->getData().id);
 	RoomData roomdata = this->m_room->getData();
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	std::vector<Question> questions = this->m_dataBase->getQuestions(roomdata.difficulty);
-	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), roomdata.difficulty, this->m_room->getAllUsers(), roomdata.id , roomdata.numOfQuestionsInGame , questions);
+	RoomData data = this->m_room->getData();
+	std::vector<Question>questions = m_dataBase->getQuestions(data.difficulty , this->m_room->getData().numOfQuestionsInGame);
+	std::vector<GameData>players = std::vector<GameData>();
+	for (auto player : this->m_roomManager->GetRoomById(m_room->getData().id).getAllUsers())
+	{
+		GameData gameData;
+		gameData.username = player;
+		gameData.currentQuestion = Question();
+		players.push_back(gameData);
+	}
+	Game newGame(data.id, data.difficulty, data.numOfQuestionsInGame, questions , players );
+	this->m_gameManager->createGame(newGame);
+	myResult.newhandler = RequestHandlerFactory::createGameRequestHandler(this->m_user->getUsername(), roomdata.id , NULL);
 	return myResult;
 }
 RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool isMember , string username , Room room)
@@ -74,8 +86,9 @@ RequestResult RoomAdminRequestHandler::getPlayersInRoom(RequestInfo info , bool 
 		else
 			myResult.newhandler = myResult.newhandler = RequestHandlerFactory::createRoomAdminRequestHandler(username, room);
 	}
-	catch (...)
+	catch (const std::exception e)
 	{
+		std::cout << e.what() << std::endl;
 		respone.players = std::vector<string>();
 		respone.status = ERR_CODE;
 		myResult.newhandler = RequestHandlerFactory::createMenuRequestHandler(username);

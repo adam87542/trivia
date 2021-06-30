@@ -61,7 +61,6 @@ RequestResult RoomMemberRequestHandler::GetRoomState()
 	}
 	catch(const std::exception e)
 	{
-		std::cout << e.what() << std::endl;
 		response.hasGameBegun = false;
 	}
 	myResult.response = JsonResponsePacketSerializer::serializeResponse(response);

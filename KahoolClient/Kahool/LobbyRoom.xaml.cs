@@ -177,7 +177,7 @@ namespace Kahool
 							}
 						
 					}
-					Thread.Sleep(70);
+					Thread.Sleep(2000);
 				}
 			}
 			catch
